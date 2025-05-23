@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+  <title>Sign Up</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right,#adff76,#6efa8f,#67cfef);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+    .card {
+      background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(50,50,50,0.6));
+      border-radius: 30px;
+      padding: 40px 30px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      margin-bottom: 30px;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: transparent;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ddd;
+    }
+
+    .continue-button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #2ecc71, #f1c40f);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .social-login {
+      margin-top: 25px;
+    }
+
+    .social-login p {
+      margin-bottom: 10px;
+    }
+
+    .back {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 14px;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Sign Up</h2>
+    <input type="text" placeholder="Username">
+    <input type="email" placeholder="Email or Contact Number">
+    <input type="password" placeholder="Password">
+    <button class="continue-button">Continue</button>
+    
+    <div class="social-login">
+      <p>Or register with</p>
+    </div>
+  </div>
+  <div class="back">Go Back?</div>
+</body>
+</html>
