@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set Your Goals</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #adff76, #6efa8f, #67cfef);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 30px;
+      padding: 40px;
+      width: 400px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      font-size: 1.4rem;
+    }
+
+    .goal-button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, border 0.3s;
+    }
+
+    .goal-button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .goal-button.active {
+      border: 2px solid #fff;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .continue-button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #2ecc71, #f1c40f);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .go-back {
+      position: absolute;
+      bottom: 20px;
+      font-size: 14px;
+      left: 20px;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hello Nickname! Let’s set your goals</h2>
+    <button class="goal-button" onclick="toggleActive(this)">Physical Fitness</button>
+    <button class="goal-button" onclick="toggleActive(this)">Mental Clarity</button>
+    <button class="goal-button" onclick="toggleActive(this)">Emotional Satisfaction</button>
+    <button class="goal-button" onclick="toggleActive(this)">Social Connection</button>
+    <button class="continue-button">Continue</button>
+  </div>
+  <div class="go-back">Go Back?</div>
+
+  <script>
+    function toggleActive(button) {
+      button.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
