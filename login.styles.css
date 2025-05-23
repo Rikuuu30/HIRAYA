@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
   margin: 10;
@@ -5,8 +6,8 @@
 }
 
 body {
-  font-family: Arial;
-  background: linear-gradient(to right, #adff76, #6efa8f, #67cfef);
+font-family: Arial, sans-serif;
+background: linear-gradient(to right, #adff76, #6efa8f, #67cfef);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,8 +17,9 @@ body {
 }
 
 form {
-  background-color: rgba(0, 0, 0, 0.35);
-  border-radius: 12px;
+ background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(50,50,50,0.6));
+      border-radius: 300;
+  border-radius: 20px;
   padding: 30px 40px;
   width: 100%;
   max-width: 400px;
@@ -33,16 +35,17 @@ form {
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  padding: 12px;
+  padding: 15px 15px; 
   margin: 8px 0 20px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: linear-gradient(to right,#d3ffe0,#96e5f9); 
-  color: #000000; 
+  background-color: rgba(255, 255, 255, 0); 
+  border: 2px solid rgba(255, 255, 255, 0.493); 
+  border-radius: 25px;
+  color: white;
 }
 
+
 button {
-  background: linear-gradient(to right, #4affae, #71e0ff);
+  background: linear-gradient(to right, #2ecc71, #f1c40f);
   color: white;
   padding: 12px;
   width: 100%;
@@ -55,20 +58,6 @@ button {
 
 button:hover {
   background-color: #1b4332;
-}
-
-.cancelbtn {
-  background-color: #ffffff;
-  color: #ff0000;
-  width: auto;
-  padding: 10px 18px;
-  border-radius: 8px;
-  float: left;
-  margin-top: 10px;
-}
-
-.cancelbtn:hover {
-  background-color: #94ff56;
 }
 
 .container.secondary {
