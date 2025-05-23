@@ -1,20 +1,32 @@
-<form action="action_page.php" method="post">
-  <div class="container">
-    <label for="username"><b>Username</b></label>
-    <input type="text" id="username" name="username" placeholder="Enter Username" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="login.styles.css">
+</head>
+<body>
+  <form action="action_page.php" method="post">
+    <div class="container">
+      <h2>Login</h2>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" id="psw" name="psw" placeholder="Enter Password" required>
+      <label for="username"><b>Username</b></label>
+      <input type="text" id="username" name="username" placeholder="Enter Username" required>
 
-    <button type="submit">Login</button>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" id="psw" name="psw" placeholder="Enter Password" required>
 
-    <label>
-      <input type="checkbox" name="remember" checked> Remember me
-    </label>
-  </div>
+      <label class="checkbox-label">
+        <input type="checkbox" name="remember" checked> Remember me
+      </label>
 
-  <div class="container">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
+      <button type="submit">Login</button>
+    </div>
+
+    <div class="container secondary">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
+</body>
+</html>
