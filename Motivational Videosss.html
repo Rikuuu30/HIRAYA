@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<head>
+    <title>Social Feed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background-color: #2a2a2a;
+            border-bottom: 1px solid #333;
+        }
+
+        .back-arrow {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 16px;
+            background-color: #444;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .search-bar::placeholder {
+            color: #888;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .post {
+            border-bottom: 1px solid #333;
+            padding: 16px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #666;
+            margin-right: 12px;
+        }
+
+        .user-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .play-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 24px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .action-button:hover {
+            color: #fff;
+        }
+
+        .action-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .post:nth-child(2) .video-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .post:nth-child(3) .video-container {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .post:nth-child(4) .video-container {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .post {
+                padding: 12px;
+            }
+            
+            .video-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg class="back-arrow icon" fill="white" viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            <input type="text" class="search-bar" placeholder="Search">
+            <div class="header-icons">
+                <svg class="icon" fill="white" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <svg class="icon" fill="white" viewBox="0 0 24 24">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <h3>David Laid</h3>
+                    <p>Aesthetic Body • Fitness Transformation • Ep 17</p>
+                </div>
+            </div>
+            <div class="video-container" data-video-url="https://youtu.be/n-uWtKO6JDo?si=o0H5IKtRQOfXvtCm">
+                <div class="play-button"></div>
+                <div class="video-duration">2:34</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>72</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 6h-2l-1.27-1.27c-.4-.4-.86-.73-1.4-.73H7.67c-.54 0-1 .33-1.4.73L5 6H3c-.55 0-1 .45-1 1s.45 1 1 1h1v11c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h1c.55 0 1-.45 1-1s-.45-1-1-1zm-5.5 15h-7c-.28 0-.5-.22-.5-.5V9h8v11.5c0 .28-.22.5-.5.5z"/>
+                    </svg>
+                    <span>5</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>12</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <h3>Judson Brewer</h3>
+                    <p>A simple way to break a bad habit</p>
+                </div>
+            </div>
+            <div class="video-container" data-video-url="https://youtu.be/-moW9jvvMr4?si=hpOGktepkrfdIedR">
+                <div class="play-button"></div>
+                <div class="video-duration">8:42</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>124</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 6h-2l-1.27-1.27c-.4-.4-.86-.73-1.4-.73H7.67c-.54 0-1 .33-1.4.73L5 6H3c-.55 0-1 .45-1 1s.45 1 1 1h1v11c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h1c.55 0 1-.45 1-1s-.45-1-1-1zm-5.5 15h-7c-.28 0-.5-.22-.5-.5V9h8v11.5c0 .28-.22.5-.5.5z"/>
+                    </svg>
+                    <span>23</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>8</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <h3>Joe Rogan</h3>
+                    <p>The Rogan Experience #1859 - David Goggins</p>
+                </div>
+            </div>
+            <div class="video-container" data-video-url="https://youtu.be/AbDT2JTSnA8?si=ZSnGPLI1i1r6MZw1">
+                <div class="play-button"></div>
+                <div class="video-duration">2:54:12</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>2.1k</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 6h-2l-1.27-1.27c-.4-.4-.86-.73-1.4-.73H7.67c-.54 0-1 .33-1.4.73L5 6H3c-.55 0-1 .45-1 1s.45 1 1 1h1v11c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h1c.55 0 1-.45 1-1s-.45-1-1-1zm-5.5 15h-7c-.28 0-.5-.22-.5-.5V9h8v11.5c0 .28-.22.5-.5.5z"/>
+                    </svg>
+                    <span>89</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>156</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="post">
+            <div class="post-header">
+                <div class="avatar"></div>
+                <div class="user-info">
+                    <h3>Rikuuu</h3>
+                    <p>Grow a garden tutorial #999 - FT. TristiBlox</p>
+                </div>
+            </div>
+            <div class="video-container" data-video-url="">
+                <div class="play-button"></div>
+                <div class="video-duration">2:54:12</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>39.1k</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 6h-2l-1.27-1.27c-.4-.4-.86-.73-1.4-.73H7.67c-.54 0-1 .33-1.4.73L5 6H3c-.55 0-1 .45-1 1s.45 1 1 1h1v11c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h1c.55 0 1-.45 1-1s-.45-1-1-1zm-5.5 15h-7c-.28 0-.5-.22-.5-.5V9h8v11.5c0 .28-.22.5-.5.5z"/>
+                    </svg>
+                    <span>8912</span>
+                </div>
+                <div class="action-button">
+                    <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>56600</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.querySelectorAll('.video-container').forEach(container => {
+            container.addEventListener('click', function() {
+                const playButton = this.querySelector('.play-button');
+                const videoUrl = this.getAttribute('data-video-url');
+                
+                playButton.style.opacity = '0.5';
+                setTimeout(() => {
+                    playButton.style.opacity = '1';
+                }, 200);
+
+                if (videoUrl) {
+                    window.open(videoUrl, '_blank');
+                }
+            });
+        });
+
+        document.querySelectorAll('.action-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const icon = this.querySelector('.action-icon');
+                icon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    icon.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+        document.querySelector('.search-bar').addEventListener('focus', function() {
+            this.style.backgroundColor = '#555';
+        });
+
+        document.querySelector('.search-bar').addEventListener('blur', function() {
+            this.style.backgroundColor = '#444';
+        });
+    </script>
+</body>
+</html>
