@@ -2,18 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><b>What's your Nickname?</b></title>
-  <link rel="stylesheet" href="login.styles.css">
+  <title>What's your Nickname?</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #adff76, #6efa8f, #67cfef);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .card {
+      background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(50,50,50,0.6));
+      border-radius: 30px;
+      padding: 40px 30px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      color: #ddd;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: transparent;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ddd;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #2ecc71, #f1c40f);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+    
+  </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>What's your Nickname?</title>
+  <style>
+  </style>
 </head>
 <body>
-  <form action="action_page.php" method="post">
-    <div class="container">
-      <h2>What should we call you?</h2>
-      <p>Let's get to know you</p>
-      <input type="text" id="nickname" name="nickname" placeholder="Enter Username" required>
-      <button type="submit">Get Started!</button>
+  <div class="card">
+    <h2>What should we call you?</h2>
+    <p>Let's get to know you.</p>
+    <input type="text" id="nickname" placeholder="Enter your nickname" required>
+    <button onclick="saveNickname()">Get Started!</button>
+  </div>
 
-    </div>
-  </form>
+  <script>
+    function saveNickname() {
+      const nickname = document.getElementById('nickname').value.trim();
+      if (nickname) {
+        localStorage.setItem('nickname', nickname);
+        window.location.href = "Welcome-Page-Hiraya-Prototype.html"; 
+      } else {
+        alert('Please enter a nickname.');
+      }
+    }
+  </script>
 </body>
 </html>
