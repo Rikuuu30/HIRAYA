@@ -5,89 +5,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Set Your Goals</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #adff76, #6efa8f, #67cfef);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       color: white;
     }
 
     .container {
-      background-color: rgba(0, 0, 0, 0.4);
+      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.6), rgba(50, 50, 50, 0.6));
       border-radius: 30px;
-      padding: 40px;
+      padding: 40px 30px;
       width: 400px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
       text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
 
     h2 {
       margin-bottom: 30px;
-      font-size: 1.4rem;
+      font-size: 1.8rem;
     }
 
     .goal-button {
       display: block;
       width: 100%;
-      padding: 12px;
+      padding: 12px 20px;
       margin: 10px 0;
-      background-color: rgba(255, 255, 255, 0.2);
-      border: none;
+      background-color: rgba(255, 255, 255, 0.15);
+      border: 2px solid transparent;
       border-radius: 20px;
       color: white;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s, border 0.3s;
+      transition: background-color 0.3s, border-color 0.3s;
     }
 
     .goal-button:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.25);
     }
 
     .goal-button.active {
-      border: 2px solid #fff;
-      background-color: rgba(255, 255, 255, 0.4);
+      border-color: #fff;
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
     .continue-button {
-      margin-top: 20px;
+      margin-top: 25px;
       padding: 12px 24px;
       background: linear-gradient(to right, #2ecc71, #f1c40f);
       border: none;
       border-radius: 25px;
       color: white;
       font-size: 1rem;
+      font-weight: bold;
       cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .continue-button:hover {
+      background: linear-gradient(to right, #27ae60, #f39c12);
     }
 
     .go-back {
       position: absolute;
-      bottom: 20px;
-      font-size: 14px;
-      left: 20px;
-      color: black;
+      bottom: 25px;
+      left: 25px;
+      color: white;
+      text-decoration: underline;
+      font-size: 0.95rem;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Hello Nickname! Let’s set your goals</h2>
+    <h2>Hello <span id="nicknameDisplay">there</span>! Let’s set your goals</h2>
+
     <button class="goal-button" onclick="toggleActive(this)">Physical Fitness</button>
     <button class="goal-button" onclick="toggleActive(this)">Mental Clarity</button>
     <button class="goal-button" onclick="toggleActive(this)">Emotional Satisfaction</button>
     <button class="goal-button" onclick="toggleActive(this)">Social Connection</button>
-    <button class="continue-button">Continue</button>
+
+    <button class="continue-button" onclick="goToNextPage()">Continue</button>
   </div>
-  <div class="go-back">Go Back?</div>
+
+  <div class="go-back" onclick="history.back()">Go Back?</div>
 
   <script>
+    
     function toggleActive(button) {
       button.classList.toggle('active');
+    }
+
+    const nickname = localStorage.getItem('nickname');
+    if (nickname) {
+      document.getElementById('nicknameDisplay').textContent = nickname;
+    }
+
+ 
+    function goToNextPage() {
+      window.location.href = 'about.html'; 
     }
   </script>
 </body>
