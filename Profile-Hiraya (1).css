@@ -1,0 +1,515 @@
+/* General Body and Font Styles */
+body {
+    font-family: Arial, sans-serif; /* Basic font */
+    background-color: #1a1a1a; /* Dark background color */
+    color: #ffffff; /* White text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Make body take full viewport height */
+    overflow: hidden; /* Prevent body from scrolling */
+}
+
+/* Top Navigation Bar */
+.top-nav {
+    width: 100%;
+    background-color: #2a2a2a; /* Slightly lighter dark background for nav */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in width */
+    position: sticky; /* Keep it at the top */
+    top: 0;
+    z-index: 1000; /* Ensure it's on top of other content */
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between icons/text */
+}
+
+/* Styling for clickable nav icons */
+.nav-icon-link {
+    color: #888; /* Icon color */
+    font-size: 20px;
+    text-decoration: none; /* Remove underline */
+    transition: color 0.2s ease-in-out; /* Smooth color transition */
+}
+.nav-icon-link:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Small profile picture in nav */
+.profile-pic-nav-link {
+    text-decoration: none; /* Remove underline from link */
+    margin-left: 10px; /* Space from other icons */
+}
+.profile-pic-nav {
+    width: 30px;
+    height: 30px;
+    background-color: #555; /* Placeholder background for profile pic */
+    border-radius: 50%; /* Circle shape */
+    overflow: hidden; /* Ensure image stays within circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid transparent; /* Subtle border for hover effect */
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+.profile-pic-nav img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area */
+}
+.profile-pic-nav:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+    border-color: #eee; /* Highlight border on hover */
+}
+
+
+/* Upload link styling */
+.upload-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #aaa;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+.upload-link:hover {
+    color: #fff; /* White text on hover */
+}
+.upload-link i {
+    font-size: 16px; /* Adjust icon size slightly */
+    color: #aaa; /* Default icon color */
+    transition: color 0.2s ease-in-out;
+}
+.upload-link:hover i {
+    color: #fff; /* White icon on hover */
+}
+
+
+/* Profile Header Section */
+.profile-header {
+    width: 100%;
+    background-color: #333; /* Darker background for header */
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative; /* For positioning the name */
+    background-image: url('path/to/your/background-image.jpg'); /* Placeholder for actual background image */
+    background-size: cover;
+    background-position: center;
+    min-height: 180px; /* Adjust as needed for background image */
+    justify-content: flex-end; /* Push content to bottom */
+    z-index: 100; /* Ensure it's above the container-wrapper's content */
+    flex-shrink: 0; /* Prevent it from shrinking when container-wrapper scrolls */
+    padding-top: 80px; /* Added more top padding to push content down slightly */
+    padding-bottom: 20px; /* Ensure space at the bottom */
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff; /* White border around profile pic */
+    position: absolute; /* Position over the background */
+    top: 50%;
+    left: 20px; /* Adjust left position */
+    transform: translateY(-50%); /* Center vertically */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area */
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 20px; /* Position relative to bottom of header */
+    left: 160px; /* Adjust based on image width + margin */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* New Wrapper for Scrollable Content */
+.container-wrapper {
+    flex-grow: 1; /* Allow it to take up remaining vertical space */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding-top: 20px; /* Add space between header bottom and cards top */
+    z-index: 1; /* Ensure it's below the profile header */
+    width: 100%; /* Take full width */
+    display: flex;
+    justify-content: center; /* Center the container inside the wrapper */
+    padding-bottom: 20px; /* Add some padding at the bottom for content that reaches the end */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+
+/* Main Content Container */
+.container {
+    display: flex;
+    gap: 20px; /* Space between columns */
+    width: 90%; /* Max width for content */
+    max-width: 1200px; /* Max width to keep content readable */
+    flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+}
+
+/* Left Column - Daily Trackers */
+.left-column {
+    flex: 1; /* Take available space */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 300px; /* Minimum width for the column */
+}
+
+/* Right Column - Achievements */
+.right-column {
+    flex: 2; /* Take more space than left column */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 400px; /* Minimum width for the column */
+}
+
+/* Card Styling (for all tracker cards) */
+.card {
+    background-color: #2b2b2b; /* Card background color */
+    border-radius: 15px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow */
+    display: flex;
+    flex-direction: column;
+    color: #e0e0e0; /* Light grey text in cards */
+    cursor: pointer; /* Indicate it's clickable */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift card slightly */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+}
+
+
+.card-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.card-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #6eff6e; /* Green for sleep value */
+    margin-bottom: 5px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Specific Card Styles */
+
+/* Sleep Card */
+.sleep-card {
+    background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green gradient */
+}
+.sleep-card .card-icon { color: #fff; } /* White icon */
+.sleep-card .card-value { color: #fff; } /* White value */
+.sleep-card .card-subtitle { color: #eee; } /* Lighter subtitle */
+
+.card-progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.3); /* Lighter bar background */
+    border-radius: 5px;
+    margin-top: 15px;
+    display: flex;
+    overflow: hidden; /* Hide overflow of fill */
+}
+
+.progress-fill {
+    width: 80%; /* Example: 80% full */
+    background-color: #fff; /* White fill */
+    border-radius: 5px;
+}
+
+.progress-bar-segment {
+    width: 5px; /* Width of each segment */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* Darker segments for visualization */
+    margin-left: 2px; /* Space between segments */
+}
+
+/* Physical Activity Card */
+.activity-card {
+    background: linear-gradient(135deg, #9C27B0, #673AB7); /* Purple gradient */
+}
+.activity-card .card-icon { color: #fff; }
+.activity-card .card-value { color: #fff; }
+.activity-card .card-subtitle { color: #eee; }
+
+/* Mood Card */
+.mood-card {
+    background: linear-gradient(135deg, #FFC107, #FF9800); /* Orange/Yellow gradient */
+    align-items: center; /* Center content */
+    text-align: center;
+}
+.mood-card .card-icon {
+    font-size: 40px; /* Larger emoji */
+    margin-bottom: 15px;
+}
+.mood-card .card-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Meals Eaten Card */
+.meals-card {
+    background: linear-gradient(135deg, #2196F3, #03A9F4); /* Blue gradient */
+}
+.meals-card .card-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+.meals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.meal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+}
+
+/* --- New Styles for Checkboxes --- */
+.meal-checkbox {
+    /* Hide the default checkbox */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px; /* Size of the custom checkbox */
+    height: 20px;
+    border-radius: 50%; /* Make it circular */
+    border: 2px solid #ccc; /* Light grey border when unchecked */
+    cursor: pointer;
+    position: relative; /* For positioning the checkmark */
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    outline: none; /* Remove outline on focus */
+}
+
+/* Style for the checked state */
+.meal-checkbox:checked {
+    background-color: #8BC34A; /* Green background when checked */
+    border-color: #8BC34A; /* Green border when checked */
+}
+
+/* Create the custom checkmark using a pseudo-element */
+.meal-checkbox:checked::before {
+    content: '\2713'; /* Unicode checkmark character */
+    font-family: 'Font Awesome 5 Free'; /* If you want to use Font Awesome's specific checkmark */
+    font-weight: 900; /* Font Awesome solid icon weight */
+    color: #fff; /* White checkmark */
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Adjust if you prefer a simpler checkmark without Font Awesome for the pseudo-element */
+/* .meal-checkbox:checked::before {
+    content: '✓';
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+/* Hover effect */
+.meal-checkbox:hover {
+    border-color: #fff; /* White border on hover */
+}
+/* --- End New Styles for Checkboxes --- */
+
+
+/* Right Column Sections (Tasks and Badges) */
+.section {
+    background-color: #2b2b2b; /* Section background */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+}
+
+.section h2 {
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between badges */
+    justify-items: center; /* Center badges in their cells */
+}
+
+/* Badge Link Styling */
+.badge-link {
+    text-decoration: none; /* Remove underline */
+    display: block; /* Make the link fill the grid cell */
+    cursor: pointer;
+}
+
+.badge {
+    width: 70px; /* Size of each badge */
+    height: 70px;
+    background-color: #444; /* Placeholder background for badges */
+    border-radius: 50%; /* Circle shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide overflow of badge images */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover */
+}
+
+.badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure badge image fits */
+}
+
+.badge-link:hover .badge { /* Apply hover to the badge div when its link is hovered */
+    transform: scale(1.1); /* Slight zoom on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack columns on smaller screens */
+        width: 95%;
+    }
+
+    .profile-header {
+        min-height: 150px;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 20px;
+        padding-top: 70px; /* Adjust top padding for smaller screens */
+    }
+
+    .profile-image {
+        position: static; /* Reset positioning */
+        transform: none;
+        margin-bottom: 10px;
+    }
+
+    .profile-name {
+        position: static;
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .left-column, .right-column {
+        min-width: unset; /* Remove min-width to allow shrinking */
+        width: 100%;
+    }
+
+    .badge-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Smaller badges on small screens */
+    }
+
+    .badge {
+        width: 60px;
+        height: 60px;
+    }
+
+    .container-wrapper {
+        padding-top: 15px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .top-nav {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+    .nav-right {
+        gap: 10px;
+    }
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-header {
+        padding-top: 60px; /* Further adjust top padding */
+    }
+    .container-wrapper {
+        padding-top: 10px; /* Further adjust padding */
+    }
+}
+/* Top Navigation Bar */
+.top-nav {
+    width: 100%;
+    background-color: #2a2a2a;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-shrink: 0;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* This creates the space between the back, home, and profile picture */
+}
+
+/* Styling for clickable nav icons */
+.nav-icon-link {
+    color: #888; /* Icon color */
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+.nav-icon-link:hover {
+    color: #fff; /* White on hover */
+}
