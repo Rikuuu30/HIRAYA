@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .nav-icons {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 127, 0.1);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-icon:hover {
+            background: rgba(0, 255, 127, 0.2);
+            border-color: #00ff7f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+        }
+
+        .trophy-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(173, 255, 47, 0.4);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .level-section {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.4);
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 255, 127, 0.2);
+        }
+
+
+
+        .level-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .achievement-card:hover::before {
+            left: 100%;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 127, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.2);
+        }
+
+        .achievement-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+        }
+
+        .achievement-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00ff7f;
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+        }
+
+        .achievement-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .quest-info {
+            background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(173, 255, 47, 0.05));
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 3px solid #00ff7f;
+            margin-top: 15px;
+            box-shadow: inset 0 0 15px rgba(0, 255, 127, 0.1);
+        }
+
+        .quest-name {
+            font-size: 0.85rem;
+            color: #adff2f;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(173, 255, 47, 0.3);
+        }
+
+        .quest-task {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff7f;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .locked {
+            background: #666;
+            box-shadow: 0 0 10px rgba(102, 102, 102, 0.5);
+            animation: none;
+        }
+
+        .level-section:nth-child(2) .achievement-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.2);
+        }
+
+        .level-section:nth-child(3) .achievement-card:hover {
+            box-shadow: 0 10px 30px rgba(173, 255, 47, 0.2);
+        }
+
+        .level-section:nth-child(4) .achievement-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.2);
+        }
+
+        .level-section:nth-child(5) .achievement-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-icons {
+                position: relative;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .level-section {
+                padding: 20px;
+            }
+
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+ <div class="container">
+    <div class="header">
+        <div class="nav-icons">
+            <a href="hiraya_homepage.html" class="nav-icon">🏠</a>
+                <div class="nav-icon">👤</div>
+            </div>
+            
+            <div class="title-container">
+                <div class="trophy-icon">🏆</div>
+                <h1 class="title">Achievements</h1>
+            </div>
+        </div>
+
+        <div class="level-section">
+            <div class="level-header">
+                <h2 class="level-title">Beginner Level</h2>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="status-indicator"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Consistency Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Exercise for at least 5 minutes daily for a week.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Daily Fitness Foundation</div>
+                        <div class="quest-task">Task: Complete at least 5 minutes of physical exercise every day for 7 consecutive days. This can include walking, stretching, bodyweight exercises, or any form of movement. Track your daily activity and maintain consistency without missing a single day.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Community Builder Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Join a group or club for discussion and interaction.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Social Connection Initiative</div>
+                        <div class="quest-task">Task: Find and actively participate in a community group, club, or organization that aligns with your interests. Attend meetings, engage in discussions, and build meaningful connections with other members. Document your participation and social interactions.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Hiraya Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Reach an beginner level of progress in mental health metrics.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Mental Wellness Foundation</div>
+                        <div class="quest-task">Task: Complete beginner-level mental health assessments and activities. Practice daily mindfulness for 5 minutes, maintain a mood journal for one week, and complete basic stress management exercises. Achieve baseline wellness metrics and establish healthy mental habits.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-section">
+            <div class="level-header">
+                <h2 class="level-title">Intermediate Level</h2>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="status-indicator"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Consistency Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Exercise for at least 10 minutes daily for a week.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Enhanced Fitness Routine</div>
+                        <div class="quest-task">Task: Increase your daily exercise commitment to 10 minutes for 7 consecutive days. Focus on more structured workouts including cardio, strength training, or yoga. Track your progress, intensity levels, and how you feel after each session.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Community Builder Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Send a message to discussion room and interact with them.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Active Community Engagement</div>
+                        <div class="quest-task">Task: Actively participate in online discussion rooms or forums. Send meaningful messages, respond to others' posts, ask questions, and contribute valuable insights. Engage in at least 5 different conversation threads over the week.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Hiraya Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Reach an Intermediate level of progress in mental health metrics.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Mental Wellness Advancement</div>
+                        <div class="quest-task">Task: Progress to intermediate mental health practices. Complete daily mindfulness sessions of 10 minutes, practice gratitude journaling, engage in stress-reduction techniques, and participate in self-reflection exercises. Show measurable improvement in mood tracking and anxiety management.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-section">
+            <div class="level-header">
+                <h2 class="level-title">Advanced Level</h2>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Consistency Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Exercise for at least 15 minutes daily for a week.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Advanced Fitness Commitment</div>
+                        <div class="quest-task">Task: Commit to 15 minutes of daily exercise for 7 consecutive days. Focus on higher intensity workouts, combine different exercise types (cardio + strength), and challenge yourself with progressive training. Monitor your endurance and strength improvements.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Community Builder Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Join an event.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Event Participation Challenge</div>
+                        <div class="quest-task">Task: Actively participate in a community event, workshop, seminar, or gathering. Engage with other attendees, contribute to discussions, network with like-minded individuals, and take initiative in group activities. Document your experience and connections made.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Hiraya Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Reach an advanced level of progress in mental health metrics.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Mental Wellness Mastery</div>
+                        <div class="quest-task">Task: Achieve advanced mental health milestones through consistent practice of meditation (15+ minutes daily), cognitive behavioral techniques, emotional regulation strategies, and comprehensive self-assessment. Demonstrate sustained improvement in overall mental wellness indicators.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-section">
+            <div class="level-header">
+                <h2 class="level-title">Expert Level</h2>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Consistency Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Exercise for at least 20 minutes daily for a week.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Expert Fitness Mastery</div>
+                        <div class="quest-task">Task: Complete 20 minutes of daily exercise for 7 consecutive days with expert-level intensity and variety. Include strength training, cardio, flexibility work, and skill-based movements. Track performance metrics, set personal records, and maintain peak physical conditioning.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Community Builder Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Join compete with a friend.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Friendly Competition Challenge</div>
+                        <div class="quest-task">Task: Engage in healthy competition with a friend or peer in fitness, wellness, or personal development activities. Create challenges together, track progress comparatively, motivate each other, and celebrate achievements. Build stronger relationships through shared goals and mutual support.</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="status-indicator locked"></div>
+                    <div class="achievement-header">
+                        <div class="achievement-icon"></div>
+                        <div class="achievement-title">Hiraya Champion Badge</div>
+                    </div>
+                    <div class="achievement-description">
+                        Reach an Expert level of progress in mental health metrics.
+                    </div>
+                    <div class="quest-info">
+                        <div class="quest-name">Quest: Mental Wellness Expertise</div>
+                        <div class="quest-task">Task: Achieve expert-level mental health mastery through advanced practices including extended meditation sessions (20+ minutes), complex emotional intelligence exercises, leadership in mental wellness initiatives, and mentoring others in their mental health journey. Demonstrate exceptional self-awareness and emotional regulation.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.achievement-card');
+            const navIcons = document.querySelectorAll('.nav-icon');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            navIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.level-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

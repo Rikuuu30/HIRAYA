@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Progress Check-up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .nav-icons {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 127, 0.1);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 18px;
+        }
+
+        .nav-icon:hover {
+            background: rgba(0, 255, 127, 0.2);
+            border-color: #00ff7f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.4);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 255, 127, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .progress-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .progress-chart:hover::before {
+            left: 100%;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .chart-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #00ff7f;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(173, 255, 47, 0.05));
+            border-radius: 12px;
+            border: 2px dashed rgba(0, 255, 127, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .motivational-card {
+            background: linear-gradient(135deg, rgba(0, 255, 127, 0.15), rgba(173, 255, 47, 0.1));
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #00ff7f;
+            text-align: center;
+        }
+
+        .motivational-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ff7f;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+        }
+
+        .motivational-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .feedback-section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(173, 255, 47, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .feedback-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 15px rgba(173, 255, 47, 0.3);
+        }
+
+        .feedback-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #adff2f;
+            text-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+        }
+
+        .feedback-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #adff2f;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input, .form-textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(173, 255, 47, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #adff2f;
+            box-shadow: 0 0 20px rgba(173, 255, 47, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rating-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(173, 255, 47, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .rating-btn:hover, .rating-btn.active {
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            border-color: #adff2f;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(173, 255, 47, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(173, 255, 47, 0.3);
+            justify-self: center;
+            width: fit-content;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(173, 255, 47, 0.4);
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+        }
+
+        @media (max-width: 768px) {
+            .nav-icons {
+                position: relative;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .progress-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-section, .feedback-section {
+                padding: 20px;
+            }
+
+            .rating-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav-icons">
+                <div class="nav-icon">◀</div>
+                <div class="nav-icon">🏠</div>
+            </div>
+            
+            <div class="title-container">
+                <h1 class="title">Weekly Progress Check-up</h1>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="section-header">
+                <h2 class="section-title">Your Progress Overview</h2>
+            </div>
+            
+            <div class="progress-grid">
+                <div class="progress-chart">
+                    <div class="chart-header">
+                        <div class="chart-icon">▲</div>
+                        <div class="chart-title">Weekly Mood Trend</div>
+                    </div>
+                    <div class="chart-placeholder">
+                    </div>
+                </div>
+
+                <div class="motivational-card">
+                    <div class="motivational-title">You are doing GREAT! ★</div>
+                    <div class="motivational-text">
+                        Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-section">
+            <div class="feedback-header">
+                <div class="feedback-icon">○</div>
+                <div class="feedback-title">We would like to have your Feedback!</div>
+            </div>
+            
+            <form class="feedback-form" id="feedbackForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name (Optional)</label>
+                    <input type="text" class="form-input" id="userName" placeholder="Enter your name...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Email (Optional)</label>
+                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">How are you feeling this week?</label>
+                    <div class="rating-group">
+                        <button type="button" class="rating-btn" data-rating="1">◗ Not Great</button>
+                        <button type="button" class="rating-btn" data-rating="2">◑ Okay</button>
+                        <button type="button" class="rating-btn" data-rating="3">◐ Good</button>
+                        <button type="button" class="rating-btn" data-rating="4">◕ Very Good</button>
+                        <button type="button" class="rating-btn" data-rating="5">● Excellent</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Rate your overall experience</label>
+                    <div class="rating-group">
+                        <button type="button" class="rating-btn" data-experience="1">★</button>
+                        <button type="button" class="rating-btn" data-experience="2">★★</button>
+                        <button type="button" class="rating-btn" data-experience="3">★★★</button>
+                        <button type="button" class="rating-btn" data-experience="4">★★★★</button>
+                        <button type="button" class="rating-btn" data-experience="5">★★★★★</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">What's been most helpful?</label>
+                    <input type="text" class="form-input" id="helpful" placeholder="Tell us what's working well for you...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Any suggestions or concerns?</label>
+                    <textarea class="form-textarea" id="suggestions" placeholder="Share your thoughts, suggestions, or any concerns you might have..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const YOUR_EMAIL = 'hirayawebapp@gmail.com';
+        document.addEventListener('DOMContentLoaded', function() {
+            const ratingButtons = document.querySelectorAll('.rating-btn');
+            const navIcons = document.querySelectorAll('.nav-icon');
+            const form = document.getElementById('feedbackForm');
+            
+            ratingButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const group = this.getAttribute('data-rating') ? 'data-rating' : 'data-experience';
+                    const siblings = document.querySelectorAll(`[${group}]`);
+                    siblings.forEach(sibling => sibling.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            navIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = {
+                    userName: document.getElementById('userName').value || 'Anonymous',
+                    userEmail: document.getElementById('userEmail').value || 'Not provided',
+                    feeling: document.querySelector('.rating-btn[data-rating].active')?.getAttribute('data-rating'),
+                    experience: document.querySelector('.rating-btn[data-experience].active')?.getAttribute('data-experience'),
+                    helpful: document.getElementById('helpful').value,
+                    suggestions: document.getElementById('suggestions').value,
+                    timestamp: new Date().toLocaleString()
+                };
+                if (!formData.feeling || !formData.experience) {
+                    alert('Please provide your mood and experience ratings.');
+                    return;
+                }
+                alert(`Thank you for your feedback! Your responses will be sent to ${YOUR_EMAIL}.`);
+                form.reset();
+                document.querySelectorAll('.rating-btn.active').forEach(btn => btn.classList.remove('active'));
+                console.log('Feedback will be sent to:', YOUR_EMAIL);
+                console.log('Feedback Data:', formData);
+            });
+
+            function getFeelingText(rating) {
+                const feelings = {
+                    '1': 'Not Great',
+                    '2': 'Okay', 
+                    '3': 'Good',
+                    '4': 'Very Good',
+                    '5': 'Excellent'
+                };
+                return feelings[rating] || 'Unknown';
+            }
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.progress-section, .feedback-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
