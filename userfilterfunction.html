@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Questionnaires</title>
     <style>
+        /* General Styles & Reset */
         * {
             margin: 0;
             padding: 0;
@@ -16,14 +17,15 @@
             background: #000000;
             color: #ffffff;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px; /* More padding for overall page */
             position: relative;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: flex-start; /* Align from top for scrollable content */
             overflow-y: auto;
         }
 
+        /* Background Glow Effect */
         body::before {
             content: '';
             position: fixed;
@@ -39,41 +41,79 @@
             z-index: -1;
         }
 
+        /* Main Container for the Tabbed Interface */
         .container {
-            max-width: 1200px;
+            max-width: 800px; /* Centralized, single column max width */
             width: 100%;
-            margin: 20px auto;
+            margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            padding: 0 20px;
+            flex-direction: column; /* Stacks navigation and content */
+            gap: 30px; /* Space between navigation and content */
+            padding: 0;
         }
 
+        /* Tab Navigation Styling */
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px; /* Space below navigation buttons */
+            flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+        }
+
+        .tab-button {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.08); /* Slightly lighter background for inactive */
+            border: 1px solid rgba(0, 255, 127, 0.1);
+            border-radius: 15px; /* Rounded buttons */
+            color: rgba(255, 255, 255, 0.6); /* Muted color for inactive */
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none; /* For potential a-tag buttons */
+            text-align: center;
+            flex-grow: 1; /* Allow buttons to grow */
+            max-width: 350px; /* Limit individual button width */
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: rgba(0, 255, 127, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            color: #000000; /* Black text for active tab */
+            border-color: #00ff7f;
+            box-shadow: 0 5px 20px rgba(0, 255, 127, 0.4);
+            transform: translateY(0); /* Reset transform for active tab */
+        }
+
+        /* Individual Questionnaire Card Styling (within tab content) */
         .questionnaire-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
             border: 1px solid rgba(0, 255, 127, 0.2);
-            transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            flex: 1 1 calc(50% - 20px);
-            min-width: 380px;
-            margin-bottom: 0;
+            display: none; /* Hidden by default for tabbed content */
+            transition: opacity 0.5s ease;
         }
 
-        .questionnaire-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.1);
-            border-color: rgba(0, 255, 127, 0.4);
+        .questionnaire-card.active {
+            display: block; /* Show active card */
+            opacity: 1;
         }
 
         .card-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background: linear-gradient(45deg, #00ff7f, #adff2f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -84,45 +124,55 @@
         .card-instruction {
             font-size: 1rem;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
+        /* Question Group Styling */
         .question-group {
-            margin-bottom: 20px;
-            padding: 15px 0;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
         .question-group:last-of-type {
             border-bottom: none;
             margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .question-text {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: #ffffff;
             font-weight: 500;
-            line-height: 1.4;
-            flex-grow: 1;
+            line-height: 1.5;
+            margin-bottom: 18px;
+            padding-right: 10px;
         }
 
+        /* Radio Options Layout */
         .radio-options {
             display: flex;
-            justify-content: flex-end;
-            gap: 20px;
+            flex-direction: row; /* Default: row for desktop */
             flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 25px;
+            padding-left: 15px;
+            align-items: center;
         }
-
+        
         .radio-option {
             display: flex;
             align-items: center;
             cursor: pointer;
             position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option:hover {
+            opacity: 0.8;
+            transform: translateX(3px);
         }
 
         .radio-option input[type="radio"] {
@@ -133,8 +183,8 @@
         }
 
         .radio-circle {
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
             border: 2px solid rgba(0, 255, 127, 0.5);
             border-radius: 50%;
             display: flex;
@@ -142,6 +192,17 @@
             justify-content: center;
             transition: all 0.2s ease;
             box-shadow: 0 0 8px rgba(0, 255, 127, 0.2);
+            flex-shrink: 0;
+        }
+
+        .radio-circle::after {
+            content: '';
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #000;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         .radio-option input[type="radio"]:checked + .radio-circle {
@@ -150,26 +211,35 @@
             box-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
         }
 
+        .radio-option input[type="radio"]:checked + .radio-circle::after {
+            background: #000;
+            opacity: 1;
+        }
+
         .radio-option input[type="radio"]:focus + .radio-circle {
             outline: 2px solid #00bfff;
-            outline-offset: 2px;
+            outline-offset: 3px;
         }
 
         .radio-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-left: 8px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-left: 10px;
+            user-select: none;
         }
 
+        /* Legend Styling */
         .legend {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.75);
             margin-top: 30px;
             text-align: center;
             padding-top: 20px;
             border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            line-height: 1.5;
         }
 
+        /* Self Report Section */
         .self-report-section {
             margin-top: 30px;
             padding-top: 20px;
@@ -178,135 +248,280 @@
 
         .self-report-section label {
             display: block;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            line-height: 1.5;
         }
 
         .self-report-section textarea {
             width: 100%;
-            min-height: 80px;
-            padding: 10px;
-            border-radius: 8px;
+            min-height: 100px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(0, 255, 127, 0.3);
             background: rgba(0, 0, 0, 0.2);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             resize: vertical;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .self-report-section textarea:focus {
             border-color: #00ff7f;
-            box-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
             outline: none;
         }
 
+        /* Continue Button */
         .continue-button {
             display: block;
-            width: 200px;
-            padding: 15px 25px;
-            margin: 30px auto 0;
+            width: 220px;
+            padding: 16px 28px;
+            margin: 40px auto 0;
             background: linear-gradient(45deg, #adff2f, #00ff7f);
             color: #000000;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 12px;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(0, 255, 127, 0.4);
             text-align: center;
             text-decoration: none;
+            letter-spacing: 0.5px;
         }
 
         .continue-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(0, 255, 127, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px rgba(0, 255, 127, 0.7);
             background: linear-gradient(45deg, #00ff7f, #adff2f);
         }
 
-        @media (max-width: 1024px) {
+        /* Responsive Adjustments */
+
+        /* Tablets and smaller desktops */
+        @media (max-width: 767px) {
+            body {
+                padding: 30px 15px;
+            }
             .container {
                 gap: 20px;
-                padding: 0 15px;
+            }
+            .tab-navigation {
+                flex-direction: column; /* Stack tabs vertically */
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            .tab-button {
+                font-size: 1rem;
+                padding: 12px 20px;
+                max-width: 100%; /* Take full width when stacked */
             }
             .questionnaire-card {
-                flex: 1 1 calc(50% - 10px);
+                padding: 25px;
+            }
+            .card-title {
+                font-size: 1.8rem;
+            }
+            .card-instruction {
+                font-size: 0.95rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .radio-options {
+                flex-direction: column; /* Stack radio options */
+                align-items: flex-start;
+                gap: 15px;
+                padding-left: 0;
+            }
+            .radio-circle {
+                width: 22px;
+                height: 22px;
+            }
+            .radio-circle::after {
+                width: 11px;
+                height: 11px;
+            }
+            .radio-label {
+                font-size: 0.9rem;
+            }
+            .legend {
+                font-size: 0.85rem;
+            }
+            .continue-button {
+                width: 180px;
+                padding: 14px 20px;
+                font-size: 1.05rem;
+            }
+            .self-report-section label {
+                font-size: 0.95rem;
             }
         }
 
-        @media (max-width: 800px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                gap: 40px;
-                padding: 0 20px;
-            }
-            .questionnaire-card {
-                flex: 1 1 100%;
-                min-width: unset;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        /* Very Small Phones */
+        @media (max-width: 480px) {
             .questionnaire-card {
                 padding: 20px;
             }
             .card-title {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
-            .card-instruction {
-                font-size: 0.9rem;
-            }
-            .question-text {
-                font-size: 0.9rem;
-            }
-            .radio-options {
-                justify-content: center;
-                gap: 15px;
-            }
-            .radio-circle {
-                width: 20px;
-                height: 20px;
-            }
-            .radio-label {
-                font-size: 0.85rem;
-            }
-            .legend {
-                font-size: 0.8rem;
-            }
-            .continue-button {
-                width: 180px;
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
             .question-group {
-                flex-direction: column;
-                align-items: flex-start;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
             }
             .radio-options {
-                justify-content: flex-start;
-                width: 100%;
-                margin-top: 10px;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="phq-card" class="questionnaire-card">
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="phq-card">Patient Health Questionnaire</button>
+            <button class="tab-button" data-tab="gad7-card">Generalized Anxiety Disorder 7</button>
+        </div>
+
+        <div id="phq-card" class="questionnaire-card active">
             <h2 class="card-title">Patient Health Questionnaire</h2>
             <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems?</p>
 
             <form id="phq-form">
+                <div class="question-group">
+                    <p class="question-text">1. Little interest or pleasure in doing things.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q1" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q1" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q1" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q1" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">2. Feeling down, depressed, or hopeless.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q2" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q2" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q2" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q2" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">3. Trouble falling or staying asleep, or sleeping too much.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q3" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q3" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q3" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q3" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">4. Feeling tired or having little energy.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q4" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q4" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q4" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q4" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">5. Poor appetite or overeating.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q5" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q5" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q5" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="phq_q5" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="question-group">
                     <p class="question-text">6. Feeling bad about yourself - or that you are a failure or have let yourself or your family down.</p>
                     <div class="radio-options">
@@ -557,7 +772,64 @@
                     </div>
                 </div>
 
-                <p class="legend">0 = Not at all sure 1 = Several days 2 = Over half the days 3 = Nearly every day</p>
+                <div class="question-group">
+                    <p class="question-text">6. Becoming easily annoyed or irritable.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">7. Feeling afraid as if something awful might happen.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q7" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q7" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q7" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q7" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="self-report-section">
+                    <label for="self-report-gad7">Self Report: Indicate how much these problems have made it difficult for you to do your work, take care of things at home, or get along with other people?</label>
+                    <textarea id="self-report-gad7" name="self_report_gad7" placeholder="Type here..."></textarea>
+                </div>
+
+                <p class="legend">0 = Not at all 1 = Several days 2 = More than half the days 3 = Nearly every day</p>
 
                 <button type="submit" class="continue-button">Continue</button>
             </form>
@@ -566,6 +838,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Custom Alert Function (Kept from previous versions) ---
             function alert(message) {
                 const existingModal = document.getElementById('custom-alert-modal');
                 if (existingModal) existingModal.remove();
@@ -615,6 +888,40 @@
                 document.body.appendChild(modal);
             }
 
+            // --- Tab Functionality ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const questionnaireCards = document.querySelectorAll('.questionnaire-card');
+
+            function showTab(tabId) {
+                // Deactivate all buttons and hide all cards
+                tabButtons.forEach(button => button.classList.remove('active'));
+                questionnaireCards.forEach(card => card.classList.remove('active'));
+
+                // Activate the clicked button
+                const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+
+                // Show the corresponding card
+                const activeCard = document.getElementById(tabId);
+                if (activeCard) {
+                    activeCard.classList.add('active');
+                }
+            }
+
+            // Add event listeners to tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    showTab(tabId);
+                });
+            });
+
+            // Set initial active tab (PHQ by default)
+            showTab('phq-card');
+
+            // --- Form Submission Logic (Kept from previous versions) ---
             async function sendFormDataToServer(formId, formData) {
                 const data = {};
                 for (const [key, value] of formData.entries()) {
