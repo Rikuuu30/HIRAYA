@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Notifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Reset & Box Sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CSS Variables for easy theming and consistency */
+        :root {
+            --bg-color-dark: #000000;
+            --card-bg-light: rgba(255, 255, 255, 0.03);
+            --border-color-green: rgba(0, 255, 127, 0.2);
+            --accent-green-light: #00ff7f; /* Spring Green */
+            --accent-green-dark: #adff2f; /* Green Yellow */
+            --accent-blue: #00bfff;     /* Deep Sky Blue */
+            --warning-red: #ff3333; /* For alert */
+            --new-badge-color: #ffcc00; /* Amber for 'New' */
+            --unread-dot-color: #ff007f; /* Vibrant pink for unread */
+
+            --text-color-light: #ffffff;
+            --text-color-secondary: rgba(255, 255, 255, 0.9);
+
+            --border-radius-sm: 8px;
+            --border-radius-md: 15px;
+            --border-radius-lg: 20px;
+
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 30px;
+            --spacing-xxl: 40px;
+
+            --font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            background: var(--bg-color-dark);
+            color: var(--text-color-light);
+            min-height: 100vh;
+            padding: var(--spacing-md); /* Overall page padding */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Static Background Gradients (Removed Parallax) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+            background-size: 200% 200%;
+            pointer-events: none;
+            z-index: -1;
+            /* No more transition for background-position as it's static now */
+        }
+
+        /* Scroll Progress Bar */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
+            z-index: 9999;
+            border-radius: 0 2px 2px 0;
+            /* No transition, so it updates instantly */
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header (Notifications Title and Icons) */
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xxl);
+            position: relative;
+            width: 100%;
+            padding-top: var(--spacing-md);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 127, 0.1);
+            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+            padding-bottom: var(--spacing-md);
+        }
+
+        .nav-icons {
+            position: absolute;
+            left: 0;
+            top: var(--spacing-md);
+            display: flex;
+            gap: 15px;
+            padding-left: var(--spacing-md);
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInSlideRight 0.8s ease-out forwards 0.5s;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 127, 0.1);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            font-size: 18px;
+            color: var(--text-color-light);
+            position: relative; /* For ripple effect */
+            overflow: hidden;
+        }
+
+        .nav-icon:hover {
+            background: rgba(0, 255, 127, 0.25);
+            border-color: var(--accent-green-light);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.4);
+            color: var(--accent-green-light);
+        }
+
+        .nav-icon:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 255, 127, 0.2);
+        }
+
+        /* Ripple effect for buttons */
+        .nav-icon::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            opacity: 0;
+            transition: all 0.7s ease-out;
+            transform: scale(0);
+        }
+
+        .nav-icon.ripple::after {
+            transform: scale(1);
+            opacity: 1;
+            transition: 0s; /* No transition on start, fast transition on end */
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-green-light), var(--accent-green-dark), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5), 0 0 50px rgba(0, 191, 255, 0.3);
+            margin: 0;
+            cursor: pointer; /* Make it clickable */
+            transition: transform 0.2s ease, text-shadow 0.2s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 0.8s ease-out forwards 0.2s;
+        }
+
+        .main-title:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 40px rgba(0, 255, 127, 0.6), 0 0 70px rgba(0, 191, 255, 0.4);
+        }
+
+        .main-title.pulse {
+            animation: titlePulse 0.5s ease-in-out;
+        }
+
+        @keyframes titlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Notification Card Styles */
+        .notification-card {
+            background: var(--card-bg-light);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color-green);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: var(--spacing-md);
+            position: relative; /* For new badge and read indicator */
+            overflow: hidden; /* For shine effect */
+            will-change: transform, box-shadow; /* Optimize for animation */
+        }
+
+        /* Card Hover Effects (subtle 3D tilt + glow) */
+        .notification-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px); /* Subtle 3D tilt and lift */
+            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.2), 0 0 60px rgba(0, 191, 255, 0.1);
+            border-color: rgba(0, 255, 127, 0.6);
+        }
+
+        /* Card Shine Effect on Hover */
+        .notification-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+
+        .notification-card:hover::before {
+            left: 100%;
+        }
+
+        /* Card Read State */
+        .notification-card.read {
+            border-color: rgba(100, 100, 100, 0.2); /* Fainter border */
+            background: rgba(255, 255, 255, 0.015); /* Slightly darker background to show read */
+            opacity: 0.8; /* Slightly less prominent */
+            transition: all 0.5s ease;
+        }
+
+        .notification-card.read .read-indicator {
+            opacity: 1; /* Show indicator */
+            transform: scale(1);
+        }
+
+        .read-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: var(--accent-green-light);
+            font-size: 1.2em;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none; /* Do not interfere with card clicks */
+        }
+
+
+        /* Card Heading */
+        .card-heading {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--accent-green-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(0, 255, 127, 0.2);
+            padding-bottom: var(--spacing-sm);
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.1);
+        }
+
+        /* Card Content */
+        .card-content p {
+            margin: var(--spacing-sm) 0;
+            line-height: 1.6;
+            color: var(--text-color-secondary);
+        }
+
+        .card-content strong {
+            color: var(--text-color-light);
+            font-weight: 600;
+        }
+
+        /* Actionable text elements with enhanced interaction */
+        .actionable-text {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            color: var(--accent-blue);
+            transition: all 0.3s ease-in-out;
+            text-shadow: 0 0 5px rgba(0, 191, 255, 0.2);
+        }
+
+        .actionable-text:hover {
+            color: var(--accent-green-light);
+            text-decoration: none;
+            transform: translateY(-1px);
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
+        }
+
+        .actionable-text::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
+            transition: width 0.3s ease-in-out;
+        }
+
+        .actionable-text:hover::after {
+            width: 100%;
+        }
+
+        /* Motivational Quotes specific styling */
+        .quote {
+            font-style: italic;
+            margin-bottom: var(--spacing-sm);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .author {
+            font-weight: 500;
+            color: var(--accent-green-dark);
+            display: block;
+            margin-top: 5px;
+            text-shadow: 0 0 8px rgba(173, 255, 47, 0.2);
+        }
+
+        /* Well Being Alert specific styling and animation */
+        .well-being-alert {
+            border: 1px solid var(--warning-red);
+            background: rgba(255, 51, 51, 0.05);
+            animation: pulseWarning 2s infinite ease-in-out;
+            box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+                box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
+            }
+            50% {
+                transform: scale(1.008) translateY(-3px);
+                box-shadow: 0 8px 30px rgba(255, 51, 51, 0.4);
+                border-color: rgba(255, 51, 51, 0.9);
+            }
+        }
+
+        /* "New" Badge Effect */
+        .notification-card.new::after {
+            content: 'NEW!';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--new-badge-color);
+            color: var(--bg-color-dark);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            animation: bounceIn 0.5s ease-out; /* Removed continuous flash */
+            transform-origin: top right;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2; /* Above other content */
+        }
+
+        .notification-card.new .unread-dot {
+            opacity: 1;
+            transform: scale(1);
+            animation: unreadDotPulse 1.5s infinite ease-in-out;
+        }
+
+        .unread-dot {
+            position: absolute;
+            top: 5px; /* Adjust based on badge position */
+            right: 0px; /* Adjust based on badge position */
+            width: 8px;
+            height: 8px;
+            background-color: var(--unread-dot-color);
+            border-radius: 50%;
+            border: 2px solid var(--bg-color-dark); /* Border to stand out */
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 3; /* Above badge */
+        }
+
+        @keyframes unreadDotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Animations for elements on load */
+        @keyframes fadeInSlideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-md);
+            }
+            .header {
+                margin-bottom: var(--spacing-lg);
+            }
+            .nav-icons {
+                position: relative;
+                justify-content: center;
+                margin-bottom: var(--spacing-md);
+                padding-left: 0;
+                width: 100%;
+                animation: none;
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .main-title {
+                font-size: 2rem;
+                animation: none;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .notification-card {
+                padding: var(--spacing-lg);
+            }
+            .card-heading {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+            .main-title {
+                font-size: 1.8rem;
+            }
+            .notification-card {
+                padding: var(--spacing-md);
+            }
+            .card-heading {
+                font-size: 1.1rem;
+            }
+            .card-content p {
+                font-size: 0.9em;
+            }
+            .nav-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scrollProgress"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="nav-icons">
+                <button class="nav-icon" aria-label="Go back">&#x2B05;</button> <button class="nav-icon" aria-label="Go home">&#x2302;</button> </div>
+            <div class="header-title">
+                <h1 class="main-title">Notifications</h1>
+            </div>
+        </header>
+
+        <main class="notifications-list">
+            <section class="notification-card" id="card-daily-reminder">
+                <h2 class="card-heading">DAILY REMINDER!</h2>
+                <div class="card-content">
+                    <p><strong>Task</strong> – You are not done with your physical task!</p>
+                    <p><strong>Task</strong> – You are not yet done with your social task!</p>
+                </div>
+                <div class="read-indicator">&#x2713;</div> </section>
+
+            <section class="notification-card new" id="card-socials">
+                <h2 class="card-heading">Socials</h2>
+                <div class="card-content">
+                    <p><strong>Group</strong> – Your group leader updated the group chats theme.</p>
+                    <p><strong>Friend</strong> – Your friend wants to check on how are you doing today?</p>
+                    <p><strong>Friend</strong> – Your friend <span class="actionable-text">Franz Matthew Quevedo</span> updated his profile.</p>
+                </div>
+                <div class="unread-dot"></div>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
+
+            <section class="notification-card" id="card-quotes">
+                <h2 class="card-heading">Motivational Quotes</h2>
+                <div class="card-content">
+                    <p class="quote">“Being deeply loved by someone gives you strength”.<br><span class="author">Lao Tzu</span></p>
+                    <p class="quote">“I pride myself on being a family man”.<br><span class="author">Alexander Volkanovski</span></p>
+                    <p class="quote">“The future depends on what we do in the present.”<br><span class="author">Mahatma Gandhi</span></p>
+                </div>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
+
+            <section class="notification-card well-being-alert" id="card-alert">
+                <h2 class="card-heading">Well Being Alert!</h2>
+                <div class="card-content">
+                    <p><strong>Warning</strong> – We noticed that your mood for the whole week is Sad, Are you ok?</p>
+                    <p><strong>Warning</strong> – We noticed that you haven’t checked your task for a week, Are you ok?</p>
+                </div>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.notification-card');
+            const navIcons = document.querySelectorAll('.nav-icon');
+            const scrollProgress = document.getElementById('scrollProgress');
+            const mainTitle = document.querySelector('.main-title');
+
+            // --- Card Read/Unread Toggle ---
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('read');
+                    // Remove 'new' class and unread dot when read
+                    if (this.classList.contains('read')) {
+                        this.classList.remove('new');
+                        const unreadDot = this.querySelector('.unread-dot');
+                        if (unreadDot) {
+                            unreadDot.style.opacity = '0'; // Hide dot immediately
+                            unreadDot.style.transform = 'scale(0)';
+                        }
+                    }
+                });
+            });
+
+            // --- Nav Icon Ripple Effect ---
+            navIcons.forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    // Create a ripple element
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+
+                    // Position the ripple at the click location
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+                    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+                    // Remove ripple after animation
+                    ripple.addEventListener('transitionend', () => {
+                        ripple.remove();
+                    }, { once: true });
+                });
+            });
+
+            // --- Main Title Click Pulse ---
+            mainTitle.addEventListener('click', function() {
+                this.classList.add('pulse');
+                this.addEventListener('animationend', () => {
+                    this.classList.remove('pulse');
+                }, { once: true });
+            });
+
+
+            // --- Scroll Progress Bar ---
+            function updateScrollProgress() {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPosition = window.scrollY;
+                if (totalHeight <= 0) {
+                    scrollProgress.style.width = '100%';
+                    return;
+                }
+                const progressWidth = (scrollPosition / totalHeight) * 100;
+                scrollProgress.style.width = progressWidth + '%';
+            }
+
+            window.addEventListener('scroll', updateScrollProgress);
+            updateScrollProgress(); // Call on load to set initial state
+
+            // Example of how you might remove the 'new' badge after a delay or interaction
+            setTimeout(() => {
+                const socialCard = document.getElementById('card-socials');
+                if (socialCard && socialCard.classList.contains('new')) {
+                    socialCard.classList.remove('new');
+                    const unreadDot = socialCard.querySelector('.unread-dot');
+                    if (unreadDot) {
+                        unreadDot.style.opacity = '0';
+                        unreadDot.style.transform = 'scale(0)';
+                    }
+                    console.log("Removed 'new' badge from Socials card.");
+                }
+            }, 8000); // Remove "NEW!" badge after 8 seconds
+        });
+    </script>
+
+</body>
+</html>
