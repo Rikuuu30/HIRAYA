@@ -3,124 +3,759 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
-    <link rel="stylesheet" href="HIRAYA-TASKS-CSS.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Gamified Achievements System</title>
+    <!-- Corrected Font Awesome CDN link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base styles for dark mode and font */
+        body {
+            background-color: #000000; /* Deep black base */
+            color: #E0E0E0; /* Light grey for general text */
+            font-family: 'Inter', sans-serif; /* Using Inter as requested */
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+        }
+
+        /* Background glowing particles effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.08) 0%, transparent 50%), /* Green glow */
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.08) 0%, transparent 50%), /* Blue glow */
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.06) 0%, transparent 50%); /* Yellow-green glow */
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundGlow 15s infinite alternate; /* Subtle animation for background */
+        }
+
+        @keyframes backgroundGlow {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- Top Navigation --- */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2.5rem;
+            background: rgba(10, 10, 20, 0.6); /* Semi-transparent dark background */
+            border: 1px solid rgba(0, 255, 127, 0.2); /* Neon border */
+            border-radius: 15px; /* Rounded corners */
+            backdrop-filter: blur(15px); /* Glassmorphism effect */
+            box-shadow: 0 4px 30px rgba(0, 255, 127, 0.1); /* Subtle glow shadow */
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-icon-link {
+            color: #C9D1D9; /* Light text color */
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 8px;
+            /* New styles for back and home icons */
+            width: 40px; /* Fixed width */
+            height: 40px; /* Fixed height */
+            background: rgba(0, 255, 127, 0.1); /* Background from image */
+            border: 2px solid rgba(0, 255, 127, 0.3); /* Border from image */
+            border-radius: 8px; /* Rounded corners from image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        .nav-icon-link:hover {
+            background: rgba(0, 255, 127, 0.2); /* Hover background from image */
+            border-color: #00ff7f; /* Hover border color from image */
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3); /* Hover shadow from image */
+            color: #00ff7f; /* Neon green on hover */
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.6); /* Glow effect */
+        }
+
+        /* Specific icon color for back and home */
+        .nav-icon-link .fas {
+            color: #00ff7f; /* Neon green for the icons themselves */
+        }
+
+
+        .profile-pic-nav {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #00ff7f; /* Neon green border */
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.4); /* Subtle glow */
+            transition: transform 0.3s ease;
+            display: flex; /* Added to center the icon */
+            justify-content: center; /* Center the icon */
+            align-items: center; /* Center the icon */
+            background-color: #000; /* Black background for blank profile */
+        }
+        .profile-pic-nav:hover {
+            transform: scale(1.05);
+        }
+        /* Style for the blank profile icon */
+        .profile-pic-nav .fas {
+            font-size: 24px; /* Adjust size as needed */
+            color: #fff; /* White color for the blank profile icon */
+        }
+
+
+        .player-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 500;
+            color: #00bfff; /* Neon blue for stats */
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .xp-bar {
+            width: 180px;
+            height: 12px;
+            background-color: rgba(0, 191, 255, 0.1); /* Light blue transparent background */
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            box-shadow: inset 0 0 8px rgba(0, 191, 255, 0.2);
+        }
+
+        .xp-fill {
+            width: 60%; /* Example XP progress */
+            height: 100%;
+            background: linear-gradient(90deg, #00bfff, #00ff7f); /* Blue to green neon gradient */
+            border-radius: 6px;
+            transition: width 0.5s ease-out; /* Smooth XP bar transition */
+        }
+
+        /* --- Main Container & Layout --- */
+        .container-wrapper {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 1rem; /* Added padding for smaller screens */
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding: 1rem;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff); /* Multi-color neon gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 255, 127, 0.8), 0 0 20px rgba(0, 191, 255, 0.5); /* Stronger glow */
+            margin: 0;
+            letter-spacing: 2px;
+            animation: textGlow 2s infinite alternate; /* Pulsing text glow */
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 40px rgba(0, 255, 127, 0.8), 0 0 20px rgba(0, 191, 255, 0.5); }
+            100% { text-shadow: 0 0 50px rgba(0, 255, 127, 1), 0 0 25px rgba(0, 191, 255, 0.7); }
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #8B949E;
+            margin-top: 0.5rem;
+            text-shadow: 0 0 8px rgba(0, 255, 127, 0.2);
+        }
+
+        .container {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+        }
+
+        .left-column {
+            flex: 3;
+            min-width: 60%; /* Ensure it takes enough space */
+        }
+
+        .right-column {
+            flex: 1;
+            min-width: 300px; /* Minimum width for right column */
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.8rem;
+            border-bottom: 2px solid rgba(0, 255, 127, 0.3); /* Neon line */
+            padding-bottom: 0.8rem;
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Daily Quest Cards (Component-Based) --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .card {
+            background: rgba(10, 10, 20, 0.7); /* Semi-transparent dark background */
+            border: 1px solid rgba(0, 255, 127, 0.3); /* Neon border */
+            border-radius: 18px; /* More rounded corners */
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, opacity 0.4s ease;
+            backdrop-filter: blur(12px); /* Glassmorphism */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer; /* Indicate clickability */
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.08), transparent); /* Swipe effect */
+            transition: left 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.3), 0 0 25px rgba(0, 191, 255, 0.2); /* Enhanced neon glow */
+            border-color: #00ff7f; /* Brighter border on hover */
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1.2rem;
+            color: #00bfff; /* Neon blue for icons */
+            text-shadow: 0 0 20px rgba(0, 191, 255, 0.7); /* Icon glow */
+            animation: floatIcon 3s ease-in-out infinite; /* Floating icon animation */
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .card-reward {
+            font-size: 1.1rem;
+            color: #34d399; /* Bright green for rewards */
+            font-weight: 600;
+            text-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
+        }
+
+        /* Style for completed daily cards */
+        .card.daily-completed {
+            opacity: 0.6;
+            border-color: rgba(52, 211, 153, 0.5); /* Faded green border */
+            background-color: rgba(52, 211, 153, 0.05); /* Subtle green background */
+            pointer-events: none; /* Make it unclickable once completed */
+        }
+
+        .card.daily-completed .card-icon {
+            color: #34d399; /* Change icon color to green when completed */
+            text-shadow: none;
+            animation: none; /* Stop floating animation */
+        }
+
+        .card.daily-completed .card-title,
+        .card.daily-completed .card-reward {
+            text-decoration: line-through;
+            color: #8B949E; /* Faded text color */
+            text-shadow: none;
+        }
+
+        /* --- Weekly Quest List (Updated Style) --- */
+        .weekly-task-list {
+            background: none; /* Remove background from container */
+            border: none; /* Remove border from container */
+            border-radius: none;
+            padding: 0; /* Remove padding from container */
+            backdrop-filter: none;
+            box-shadow: none;
+        }
+
+        .task-item {
+            background: rgba(10, 10, 20, 0.7); /* Semi-transparent dark background */
+            border: 1px solid rgba(0, 255, 127, 0.3); /* Green neon border */
+            border-left: 5px solid #00ff7f; /* Prominent green bar on left */
+            border-radius: 12px; /* Rounded corners for individual items */
+            padding: 1.5rem; /* More internal space */
+            margin-bottom: 1rem; /* Space between items */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align content to the top */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px); /* Glassmorphism for items */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .task-item:last-child {
+            margin-bottom: 0; /* No margin for the last item */
+        }
+
+        .task-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.2), 0 0 15px rgba(0, 191, 255, 0.1);
+            border-color: #00ff7f;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            background-color: rgba(52, 211, 153, 0.05); /* Subtle green for completed */
+            border-color: rgba(52, 211, 153, 0.5); /* Faded green border */
+        }
+
+        .task-content {
+            display: flex;
+            align-items: flex-start; /* Align checkbox and text to top */
+            gap: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .task-checkbox {
+            appearance: none;
+            width: 28px; /* Larger */
+            height: 28px; /* Larger */
+            background-color: transparent; /* Transparent background */
+            border: 2px solid #00ff7f; /* Neon green border */
+            border-radius: 50%; /* Circular */
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.4); /* Glow */
+        }
+
+        .task-checkbox:hover {
+            border-color: #adff2f; /* Yellow-green on hover */
+            box-shadow: 0 0 18px rgba(173, 255, 47, 0.6);
+        }
+
+        .task-checkbox:checked {
+            background-color: #00ff7f; /* Solid green when checked */
+            border-color: #00ff7f;
+            box-shadow: 0 0 18px rgba(0, 255, 127, 0.8);
+        }
+
+        .task-checkbox:checked::after {
+            content: '\f00c'; /* Font Awesome checkmark */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 16px;
+            color: #000; /* Black checkmark for contrast */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-content label {
+            font-size: 1.1rem; /* Slightly larger font */
+            color: #E0E0E0;
+            cursor: pointer;
+            line-height: 1.4; /* Better readability */
+        }
+
+        .task-content label strong {
+            color: #00ff7f; /* Neon green for the bold part */
+            font-weight: 600;
+        }
+
+        .task-reward {
+            font-weight: 700;
+            color: #adff2f; /* Yellow-green for weekly rewards */
+            text-shadow: 0 0 10px rgba(173, 255, 47, 0.6);
+            flex-shrink: 0;
+            margin-left: 1rem; /* Spacing from text */
+        }
+
+        /* --- Right Column Sections (Badges) --- */
+        .section {
+            background: rgba(10, 10, 20, 0.7);
+            border: 1px solid rgba(173, 255, 47, 0.3); /* Yellow-green neon border */
+            border-radius: 18px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Alignment for right column sections to align with Daily Quests H2 */
+        .right-column .section:first-child {
+            /* This calculates the negative margin needed to pull the first section up */
+            /* It accounts for the h2's bottom margin and padding, and the section's top padding */
+            margin-top: calc(-1 * (1.8rem + 0.8rem - 2rem)); /* Adjust as needed for perfect alignment */
+        }
+
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Slightly larger badges */
+            gap: 1.2rem;
+        }
+
+        .badge {
+            background-color: rgba(0, 0, 0, 0.4); /* Darker transparent background */
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(0, 255, 127, 0.3); /* Green neon border */
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.2); /* Subtle glow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 255, 127, 0.6), 0 0 10px rgba(0, 191, 255, 0.4); /* Stronger multi-color glow */
+        }
+
+        .badge img {
+            width: 45px; /* Larger badge icons */
+            height: 45px;
+            /* Filter to ensure icons have a subtle glow, even if they are emoji-based SVGs */
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column; /* Stack columns */
+                gap: 2rem;
+            }
+
+            .left-column, .right-column {
+                min-width: unset; /* Remove min-width to allow full flexibility */
+                width: 100%;
+            }
+
+            .top-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Reset alignment for stacked columns */
+            .right-column .section:first-child {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .top-nav {
+                padding: 0.8rem;
+                margin-bottom: 2rem;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr; /* Stack daily cards */
+                gap: 1.5rem;
+            }
+
+            .card, .weekly-task-list, .section {
+                padding: 1.5rem;
+            }
+
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .task-content {
+                margin-bottom: 0.5rem;
+                width: 100%; /* Take full width */
+            }
+
+            .task-reward {
+                align-self: flex-end; /* Align reward to the right */
+            }
+
+            .badge-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Smaller badges on mobile */
+                gap: 0.8rem;
+            }
+
+            .badge {
+                width: 55px;
+                height: 55px;
+            }
+
+            .badge img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="website-container">
-        <header>
-            <div class="header-content">
-                <div class="profile-section">
-                    <div class="profile-pic">
-                        <img src="" alt="Profile">
-                    </div>
+    <div class="top-nav">
+        <div class="nav-left">
+            <a href="#" class="nav-icon-link" aria-label="Go Back"><i class="fas fa-arrow-left"></i></a>
+            <a href="#" class="nav-icon-link" aria-label="Home"><i class="fas fa-home"></i></a>
+            <a href="#" class="profile-pic-nav-link" aria-label="Profile">
+                <div class="profile-pic-nav">
+                    <!-- Changed img to i for Font Awesome user icon -->
+                    <i class="fas fa-user"></i>
                 </div>
-                <div class="navigation-icons">
-                    <i class="fas fa-arrow-left nav-icon"></i>
-                    <i class="fas fa-home nav-icon"></i>
-                    <i class="fas fa-cog nav-icon"></i>
+            </a>
+        </div>
+        <div class="nav-right">
+             <div class="player-stats">
+                <span id="player-level">Level 1</span> <!-- Added ID for JS update -->
+                <div class="xp-bar">
+                    <div class="xp-fill" style="width: 0%;"></div> <!-- Initial width 0% -->
                 </div>
+                <span id="player-xp-text">0 / 100 XP</span> <!-- Added ID for XP text -->
             </div>
+        </div>
+    </div>
+
+    <div class="container-wrapper">
+        <header class="page-header">
+            <h1 class="main-title">Your Quests</h1>
+            <p>Complete your tasks to level up and earn rewards!</p>
         </header>
 
-        <main>
-            <h1 class="main-title">Tasks</h1>
-
-            <section class="daily-tasks">
-                <h2>Daily Tasks</h2>
-                <div class="task-cards">
-                    <div class="card">
-                        <img src="" alt="Studying">
-                        <div class="card-overlay">
-                           <img src="https://api.iconify.design/mdi/school.svg?color=%233498db" style="width: 50px; height: 50px;">
-                        </div>
+        <div class="container">
+            <div class="left-column">
+                <h2>Daily Quests</h2>
+                <div class="card-grid">
+                    <div class="card daily-card" data-xp="20">
+                        <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="card-title">Study Session</div>
+                        <div class="card-reward"><i class="fas fa-star"></i> +20 XP</div>
                     </div>
-                    <div class="card">
-                        <img src="" alt="Friends">
-                        <div class="card-overlay">
-                            <img src="https://api.iconify.design/mdi/human-greeting-variant.svg?color=%233498db" style="width: 50px; height: 50px;">
-                        </div>
+                    <div class="card daily-card" data-xp="15">
+                        <div class="card-icon"><i class="fas fa-users"></i></div>
+                        <div class="card-title">Socialize</div>
+                         <div class="card-reward"><i class="fas fa-star"></i> +15 XP</div>
                     </div>
-                    <div class="card">
-                        <img src="" alt="Workout">
-                        <div class="card-overlay">
-                            <img src="https://api.iconify.design/mdi/arm-flex.svg?color=%233498db" style="width: 50px; height: 50px;">
-                        </div>
+                    <div class="card daily-card" data-xp="30">
+                        <div class="card-icon"><i class="fas fa-dumbbell"></i></div>
+                        <div class="card-title">Workout</div>
+                         <div class="card-reward"><i class="fas fa-star"></i> +30 XP</div>
                     </div>
                 </div>
-            </section>
 
-            <section class="weekly-tasks">
-                <h2>Weekly Tasks</h2>
-                <div class="task-list">
+                <h2>Weekly Quests</h2>
+                <div class="weekly-task-list">
                     <div class="task-item">
                         <div class="task-content">
-                            <input type="checkbox" id="task1">
+                            <input type="checkbox" id="task1" class="task-checkbox" data-xp="50">
                             <label for="task1">
-                                <strong>Mindful Monday:</strong>
-                                <p>Complete a 10-minute guided meditation session.</p>
+                                <strong>Mindful Monday:</strong> Complete a 10-minute guided meditation.
                             </label>
                         </div>
+                        <div class="task-reward">+50 XP</div>
                     </div>
                     <div class="task-item">
                         <div class="task-content">
-                            <input type="checkbox" id="task2">
+                            <input type="checkbox" id="task2" class="task-checkbox" data-xp="40">
                             <label for="task2">
-                                <strong>Talk It Out Tuesday:</strong>
-                                <p>Reach out and have meaningful conversation with a friend or a family.</p>
+                                <strong>Talk It Out Tuesday:</strong> Have a meaningful conversation.
                             </label>
                         </div>
-                    </div>
-                     <div class="task-item">
-                        <div class="task-content">
-                            <input type="checkbox" id="task3">
-                            <label for="task3">
-                                <strong>Wellness Wednesday:</strong>
-                                <p>Read or watch a short educational piece about mental health or self-care.</p>
-                            </label>
-                        </div>
-                    </div>
-                     <div class="task-item">
-                        <div class="task-content">
-                            <input type="checkbox" id="task4">
-                            <label for="task4">
-                                <strong>Thankful Thursday:</strong>
-                                <p>Write down 3 things you're grateful for today.</p>
-                            </label>
-                        </div>
-                    </div>
-                     <div class="task-item">
-                        <div class="task-content">
-                            <input type="checkbox" id="task5">
-                            <label for="task5">
-                                <strong>Fitness Friday:</strong>
-                                <p>Do a 20-minute physical activity (e.g., walk, workout, dance)</p>
-                            </label>
-                        </div>
-                    </div>
-                     <div class="task-item">
-                        <div class="task-content">
-                            <input type="checkbox" id="task6">
-                            <label for="task6">
-                                <strong>Social Saturday:</strong>
-                                <p>Send a sticker or message to 3 friends checking on their current status.</p>
-                            </label>
-                        </div>
+                        <div class="task-reward">+40 XP</div>
                     </div>
                     <div class="task-item">
                         <div class="task-content">
-                            <input type="checkbox" id="task7">
-                            <label for="task7">
-                                <strong>Self-Care Sunday:</strong>
-                                <p>Do one act of self-care. Like, skincare, journaling or digital detox</p>
+                            <input type="checkbox" id="task3" class="task-checkbox" data-xp="45">
+                            <label for="task3">
+                                <strong>Wellness Wednesday:</strong> Read about mental health.
                             </label>
                         </div>
+                        <div class="task-reward">+45 XP</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-content">
+                            <input type="checkbox" id="task4" class="task-checkbox" data-xp="35">
+                            <label for="task4">
+                                <strong>Thankful Thursday:</strong> Write 3 things you're grateful for.
+                            </label>
+                        </div>
+                        <div class="task-reward">+35 XP</div>
+                    </div>
+                     <div class="task-item">
+                        <div class="task-content">
+                            <input type="checkbox" id="task5" class="task-checkbox" data-xp="60">
+                            <label for="task5">
+                                <strong>Fitness Friday:</strong> Do a 20-minute physical activity.
+                            </label>
+                        </div>
+                        <div class="task-reward">+60 XP</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-content">
+                            <input type="checkbox" id="task6" class="task-checkbox" data-xp="40">
+                            <label for="task6">
+                                <strong>Social Saturday:</strong> Send a sticker or message to 3 friends checking on their current status.
+                            </label>
+                        </div>
+                        <div class="task-reward">+40 XP</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-content">
+                            <input type="checkbox" id="task7" class="task-checkbox" data-xp="55">
+                            <label for="task7">
+                                <strong>Self-Care Sunday:</strong> Do one act of self-care. Like, skincare, journaling or digital detox.
+                            </label>
+                        </div>
+                        <div class="task-reward">+55 XP</div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+
+            <div class="right-column">
+                <div class="section">
+                    <h2>Quests Completed</h2>
+                    <div class="badge-grid">
+                        <!-- Changed the first badge to a more generic medal icon from twemoji -->
+                        <div class="badge"><img src="https://api.iconify.design/emojione/sports-medal.svg" alt="Medal Badge"></div>
+                        <div class="badge"><img src="https://api.iconify.design/emojione/sports-medal.svg" alt="Sports Medal"></div>
+                        <div class="badge"><img src="https://api.iconify.design/emojione/military-medal.svg" alt="Military Medal"></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2>Badges Collected</h2>
+                    <div class="badge-grid">
+                         <div class="badge"><img src="https://api.iconify.design/twemoji/panda.svg" alt="Panda Badge"></div>
+                        <div class="badge"><img src="https://api.iconify.design/twemoji/sun-with-face.svg" alt="Sun Badge"></div>
+                        <div class="badge"><img src="https://api.iconify.design/twemoji/deciduous-tree.svg" alt="Leaf Badge"></div>
+                        <div class="badge"><img src="https://api.iconify.design/twemoji/fox.svg" alt="Fox Badge"></div>
+                        <div class="badge"><img src="https://api.iconify.design/twemoji/badger.svg" alt="Badger Badge"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const weeklyCheckboxes = document.querySelectorAll('.task-checkbox');
+            const dailyCards = document.querySelectorAll('.daily-card'); // Get all daily quest cards
+            const xpFill = document.querySelector('.xp-fill');
+            const playerLevelSpan = document.getElementById('player-level');
+            const playerXpTextSpan = document.getElementById('player-xp-text');
+
+            let currentXP = 0;
+            let level = 1;
+            let xpToNextLevel = 100; // XP needed for Level 2
+
+            // Function to update XP bar and level display
+            function updatePlayerStats() {
+                // Calculate XP bar width
+                let xpPercentage = (currentXP / xpToNextLevel) * 100;
+                xpFill.style.width = `${xpPercentage}%`;
+
+                // Update level text
+                playerLevelSpan.textContent = `Level ${level}`;
+                playerXpTextSpan.textContent = `${currentXP} / ${xpToNextLevel} XP`;
+
+                // Check for level up
+                while (currentXP >= xpToNextLevel) {
+                    level++;
+                    currentXP -= xpToNextLevel; // Carry over excess XP
+                    xpToNextLevel = Math.floor(xpToNextLevel * 1.5); // Increase XP needed for next level
+                    updatePlayerStats(); // Recalculate and update for new level
+                }
+            }
+
+            // Initial update of player stats
+            updatePlayerStats();
+
+            // Event listeners for Weekly Quests (checkboxes)
+            weeklyCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskItem = this.closest('.task-item');
+                    const xpReward = parseInt(this.dataset.xp); // Get XP from data-xp attribute
+
+                    if (this.checked) {
+                        taskItem.classList.add('completed');
+                        currentXP += xpReward; // Add XP
+                    } else {
+                        taskItem.classList.remove('completed');
+                        currentXP = Math.max(0, currentXP - xpReward); // Subtract XP, ensure not negative
+                    }
+                    updatePlayerStats(); // Update display after XP change
+                });
+            });
+
+            // Event listeners for Daily Quests (cards)
+            dailyCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Only process if the card hasn't been completed yet
+                    if (!this.classList.contains('daily-completed')) {
+                        const xpReward = parseInt(this.dataset.xp); // Get XP from data-xp attribute
+                        this.classList.add('daily-completed'); // Mark as completed
+                        currentXP += xpReward; // Add XP
+                        updatePlayerStats(); // Update display after XP change
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
