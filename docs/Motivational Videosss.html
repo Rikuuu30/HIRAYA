@@ -32,9 +32,9 @@
                 id: 'post1',
                 user: 'Jeff Nippard',
                 description: 'How To Build Muscle And Lose Fat At The Same Time',
-                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU/maxresdefault.jpg',
-                // Correct YouTube Video ID
-                videoID: 'M4K0s792wAU',
+                thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
+                // This is the correct YouTube Video ID for the Jeff Nippard video
+                videoID: 'a_62j9c3yF8',
                 duration: '10:48',
                 likes: 72,
                 comments: 5,
@@ -50,7 +50,7 @@
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
                 thumbnail: 'https://i.ytimg.com/vi/vx-k_02cK8I/maxresdefault.jpg',
-                // Correct YouTube Video ID
+                // Correct YouTube Video ID for Judson Brewer TED Talk
                 videoID: 'vx-k_02cK8I',
                 duration: '8:42',
                 likes: 124,
@@ -66,7 +66,7 @@
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
                 thumbnail: 'https://i.ytimg.com/vi/BNE_A4pA-2s/maxresdefault.jpg',
-                // Correct YouTube Video ID
+                // Correct YouTube Video ID for Joe Rogan / David Goggins clip
                 videoID: 'BNE_A4pA-2s',
                 duration: '2:54:12',
                 likes: 2100,
@@ -80,7 +80,7 @@
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
                 thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg',
-                // Correct YouTube Video ID
+                // Correct YouTube Video ID for generic gardening tutorial
                 videoID: 'n_qXh36P4hY',
                 duration: '15:30',
                 likes: 39100,
@@ -191,7 +191,7 @@
             document.querySelectorAll('.video-container:not([data-listener-added])').forEach(videoContainer => {
                 videoContainer.addEventListener('click', function(event) {
                     event.preventDefault();
-                    const videoId = this.dataset.videoid; // Get videoID directly
+                    const videoId = this.dataset.videoid;
 
                     if (videoId) {
                         // Use the privacy-enhanced YouTube embed URL with the video ID
