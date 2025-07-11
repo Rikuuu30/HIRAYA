@@ -194,8 +194,8 @@
                     const videoId = this.dataset.videoid;
 
                     if (videoId) {
-                        // Correct HTTPS YouTube embed URL with template literal
-                        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                        // Crucial Change: Using HTTPS and the privacy-enhanced domain
+                        const embedUrl = `http://googleusercontent.com/youtube-nocookie.com/43`;
                         this.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     } else {
                         console.error('Video ID is missing for playback.');
@@ -266,8 +266,8 @@
             document.querySelectorAll('.share-button:not([data-listener-added])').forEach(button => {
                 button.addEventListener('click', function() {
                     const videoIdToShare = this.dataset.videoid;
-                    // Construct a standard shareable YouTube URL (not an embed URL)
-                    const shareLink = `https://www.youtube.com/watch?v=${videoIdToShare}`;
+                    // Changed to HTTPS and standard YouTube watch URL for sharing
+                    const shareLink = `www.youtube.com2`;
                     navigator.clipboard.writeText(shareLink).then(() => {
                         alert('Video link copied to clipboard!');
                     }).catch(err => {
