@@ -19,7 +19,7 @@
       color: white;
       position: relative;
       overflow-x: hidden;
-      padding: 20px 0;
+      padding: 0;
     }
 
     body::before {
@@ -29,7 +29,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.12) 0%, transparent 50%),
@@ -44,55 +44,7 @@
       50% { transform: translateY(-20px) rotate(1deg); }
     }
 
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0, 255, 127, 0.1);
-    }
-
-    .home-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(0, 255, 127, 0.3);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: rgba(0, 255, 127, 0.8);
-      font-size: 18px;
-      text-decoration: none;
-    }
-
-    .home-icon:hover {
-      background: rgba(0, 255, 127, 0.1);
-      border-color: rgba(0, 255, 127, 0.6);
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(0, 255, 127, 0.3);
-      color: rgba(0, 255, 127, 1);
-    }
-
-    .logo {
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
-      animation: logoGlow 3s ease-in-out infinite alternate;
-    }
+    /* Removed .header and .header-title styles */
 
     @keyframes logoGlow {
       0% { text-shadow: 0 0 30px rgba(0, 255, 127, 0.5); }
@@ -103,7 +55,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 140px 20px 20px;
+      padding: 20px; /* Adjusted padding as there's no header */
       max-width: 900px;
       margin: 0 auto;
     }
@@ -157,7 +109,7 @@
       padding: 40px;
       width: 100%;
       margin-bottom: 30px;
-      box-shadow: 
+      box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.4),
         0 0 60px rgba(0, 255, 127, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -188,7 +140,7 @@
 
     .privacy-section:hover {
       border-color: rgba(0, 255, 127, 0.4);
-      box-shadow: 
+      box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.5),
         0 0 80px rgba(0, 255, 127, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -333,6 +285,47 @@
       font-weight: 500;
     }
 
+    .back-button {
+      padding: 15px 40px;
+      background: linear-gradient(45deg, #00ff7f, #adff2f);
+      border: none;
+      border-radius: 25px;
+      color: #000000;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .back-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .back-button:hover::before {
+      left: 100%;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(0, 255, 127, 0.4);
+      background: linear-gradient(45deg, #adff2f, #00ff7f);
+    }
+
     .particle {
       position: absolute;
       width: 3px;
@@ -360,36 +353,24 @@
     }
 
     @media (max-width: 768px) {
-      .header {
-        padding: 15px 20px;
-      }
-      
-      .home-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-      }
-      
-      .logo {
-        font-size: 2rem;
-      }
-      
+      /* Removed .header media query styles */
+
       .main-container {
-        padding: 120px 15px 20px;
+        padding: 15px;
       }
-      
+
       .page-title {
         font-size: 2.2rem;
       }
-      
+
       .privacy-section {
         padding: 30px 25px;
       }
-      
+
       .section-title {
         font-size: 1.5rem;
       }
-      
+
       .intro-text {
         font-size: 1rem;
         padding: 20px;
@@ -398,26 +379,18 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    <a href="hiraya_homepage.html" class="home-icon" title="Back to Home">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 9.3V4h-3v2.6L12 3L2 12h3v8h5v-6h4v6h5v-8h3zm-9 .7c0-1.1.9-2 2-2s2 .9 2 2z"/></svg>
-    </a>
-    <div class="logo">Hiraya</div>
-    <div style="width: 40px;"></div> 
-  </div>
-  
   <div class="main-container">
     <h1 class="page-title">Privacy & Terms</h1>
-    
+
     <div class="intro-text">
       Your privacy and security are fundamental to our mission. Hiraya is designed to support your wellness journey while keeping your personal information safe and secure. Please review the following policies to understand how we protect and use your data.
     </div>
-    
+
     <div class="privacy-section">
       <h2 class="section-title">Privacy Policy</h2>
       <div class="section-content">
         <p>At Hiraya, we are committed to protecting your privacy and ensuring that your personal information is handled with the utmost care and security.</p>
-        
+
         <h4>Information We Collect</h4>
         <ul>
           <li><strong>Personal Information:</strong> Name, email address, age, and basic demographic information</li>
@@ -425,12 +398,12 @@
           <li><strong>Usage Data:</strong> How you interact with our platform, features used, and time spent</li>
           <li><strong>Device Information:</strong> Browser type, operating system, and device identifiers</li>
         </ul>
-        
+
         <div class="highlight-box">
           <h4>Data Security</h4>
           <p>All personal data is encrypted both in transit and at rest. We use industry-standard security measures including SSL certificates, secure servers, and regular security audits to protect your information.</p>
         </div>
-        
+
         <h4>How We Use Your Information</h4>
         <ul>
           <li>Personalize your wellness dashboard and recommendations</li>
@@ -439,7 +412,7 @@
           <li>Send you relevant wellness tips and platform updates (with your consent)</li>
           <li>Provide customer support and respond to your inquiries</li>
         </ul>
-        
+
         <h4>Data Sharing</h4>
         <p>We <strong>never</strong> sell your personal information to third parties. Your data may only be shared in the following limited circumstances:</p>
         <ul>
@@ -449,12 +422,12 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="privacy-section">
       <h2 class="section-title">Terms of Service</h2>
       <div class="section-content">
         <p>By using Hiraya, you agree to the following terms and conditions:</p>
-        
+
         <h4>Acceptable Use</h4>
         <ul>
           <li>Use our platform responsibly and in accordance with our community guidelines</li>
@@ -462,13 +435,13 @@
           <li>Respect the intellectual property and privacy of other users</li>
           <li>Do not use our services for any illegal or harmful activities</li>
         </ul>
-        
+
         <h4>Medical Disclaimer</h4>
         <div class="highlight-box">
           <h4>Important Notice</h4>
           <p>Hiraya is a wellness platform designed to support your health journey. Our services are <strong>not</strong> intended to replace professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare professionals for medical concerns.</p>
         </div>
-        
+
         <h4>Account Responsibility</h4>
         <ul>
           <li>You are responsible for maintaining the security of your account</li>
@@ -477,7 +450,7 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="privacy-section">
       <h2 class="section-title">Your Rights & Controls</h2>
       <div class="section-content">
@@ -488,7 +461,7 @@
           <li><strong>Deletion:</strong> Request complete deletion of your account and data</li>
           <li><strong>Portability:</strong> Export your data in a machine-readable format</li>
         </ul>
-        
+
         <h4>Privacy Settings</h4>
         <ul>
           <li>Control what information is visible in your profile</li>
@@ -496,25 +469,28 @@
           <li>Choose which data to share with integrated services</li>
           <li>Set data retention preferences for your wellness history</li>
         </ul>
-        
+
         <div class="highlight-box">
           <h4>Contact Us</h4>
           <p>If you have any questions about these policies or need to exercise your rights, contact us at <strong>privacy@hiraya.com</strong> or through your account settings.</p>
         </div>
       </div>
     </div>
-    
+
+    <a href="hiraya_homepage.html" class="back-button">Back to Home</a>
+  </div>
+
   <script>
     let isChecked = false;
 
     function toggleCheckbox(event) {
       event.preventDefault();
       event.stopPropagation();
-      
+
       isChecked = !isChecked;
       const checkbox = document.getElementById('termsCheckbox');
       const button = document.getElementById('acceptButton');
-      
+
       if (isChecked) {
         checkbox.classList.add('checked');
         button.classList.add('enabled');
@@ -526,7 +502,7 @@
 
     function proceedToApp() {
       if (!isChecked) return;
-      
+
       const button = document.getElementById('acceptButton');
       const originalText = button.textContent;
       button.textContent = 'Loading...';
@@ -545,16 +521,16 @@
       particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
       const colors = ['rgba(0, 255, 127, 0.6)', 'rgba(173, 255, 47, 0.6)', 'rgba(0, 191, 255, 0.6)'];
       particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-      
+
       document.body.appendChild(particle);
-      
+
       setTimeout(() => {
         if (particle.parentNode) {
           particle.remove();
         }
       }, 10000);
     }
-    setInterval(createParticle, 1500);s
+    setInterval(createParticle, 1500);
     document.querySelectorAll('.privacy-section').forEach(section => {
       section.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-8px)';
