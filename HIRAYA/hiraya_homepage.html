@@ -783,22 +783,68 @@
       <a href="hiraya_homepage.html" class="profile-display">
         <div class="profile-image">👤</div>
         <div class="profile-info">
-          <h3 id="nickname">Tristan Josh Cachapero</h3>
+          <h3 id="nickname">User</h3>
         </div>
       </a>
     </div>
   </div>
-
-  <div class="content-section">
+       
+        <div class="content-section">
     <h2 class="section-title">Your Wellness Stats</h2>
     <div class="cards-grid">
-      <div class="card mood-card" onclick="window.location.href='tasks.html'">
-        <div class="card-header">
-          <div class="card-icon mood-icon">✅</div> <div class="card-info">
-            <h3>Daily Tasks</h3> <div class="card-value" id="tasks-value">5/7</div> <div class="card-subtext">tasks completed today</div>
-            <div class="mood-text" id="tasks-text">Stay productive!</div> </div>
+        <div class="card mood-card" onclick="window.location.href='Weekly Progress Checkup.html'" style="position: relative;">
+            <div style="position: absolute; top: 15px; right: 15px; background: linear-gradient(45deg, #ff6b35, #ff9500); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); z-index: 2;">New</div>
+            
+            <div class="card-header">
+                <div class="card-icon mood-icon">📊</div>
+                <div class="card-info">
+                    <h3>Weekly Progress Check-up</h3>
+                    <div class="card-subtext">Your mental health journey</div>
+                </div>
+            </div>
+            <div style="margin: 25px 0; padding: 20px; background: rgba(0, 255, 127, 0.05); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.2);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Mood Tracking</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                        <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Excellent</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Daily Tasks</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                        <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Great Progress</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Overall Experience</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 25px; padding: 20px; background: rgba(255, 255, 255, 0.04); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.15);">
+                <div style="font-size: 1.1rem; color: #00ff7f; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                    💬 Latest Feedback
+                </div>
+                <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); font-style: italic; line-height: 1.5;">
+                    "Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference."
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <div style="background: linear-gradient(45deg, #00ff7f, #adff2f); color: #000; padding: 12px 24px; border-radius: 25px; font-weight: 700; display: inline-block; transition: all 0.3s ease; cursor: pointer; font-size: 1rem;" onmouseover="this.style.transform='translateY(-2px) scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 127, 0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                  Click to see full progress..
+                </div>
+            </div>
         </div>
-      </div>
 
       <div class="card meals-card">
         <div class="card-header">
@@ -853,7 +899,7 @@
         </div>
       </a>
 
-      <a href="Setting Goals-forhomepage.html" class="thumbnail-link">
+      <a href="Setting Goals.html" class="thumbnail-link">
         <div class="thumbnail-card">
           <img src="https://images.unsplash.com/photo-1598091874986-7da3b270fead?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Goals Thumbnail" class="thumbnail-image">
           <h3 class="thumbnail-title">Goals</h3>
