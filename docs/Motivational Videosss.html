@@ -31,7 +31,7 @@
                 id: 'post1',
                 user: 'Jeff Nippard',
                 description: 'How To Build Muscle And Lose Fat At The Same Time',
-                thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8',
+                thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
                 videoID: 'a_62j9c3yF8',
                 duration: '10:48',
                 likes: 72,
@@ -43,6 +43,22 @@
                     { author: 'Richmon', text: 'Inspired by your dedication.' }
                 ]
             },
+        ];
+        document.querySelectorAll('.video-container:not([data-listener-added])').forEach(videoContainer => {
+            videoContainer.addEventListener('click', function(event) {
+                event.preventDefault();
+                const videoId = this.dataset.videoid;
+
+                if (videoId) {
+                    const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+                    this.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                } else {
+                    console.error('Video ID is missing for playback.');
+                    alert('Error: Could not play this video. The video ID is missing.');
+                }
+            });
+            videoContainer.setAttribute('data-listener-added', 'true');
+        });
             {
                 id: 'post2',
                 user: 'Judson Brewer',
