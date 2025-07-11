@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly Progress Check-up</title>
+    <title>Progress Check-up</title>
     <style>
         * {
             margin: 0;
@@ -13,11 +13,14 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
+            background: #0d0d0d;
             color: #ffffff;
             min-height: 100vh;
             padding: 20px;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         body::before {
@@ -27,61 +30,50 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         .header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .nav-icons {
-            position: absolute;
-            left: 0;
-            top: 0;
+            background: #000;
+            border-radius: 15px;
+            padding: 20px 20px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 90px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .nav-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 255, 127, 0.1);
-            border: 2px solid rgba(0, 255, 127, 0.3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-size: 18px;
+            font-size: 24px;
+            color: #ffffff;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .nav-icon:hover {
-            background: rgba(0, 255, 127, 0.2);
-            border-color: #00ff7f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
-        }
-
-        .title-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
+            color: #00ff7f;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .title {
@@ -91,11 +83,12 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
+            white-space: nowrap;
         }
 
-        .progress-section {
-            margin-bottom: 40px;
+        .progress-section, .feedback-section, .mood-log-section,
+        .goal-tracking-section, .resource-library-section, .journaling-section {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -103,9 +96,12 @@
             border: 1px solid rgba(0, 255, 127, 0.2);
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        .progress-section:hover {
+        .progress-section:hover, .feedback-section:hover, .mood-log-section:hover,
+        .goal-tracking-section:hover, .resource-library-section:hover, .journaling-section:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 255, 127, 0.1);
             border-color: rgba(0, 255, 127, 0.4);
@@ -129,6 +125,58 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .mood-log-section .section-header {
+            border-bottom-color: rgba(0, 191, 255, 0.3);
+        }
+        .mood-log-section .section-title {
+            background: linear-gradient(45deg, #00bfff, #00ff7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .mood-log-section .section-header .section-icon {
+            font-size: 28px;
+            color: #00bfff;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .mood-log-section .rating-group {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .mood-log-section .rating-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(0, 255, 127, 0.2);
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mood-log-section .rating-btn:hover {
+            background: rgba(0, 255, 127, 0.1);
+            border-color: #00ff7f;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 255, 127, 0.2);
+        }
+
+        .mood-log-section .rating-btn.active {
+            background: linear-gradient(45deg, #00bfff, #00ff7f);
+            border-color: #00bfff;
+            color: #000;
+            transform: translateY(-1px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.6);
         }
 
         .progress-grid {
@@ -187,18 +235,127 @@
             color: #00ff7f;
         }
 
-        .chart-placeholder {
+        .mood-chart-container {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(173, 255, 47, 0.05));
-            border-radius: 12px;
-            border: 2px dashed rgba(0, 255, 127, 0.3);
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 5px;
+            padding: 10px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .mood-bar {
+            flex-grow: 1;
+            max-width: 40px;
+            background: linear-gradient(to top, #00bfff, #00ff7f);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease-out, background 0.3s ease, transform 0.2s ease;
+            position: relative;
+            cursor: help;
+        }
+
+        .mood-bar:hover {
+            transform: scaleY(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
+            z-index: 10;
+        }
+
+        .mood-bar .tooltip {
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            font-size: 0.8em;
+            pointer-events: none;
+        }
+
+        .mood-bar:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .no-mood-chart-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            text-align: center;
+            width: 80%;
+        }
+
+        .mood-history-list {
+            list-style: none;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+        .mood-history-list::-webkit-scrollbar { width: 8px; }
+        .mood-history-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .mood-history-list::-webkit-scrollbar-thumb { background: rgba(0, 255, 127, 0.4); border-radius: 10px; }
+        .mood-history-list::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 127, 0.6); }
+
+        .mood-entry {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+        }
+
+        .mood-entry:last-child {
+            border-bottom: none;
+        }
+
+        .mood-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            gap: 10px;
+            font-size: 0.8em;
+            flex-shrink: 0;
+        }
+
+        .mood-text {
+            flex-grow: 1;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .mood-date-time {
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.6);
+            flex-shrink: 0;
+        }
+
+        .no-mood-message {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 50px 0;
+            font-style: italic;
         }
 
         .motivational-card {
@@ -207,6 +364,10 @@
             padding: 25px;
             border-left: 4px solid #00ff7f;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .motivational-title {
@@ -223,39 +384,290 @@
             line-height: 1.6;
         }
 
-        .feedback-section {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(173, 255, 47, 0.2);
-            margin-bottom: 40px;
+        .goal-tracking-section .section-title {
+            background: linear-gradient(45deg, #ff6b6b, #ffda79);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .goal-tracking-section .section-header .section-icon {
+            font-size: 28px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
         }
 
-        .feedback-header {
+        .goal-form {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 15px;
             margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
         }
-
-        .feedback-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #adff2f, #00ff7f);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 0 15px rgba(173, 255, 47, 0.3);
+        .goal-form input, .goal-form select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-
-        .feedback-title {
-            font-size: 1.8rem;
+        .goal-form input:focus, .goal-form select:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+        }
+        .goal-form button {
+            background: linear-gradient(45deg, #ff6b6b, #ffda79);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
             font-weight: 600;
-            color: #adff2f;
-            text-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .goal-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .goals-list {
+            list-style: none;
+            display: grid;
+            gap: 15px;
+        }
+        .goal-item {
+            background: rgba(255, 107, 107, 0.05);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+        .goal-item.completed {
+            opacity: 0.7;
+            border-color: rgba(0, 255, 127, 0.3);
+            background: rgba(0, 255, 127, 0.05);
+        }
+        .goal-item.completed .goal-title {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .goal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffda79;
+        }
+        .goal-details {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .goal-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .goal-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffda79, #ff6b6b);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease-out;
+        }
+        .goal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .goal-actions button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 8px 12px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .goal-actions button:hover {
+            background: rgba(0, 255, 127, 0.15);
+            border-color: #00ff7f;
+        }
+        .goal-actions button.complete-btn:hover {
+            background: rgba(0, 255, 127, 0.25);
+        }
+        .goal-actions button.delete-btn {
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        .goal-actions button.delete-btn:hover {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: #ff6b6b;
+        }
+        .resource-library-section .section-title {
+            background: linear-gradient(45deg, #7b68ee, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .resource-library-section .section-header .section-icon {
+            font-size: 28px;
+            color: #7b68ee;
+            text-shadow: 0 0 10px rgba(123, 104, 238, 0.5);
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .resource-card {
+            background: rgba(123, 104, 238, 0.05);
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(123, 104, 238, 0.15);
+            border-color: rgba(123, 104, 238, 0.4);
+        }
+        .resource-card .card-icon {
+            font-size: 2em;
+            color: #00bfff;
+            margin-bottom: 10px;
+        }
+        .resource-card .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #7b68ee;
+        }
+        .resource-card .card-description {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+        .resource-card a {
+            color: #00bfff;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+
+        .journaling-section .section-title {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .journaling-section .section-header .section-icon {
+            font-size: 28px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .journal-form textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: #ffffff;
+            font-size: 1rem;
+            min-height: 150px;
+            resize: vertical;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .journal-form textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        .journal-form button {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+        .journal-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+        .journal-entries-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 25px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+        .journal-entries-list::-webkit-scrollbar { width: 8px; }
+        .journal-entries-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .journal-entries-list::-webkit-scrollbar-thumb { background: rgba(255, 215, 0, 0.4); border-radius: 10px; }
+        .journal-entries-list::-webkit-scrollbar-thumb:hover { background: rgba(255, 215, 0, 0.6); }
+
+        .journal-entry-item {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+        .journal-entry-item .entry-date {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            align-self: flex-end;
+        }
+        .journal-entry-item .entry-content {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        .journal-entry-item .delete-entry-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: color 0.2s ease;
+        }
+        .journal-entry-item .delete-entry-btn:hover {
+            color: #ff6b6b;
+        }
+
+        .feedback-section .section-title {
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .feedback-form {
@@ -349,26 +761,77 @@
         }
 
         @media (max-width: 768px) {
-            .nav-icons {
-                position: relative;
-                justify-content: center;
-                margin-bottom: 20px;
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                min-height: auto;
+                padding: 15px;
+            }
+
+            .nav-icon {
+                position: static;
+                transform: none;
+                margin-bottom: 10px;
             }
 
             .title {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                text-align: center;
             }
 
             .progress-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
 
-            .progress-section, .feedback-section {
+            .progress-section, .feedback-section, .mood-log-section,
+            .goal-tracking-section, .resource-library-section, .journaling-section {
                 padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .motivational-text {
+                font-size: 1rem;
             }
 
             .rating-group {
                 justify-content: center;
+            }
+
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .mood-log-section .rating-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+                gap: 5px;
+            }
+
+            .rating-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                padding: 15px 20px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -376,13 +839,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="nav-icons">
-                <div class="nav-icon">◀</div>
-                <div class="nav-icon">🏠</div>
+            <div class="nav-icon" onclick="history.back()">&#8592;</div>
+            <h1 class="title">Progress Check-up</h1>
+        </div>
+
+        <div class="mood-log-section">
+            <div class="section-header">
+                <div class="section-icon">&#128522;</div>
+                <h2 class="section-title">Log Your Mood Today</h2>
             </div>
-            
-            <div class="title-container">
-                <h1 class="title">Weekly Progress Check-up</h1>
+            <div class="rating-group">
+                <button type="button" class="rating-btn" data-mood="1">😔 Not Great</button>
+                <button type="button" class="rating-btn" data-mood="2">😐 Okay</button>
+                <button type="button" class="rating-btn" data-mood="3">😊 Good</button>
+                <button type="button" class="rating-btn" data-mood="4">😄 Very Good</button>
+                <button type="button" class="rating-btn" data-mood="5">😁 Excellent</button>
             </div>
         </div>
 
@@ -390,44 +861,92 @@
             <div class="section-header">
                 <h2 class="section-title">Your Progress Overview</h2>
             </div>
-            
+
             <div class="progress-grid">
                 <div class="progress-chart">
                     <div class="chart-header">
-                        <div class="chart-icon">▲</div>
+                        <div class="chart-icon">&#x1F550;</div>
                         <div class="chart-title">Weekly Mood Trend</div>
                     </div>
-                    <div class="chart-placeholder">
+                    <div class="mood-chart-container">
+                        <p class="no-mood-chart-message" style="display: none;">Log some moods to see your trend here!</p>
                     </div>
+                    <ul class="mood-history-list">
+                        <li class="no-mood-message">No moods logged yet! Log your first mood above.</li>
+                    </ul>
                 </div>
 
                 <div class="motivational-card">
-                    <div class="motivational-title">You are doing GREAT! ★</div>
-                    <div class="motivational-text">
-                        Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference.
-                    </div>
+                    <div class="motivational-title"></div>
+                    <div class="motivational-text"></div>
                 </div>
             </div>
         </div>
 
-        <div class="feedback-section">
-            <div class="feedback-header">
-                <div class="feedback-icon">○</div>
-                <div class="feedback-title">We would like to have your Feedback!</div>
+        <div class="goal-tracking-section">
+            <div class="section-header">
+                <div class="section-icon">&#127919;</div>
+                <h2 class="section-title">Your Goals</h2>
             </div>
-            
-            <form class="feedback-form">
-                <div class="form-group">
-                    <label class="form-label">How are you feeling this week?</label>
-                    <div class="rating-group">
-                        <button type="button" class="rating-btn" data-rating="1">◗ Not Great</button>
-                        <button type="button" class="rating-btn" data-rating="2">◑ Okay</button>
-                        <button type="button" class="rating-btn" data-rating="3">◐ Good</button>
-                        <button type="button" class="rating-btn" data-rating="4">◕ Very Good</button>
-                        <button type="button" class="rating-btn" data-rating="5">● Excellent</button>
-                    </div>
-                </div>
+            <form class="goal-form">
+                <input type="text" id="goalTitle" placeholder="e.g., Meditate 15 mins daily" required>
+                <select id="goalType">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="once">One-time</option>
+                </select>
+                <button type="submit">Add New Goal</button>
+            </form>
+            <ul class="goals-list">
+            </ul>
+        </div>
 
+        <div class="resource-library-section">
+            <div class="section-header">
+                <div class="section-icon">&#128218;</div>
+                <h2 class="section-title">Resource Library</h2>
+            </div>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="card-icon">&#129504;</div>
+                    <div class="card-title">Mindfulness Exercises</div>
+                    <div class="card-description">Simple guided meditations and breathing techniques to calm your mind.</div>
+                    <a href="#">Learn More &rarr;</a>
+                </div>
+                <div class="resource-card">
+                    <div class="card-icon">&#128170;</div>
+                    <div class="card-title">Stress Relief Techniques</div>
+                    <div class="card-description">Quick tips and practices to manage daily stress effectively.</div>
+                    <a href="#">Learn More &rarr;</a>
+                </div>
+                <div class="resource-card">
+                    <div class="card-icon">&#128164;</div>
+                    <div class="card-title">Better Sleep Hygiene</div>
+                    <div class="card-description">Strategies and habits for improving the quality of your sleep.</div>
+                    <a href="#">Learn More &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="journaling-section">
+            <div class="section-header">
+                <div class="section-icon">&#128221;</div>
+                <h2 class="section-title">Journal Your Thoughts</h2>
+            </div>
+            <form class="journal-form">
+                <textarea id="journalEntry" placeholder="Write about your day, your feelings, or anything on your mind..." rows="6"></textarea>
+                <button type="submit">Save Entry</button>
+            </form>
+            <ul class="journal-entries-list">
+            </ul>
+        </div>
+
+        <div class="feedback-section">
+            <div class="section-header">
+                <h2 class="section-title">We would like to have your Feedback!</h2>
+            </div>
+
+            <form class="feedback-form">
                 <div class="form-group">
                     <label class="form-label">Rate your overall experience</label>
                     <div class="rating-group">
@@ -456,55 +975,303 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ratingButtons = document.querySelectorAll('.rating-btn');
-            const navIcons = document.querySelectorAll('.nav-icon');
-            const form = document.querySelector('.feedback-form');
-            
-            ratingButtons.forEach(button => {
+            const moodButtons = document.querySelectorAll('.mood-log-section .rating-btn');
+            const experienceButtons = document.querySelectorAll('.feedback-section .rating-btn[data-experience]');
+            const feedbackForm = document.querySelector('.feedback-form');
+            const moodHistoryList = document.querySelector('.mood-history-list');
+            const moodChartContainer = document.querySelector('.mood-chart-container');
+            const noMoodChartMessage = document.querySelector('.no-mood-chart-message');
+
+            const goalForm = document.querySelector('.goal-form');
+            const goalTitleInput = document.getElementById('goalTitle');
+            const goalTypeSelect = document.getElementById('goalType');
+            const goalsList = document.querySelector('.goals-list');
+
+            const journalForm = document.querySelector('.journal-form');
+            const journalEntryTextarea = document.getElementById('journalEntry');
+            const journalEntriesList = document.querySelector('.journal-entries-list');
+
+            const motivationalTitle = document.querySelector('.motivational-card .motivational-title');
+            const motivationalText = document.querySelector('.motivational-card .motivational-text');
+
+            let moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+            let goals = JSON.parse(localStorage.getItem('goals')) || [];
+            let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+
+            const motivationalQuotes = [
+                { title: "You are doing GREAT! ★", text: "Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference." },
+                { title: "Small Steps, Big Impact!", text: "Every bit of progress counts. Celebrate your small wins and keep moving forward." },
+                { title: "Embrace the Journey!", text: "Your well-being is a continuous journey, not a destination. Enjoy every step of the way." },
+                { title: "Prioritize Yourself!", text: "Taking care of your mental health is a strength, not a weakness. You deserve this time." },
+                { title: "Resilience Within!", text: "You have an incredible capacity to overcome challenges. Believe in your inner strength." }
+            ];
+
+            function renderMoodHistory() {
+                moodHistoryList.innerHTML = '';
+
+                if (moodHistory.length === 0) {
+                    moodHistoryList.innerHTML = '<li class="no-mood-message">No moods logged yet! Log your first mood above.</li>';
+                    return;
+                }
+
+                moodHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                moodHistory.forEach(entry => {
+                    const moodNames = {
+                        1: 'Not Great', 2: 'Okay', 3: 'Good', 4: 'Very Good', 5: 'Excellent'
+                    };
+                    const moodColors = {
+                        1: '#ff4d4d', 2: '#ffcc00', 3: '#66ccff', 4: '#adff2f', 5: '#00ff7f'
+                    };
+                    const moodEmojis = {
+                        1: '😔', 2: '😐', 3: '😊', 4: '😄', 5: '😁'
+                    };
+
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('mood-entry');
+                    listItem.innerHTML = `
+                        <div class="mood-icon" style="background-color: ${moodColors[entry.mood] || '#ccc'};">${moodEmojis[entry.mood] || '❓'}</div>
+                        <span class="mood-text">${moodNames[entry.mood] || 'Unknown Mood'}</span>
+                        <span class="mood-date-time">${new Date(entry.timestamp).toLocaleString()}</span>
+                    `;
+                    moodHistoryList.appendChild(listItem);
+                });
+            }
+
+            function renderMoodChart() {
+                moodChartContainer.innerHTML = '';
+                const recentMoods = moodHistory.slice(0, 7).reverse();
+
+                if (recentMoods.length === 0) {
+                    noMoodChartMessage.style.display = 'block';
+                    return;
+                }
+                noMoodChartMessage.style.display = 'none';
+
+                recentMoods.forEach(entry => {
+                    const bar = document.createElement('div');
+                    bar.classList.add('mood-bar');
+                    const height = (entry.mood / 5) * 80 + 20;
+                    bar.style.height = `${height}%`;
+
+                    const date = new Date(entry.timestamp);
+                    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+                    const moodNames = { 1: 'Not Great', 2: 'Okay', 3: 'Good', 4: 'Very Good', 5: 'Excellent' };
+
+                    const tooltip = document.createElement('span');
+                    tooltip.classList.add('tooltip');
+                    tooltip.textContent = `${moodNames[entry.mood]} on ${formattedDate}`;
+                    bar.appendChild(tooltip);
+
+                    moodChartContainer.appendChild(bar);
+                });
+            }
+
+            function renderGoals() {
+                goalsList.innerHTML = '';
+
+                if (goals.length === 0) {
+                    const noGoalsMessage = document.createElement('li');
+                    noGoalsMessage.classList.add('no-mood-message');
+                    noGoalsMessage.textContent = 'No goals set yet! Add your first goal above.';
+                    goalsList.appendChild(noGoalsMessage);
+                    return;
+                }
+
+                goals.forEach((goal, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('goal-item');
+                    if (goal.completed) {
+                        listItem.classList.add('completed');
+                    }
+
+                    const progressWidth = goal.type === 'once' ? (goal.completed ? 100 : 0) : (goal.progress / goal.target) * 100;
+
+                    listItem.innerHTML = `
+                        <div class="goal-title">${goal.title}</div>
+                        <div class="goal-details">
+                            ${goal.type === 'once' ? 'One-time goal' : `Target: ${goal.progress}/${goal.target} ${goal.type}`}
+                        </div>
+                        <div class="goal-progress">
+                            <div class="goal-progress-bar" style="width: ${Math.min(progressWidth, 100)}%;"></div>
+                        </div>
+                        <div class="goal-actions">
+                            ${goal.type !== 'once' ? `<button class="log-progress-btn" data-index="${index}">Log Progress</button>` : ''}
+                            <button class="complete-btn" data-index="${index}">${goal.completed ? 'Undo' : 'Complete'}</button>
+                            <button class="delete-btn" data-index="${index}">Delete</button>
+                        </div>
+                    `;
+                    goalsList.appendChild(listItem);
+                });
+            }
+
+            function addGoal(e) {
+                e.preventDefault();
+                const title = goalTitleInput.value.trim();
+                const type = goalTypeSelect.value;
+
+                if (title) {
+                    let newGoal;
+                    if (type === 'once') {
+                        newGoal = { id: Date.now(), title, type, completed: false };
+                    } else {
+                        newGoal = { id: Date.now(), title, type, target: 1, progress: 0, completed: false };
+                    }
+                    goals.push(newGoal);
+                    localStorage.setItem('goals', JSON.stringify(goals));
+                    goalTitleInput.value = '';
+                    renderGoals();
+                }
+            }
+
+            function updateGoal(e) {
+                const index = e.target.dataset.index;
+                if (e.target.classList.contains('complete-btn')) {
+                    goals[index].completed = !goals[index].completed;
+                    if (goals[index].completed && goals[index].type !== 'once') {
+                        goals[index].progress = goals[index].target;
+                    } else if (!goals[index].completed && goals[index].type !== 'once') {
+                        goals[index].progress = 0;
+                    }
+                } else if (e.target.classList.contains('log-progress-btn')) {
+                    if (goals[index].progress < goals[index].target) {
+                        goals[index].progress++;
+                    }
+                    if (goals[index].progress >= goals[index].target) {
+                        goals[index].completed = true;
+                    }
+                } else if (e.target.classList.contains('delete-btn')) {
+                    if (confirm('Are you sure you want to delete this goal?')) {
+                        goals.splice(index, 1);
+                    }
+                }
+                localStorage.setItem('goals', JSON.stringify(goals));
+                renderGoals();
+            }
+
+            function renderJournalEntries() {
+                journalEntriesList.innerHTML = '';
+                if (journalEntries.length === 0) {
+                    const noEntriesMessage = document.createElement('li');
+                    noEntriesMessage.classList.add('no-mood-message');
+                    noEntriesMessage.textContent = 'No journal entries yet! Write your first entry above.';
+                    journalEntriesList.appendChild(noEntriesMessage);
+                    return;
+                }
+
+                journalEntries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                journalEntries.forEach((entry, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('journal-entry-item');
+                    listItem.innerHTML = `
+                        <button class="delete-entry-btn" data-index="${index}">&times;</button>
+                        <div class="entry-content">${entry.content}</div>
+                        <div class="entry-date">${new Date(entry.timestamp).toLocaleString()}</div>
+                    `;
+                    journalEntriesList.appendChild(listItem);
+                });
+            }
+
+            function saveJournalEntry(e) {
+                e.preventDefault();
+                const content = journalEntryTextarea.value.trim();
+                if (content) {
+                    const newEntry = {
+                        id: Date.now(),
+                        content: content,
+                        timestamp: new Date().toISOString()
+                    };
+                    journalEntries.push(newEntry);
+                    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+                    journalEntryTextarea.value = '';
+                    renderJournalEntries();
+                } else {
+                    alert('Please write something before saving!');
+                }
+            }
+
+            function deleteJournalEntry(e) {
+                if (e.target.classList.contains('delete-entry-btn')) {
+                    if (confirm('Are you sure you want to delete this journal entry?')) {
+                        const index = e.target.dataset.index;
+                        journalEntries.splice(index, 1);
+                        localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+                        renderJournalEntries();
+                    }
+                }
+            }
+
+            function displayRandomQuote() {
+                const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+                const quote = motivationalQuotes[randomIndex];
+                motivationalTitle.textContent = quote.title;
+                motivationalText.textContent = quote.text;
+            }
+
+            moodButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
-                    const group = this.getAttribute('data-rating') ? 'data-rating' : 'data-experience';
-                    const siblings = document.querySelectorAll(`[${group}]`);
-                    
-                    siblings.forEach(sibling => sibling.classList.remove('active'));
-                    
+                    moodButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const moodValue = parseInt(this.getAttribute('data-mood'));
+                    const timestamp = new Date().toISOString();
+
+                    moodHistory.push({ mood: moodValue, timestamp: timestamp });
+                    localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+
+                    renderMoodHistory();
+                    renderMoodChart();
+
+                    alert(`Mood logged: ${this.textContent.trim()}!`);
+                    setTimeout(() => this.classList.remove('active'), 500);
+                });
+            });
+
+            experienceButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    experienceButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
-            
-            navIcons.forEach(icon => {
-                icon.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
-            });
 
-            form.addEventListener('submit', function(e) {
+            feedbackForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
- 
-                const feeling = document.querySelector('.rating-btn[data-rating].active')?.getAttribute('data-rating');
-                const experience = document.querySelector('.rating-btn[data-experience].active')?.getAttribute('data-experience');
+
+                const selectedExperience = document.querySelector('.feedback-section .rating-btn.active[data-experience]');
+                const experience = selectedExperience ? selectedExperience.getAttribute('data-experience') : null;
                 const helpful = document.querySelector('.form-input').value;
                 const suggestions = document.querySelector('.form-textarea').value;
 
-                if (!feeling || !experience) {
-                    alert('Please provide your mood and experience ratings.');
+                if (!experience) {
+                    alert('Please rate your overall experience.');
                     return;
                 }
+
+                console.log({
+                    experience: experience,
+                    helpful: helpful,
+                    suggestions: suggestions
+                });
                 alert('Thank you for your feedback! Your responses help us improve your experience.');
 
-                this.reset();
-                document.querySelectorAll('.rating-btn.active').forEach(btn => btn.classList.remove('active'));
+                feedbackForm.reset();
+                experienceButtons.forEach(btn => btn.classList.remove('active'));
             });
+
+            goalForm.addEventListener('submit', addGoal);
+            goalsList.addEventListener('click', updateGoal);
+
+            journalForm.addEventListener('submit', saveJournalEntry);
+            journalEntriesList.addEventListener('click', deleteJournalEntry);
+
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             };
-            
+
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -513,12 +1280,16 @@
                     }
                 });
             }, observerOptions);
-            document.querySelectorAll('.progress-section, .feedback-section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            document.querySelectorAll('.mood-log-section, .progress-section, .feedback-section, .goal-tracking-section, .resource-library-section, .journaling-section').forEach(section => {
                 observer.observe(section);
             });
+
+            renderMoodHistory();
+            renderMoodChart();
+            renderGoals();
+            renderJournalEntries();
+            displayRandomQuote();
         });
     </script>
 </body>
