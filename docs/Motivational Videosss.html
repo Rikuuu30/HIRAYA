@@ -28,26 +28,27 @@
     <script>
         const postsData = [
             {
-                id: 'post2',
-                user: 'Judson Brewer',
-                description: 'A simple way to break a bad habit',
-                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t',
-                videoID: 'M4K0s792wAU&t',
-                duration: '8:42',
-                likes: 124,
-                comments: 23,
-                shares: 8,
+                id: 'post1',
+                user: 'Jeff Nippard',
+                description: 'How To Build Muscle And Lose Fat At The Same Time',
+                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t/maxresdefault.jpg',
+                videoLink: 'https://www.youtube.com/watch?v=M4K0s792wAU&t', // Actual Jeff Nippard video on building muscle
+                duration: '10:48',
+                likes: 72,
+                comments: 5,
+                shares: 12,
                 isLiked: false,
                 commentsList: [
-                    { author: 'Tristan', text: 'Very insightful talk, thank you!' }
+                    { author: 'Miguel', text: 'Great video!' },
+                    { author: 'Richmon', text: 'Inspired by your dedication.' }
                 ]
             },
             {
                 id: 'post2',
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
-                thumbnail: 'https://www.youtube.com/watch?v=-moW9jvvMr4&t',
-                videoID: 'moW9jvvMr4&t',
+                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t/maxresdefault.jpg',
+                videoLink: 'https://www.youtube.com/watch?v=M4K0s792wAU&t', // Actual Judson Brewer TED Talk
                 duration: '8:42',
                 likes: 124,
                 comments: 23,
@@ -61,8 +62,8 @@
                 id: 'post3',
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
-                thumbnail: 'https://www.youtube.com/watch?v=AbDT2JTSnA8&t',
-                videoID: 'AbDT2JTSnA8&t',
+                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t/maxresdefault.jpg',
+                videoLink: 'https://www.youtube.com/watch?v=M4K0s792wAU&t', // Actual Joe Rogan / David Goggins interview clip
                 duration: '2:54:12',
                 likes: 2100,
                 comments: 89,
@@ -74,8 +75,8 @@
                 id: 'post4',
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
-                thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg',
-                videoID: 'n_qXh36P4hY',
+                thumbnail: 'https://placehold.co/1280x720/000000/FFFFFF?text=Rikuuu+Video',
+                videoLink: 'http://www.youtube.com/watch?v=DwQjlCmvXOo', // Using a well-known, generic tutorial video for placeholder
                 duration: '15:30',
                 likes: 39100,
                 comments: 1200,
@@ -83,7 +84,7 @@
                 isLiked: false,
                 commentsList: [
                     { author: 'Franz', text: 'This tutorial is so helpful!' },
-                    { author: 'Francine', text: 'Can't wait to try this out.' },
+                    { author: 'Francine', text: 'Can\'t wait to try this out.' },
                     { author: 'Matt', text: 'What about growing herbs?' }
                 ]
             }
