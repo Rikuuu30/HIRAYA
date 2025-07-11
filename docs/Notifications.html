@@ -3,23 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly Progress Check-up</title>
+    <title>Enhanced Notifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Global Reset & Box Sizing */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
+        /* CSS Variables for easy theming and consistency */
+        :root {
+            --bg-color-dark: #000000;
+            --card-bg-light: rgba(255, 255, 255, 0.03);
+            --border-color-green: rgba(0, 255, 127, 0.2);
+            --accent-green-light: #00ff7f; /* Spring Green */
+            --accent-green-dark: #adff2f; /* Green Yellow */
+            --accent-blue: #00bfff;     /* Deep Sky Blue */
+            --warning-red: #ff3333; /* For alert */
+            --new-badge-color: #ffcc00; /* Amber for 'New' */
+            --unread-dot-color: #ff007f; /* Vibrant pink for unread */
+
+            --text-color-light: #ffffff;
+            --text-color-secondary: rgba(255, 255, 255, 0.9);
+            --text-color-faded: rgba(255, 255, 255, 0.6);
+
+            --border-radius-sm: 8px;
+            --border-radius-md: 15px;
+            --border-radius-lg: 20px;
+
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 30px;
+            --spacing-xxl: 40px;
+
+            --font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        body {
+            font-family: var(--font-family-primary);
+            background: var(--bg-color-dark);
+            color: var(--text-color-light);
+            min-height: 100vh;
+            padding: var(--spacing-md); /* Overall page padding */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Static Background Gradients (Removed Parallax) */
         body::before {
             content: '';
             position: fixed;
@@ -27,522 +68,748 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+            background-size: 200% 200%;
             pointer-events: none;
             z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
+            width: 100%;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
+        /* Header (Hiraya Title and Back Icon) */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: var(--spacing-xxl);
             position: relative;
+            width: 100%;
+            padding: var(--spacing-md) 0; /* Adjusted padding */
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 127, 0.1);
+            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+            display: flex; /* Use flexbox for alignment */
+            align-items: center;
+            justify-content: center;
+            min-height: 70px; /* Ensure sufficient height for the header bar */
         }
 
-        .nav-icons {
+        /* Back Arrow Icon */
+        .back-icon {
             position: absolute;
-            left: 0;
-            top: 0;
-            display: flex;
-            gap: 15px;
-        }
-
-        .nav-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 255, 127, 0.1);
-            border: 2px solid rgba(0, 255, 127, 0.3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            left: var(--spacing-xl);
+            font-size: 24px;
+            color: var(--text-color-light);
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-size: 18px;
+            transition: transform 0.2s ease, color 0.2s ease;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInSlideRight 0.8s ease-out forwards 0.5s;
         }
 
-        .nav-icon:hover {
-            background: rgba(0, 255, 127, 0.2);
-            border-color: #00ff7f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
+        .back-icon:hover {
+            transform: translateX(-23px) scale(1.05);
+            color: var(--accent-green-light);
         }
 
-        .title-container {
+        .back-icon:active {
+            transform: translateX(-20px) scale(0.95);
+        }
+
+        .header-title {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 10px;
+            flex-grow: 1; /* Allows title to take available space and center */
         }
 
-        .title {
+        .main-title {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
+            background: linear-gradient(45deg, var(--accent-green-light), var(--accent-green-dark), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5), 0 0 50px rgba(0, 191, 255, 0.3);
+            margin: 0;
+            cursor: pointer; /* Make it clickable */
+            transition: transform 0.2s ease, text-shadow 0.2s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 0.8s ease-out forwards 0.2s;
         }
 
-        .progress-section {
-            margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(0, 255, 127, 0.2);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        .main-title:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 40px rgba(0, 255, 127, 0.6), 0 0 70px rgba(0, 191, 255, 0.4);
         }
 
-        .progress-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.1);
-            border-color: rgba(0, 255, 127, 0.4);
+        .main-title.pulse {
+            animation: titlePulse 0.5s ease-in-out;
         }
 
-        .section-header {
+        @keyframes titlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Tabs for Categories --- */
+        .notification-tabs {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(0, 255, 127, 0.2);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .progress-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .progress-chart {
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-sm);
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(0, 255, 127, 0.2);
+            border-radius: var(--border-radius-md);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-green);
+        }
+
+        .tab-button {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            background: transparent;
+            color: var(--text-color-secondary);
+            font-size: 1em;
+            font-weight: 500;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .progress-chart::before {
+        .tab-button:hover {
+            color: var(--text-color-light);
+            background: rgba(0, 255, 127, 0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
+            color: var(--bg-color-dark);
+            box-shadow: 0 4px 15px rgba(0, 255, 127, 0.3);
+            font-weight: 700;
+            transform: translateY(-2px);
+        }
+
+        /* Notification Card Styles */
+        .notification-card {
+            background: var(--card-bg-light);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color-green);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: var(--spacing-md);
+            position: relative; /* For new badge and read indicator */
+            overflow: hidden; /* For shine effect */
+            will-change: transform, box-shadow; /* Optimize for animation */
+            display: none; /* Hidden by default for filtering */
+        }
+
+        .notification-card.active {
+            display: block; /* Show active cards */
+        }
+
+        /* Card Hover Effects (subtle 3D tilt + glow) */
+        .notification-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px); /* Subtle 3D tilt and lift */
+            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.2), 0 0 60px rgba(0, 191, 255, 0.1);
+            border-color: rgba(0, 255, 127, 0.6);
+        }
+
+        /* Card Shine Effect on Hover */
+        .notification-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.5s ease;
+            pointer-events: none;
         }
 
-        .progress-chart:hover::before {
+        .notification-card:hover::before {
             left: 100%;
         }
 
-        .chart-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+        /* Card Read State */
+        .notification-card.read {
+            border-color: rgba(100, 100, 100, 0.2); /* Fainter border */
+            background: rgba(255, 255, 255, 0.015); /* Slightly darker background to show read */
+            opacity: 0.8; /* Slightly less prominent */
+            transition: all 0.5s ease;
         }
 
-        .chart-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 0 15px rgba(0, 255, 127, 0.3);
+        .notification-card.read .read-indicator {
+            opacity: 1; /* Show indicator */
+            transform: scale(1);
         }
 
-        .chart-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #00ff7f;
+        .read-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: var(--accent-green-light);
+            font-size: 1.2em;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none; /* Do not interfere with card clicks */
         }
 
-        .chart-placeholder {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(173, 255, 47, 0.05));
-            border-radius: 12px;
-            border: 2px dashed rgba(0, 255, 127, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 10px;
-            color: rgba(255, 255, 255, 0.6);
-        }
 
-        .motivational-card {
-            background: linear-gradient(135deg, rgba(0, 255, 127, 0.15), rgba(173, 255, 47, 0.1));
-            border-radius: 15px;
-            padding: 25px;
-            border-left: 4px solid #00ff7f;
-            text-align: center;
-        }
-
-        .motivational-title {
+        /* Card Heading */
+        .card-heading {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: #00ff7f;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
-        }
-
-        .motivational-text {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        .feedback-section {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(173, 255, 47, 0.2);
-            margin-bottom: 40px;
-        }
-
-        .feedback-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .feedback-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #adff2f, #00ff7f);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 0 15px rgba(173, 255, 47, 0.3);
-        }
-
-        .feedback-title {
-            font-size: 1.8rem;
             font-weight: 600;
-            color: #adff2f;
-            text-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
-        }
-
-        .feedback-form {
-            display: grid;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #adff2f;
+            margin-bottom: var(--spacing-md);
+            color: var(--accent-green-light);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .form-input, .form-textarea {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(173, 255, 47, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            color: #ffffff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #adff2f;
-            box-shadow: 0 0 20px rgba(173, 255, 47, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .rating-group {
+            border-bottom: 1px solid rgba(0, 255, 127, 0.2);
+            padding-bottom: var(--spacing-sm);
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.1);
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--spacing-sm); /* Gap between icon and text */
         }
 
-        .rating-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(173, 255, 47, 0.3);
-            border-radius: 8px;
-            padding: 10px 20px;
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .card-heading i {
+            color: var(--accent-green-light); /* Default icon color */
+            font-size: 1.2em;
+        }
+
+        /* Card Content */
+        .card-content p {
+            margin: var(--spacing-sm) 0;
+            line-height: 1.6;
+            color: var(--text-color-secondary);
+        }
+
+        .card-content strong {
+            color: var(--text-color-light);
             font-weight: 600;
         }
 
-        .rating-btn:hover, .rating-btn.active {
-            background: linear-gradient(45deg, #adff2f, #00ff7f);
-            border-color: #adff2f;
-            color: #000;
+        /* Actionable text elements with enhanced interaction */
+        .actionable-text {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            color: var(--accent-blue);
+            transition: all 0.3s ease-in-out;
+            text-shadow: 0 0 5px rgba(0, 191, 255, 0.2);
+        }
+
+        .actionable-text:hover {
+            color: var(--accent-green-light);
+            text-decoration: none;
+            transform: translateY(-1px);
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
+        }
+
+        .actionable-text::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
+            transition: width 0.3s ease-in-out;
+        }
+
+        .actionable-text:hover::after {
+            width: 100%;
+        }
+
+        /* Timestamp */
+        .timestamp {
+            font-size: 0.85em;
+            color: var(--text-color-faded);
+            text-align: right;
+            margin-top: var(--spacing-sm);
+            display: block;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification-card:hover .timestamp {
+            opacity: 1;
+        }
+
+        /* Action Buttons */
+        .card-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        .action-button {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border: 1px solid var(--accent-blue);
+            background: rgba(0, 191, 255, 0.1);
+            color: var(--accent-blue);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .action-button:hover {
+            background: var(--accent-blue);
+            color: var(--bg-color-dark);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(173, 255, 47, 0.3);
         }
 
-        .submit-btn {
-            background: linear-gradient(45deg, #adff2f, #00ff7f);
-            border: none;
-            border-radius: 12px;
-            padding: 18px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #000;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .action-button.primary {
+            border-color: var(--accent-green-light);
+            background: rgba(0, 255, 127, 0.15);
+            color: var(--accent-green-light);
+        }
+
+        .action-button.primary:hover {
+            background: var(--accent-green-light);
+            color: var(--bg-color-dark);
+            box-shadow: 0 4px 15px rgba(0, 255, 127, 0.3);
+        }
+
+        /* Motivational Quotes specific styling */
+        .quote {
+            font-style: italic;
+            margin-bottom: var(--spacing-sm);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .author {
+            font-weight: 500;
+            color: var(--accent-green-dark);
+            display: block;
+            margin-top: 5px;
+            text-shadow: 0 0 8px rgba(173, 255, 47, 0.2);
+        }
+
+        /* Well Being Alert specific styling and animation */
+        .well-being-alert {
+            border: 1px solid var(--warning-red);
+            background: rgba(255, 51, 51, 0.05);
+            animation: pulseWarning 2s infinite ease-in-out;
+            box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
+        }
+
+        .well-being-alert .card-heading i {
+            color: var(--warning-red);
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+                box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
+            }
+            50% {
+                transform: scale(1.008) translateY(-3px);
+                box-shadow: 0 8px 30px rgba(255, 51, 51, 0.4);
+                border-color: rgba(255, 51, 51, 0.9);
+            }
+        }
+
+        /* "New" Badge Effect */
+        .notification-card.new::after {
+            content: 'NEW!';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--new-badge-color);
+            color: var(--bg-color-dark);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.7em;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(173, 255, 47, 0.3);
-            justify-self: center;
-            width: fit-content;
+            animation: bounceIn 0.5s ease-out; /* Removed continuous flash */
+            transform-origin: top right;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2; /* Above other content */
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(173, 255, 47, 0.4);
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
+        .notification-card.new .unread-dot {
+            opacity: 1;
+            transform: scale(1);
+            animation: unreadDotPulse 1.5s infinite ease-in-out;
         }
 
+        .unread-dot {
+            position: absolute;
+            top: 5px; /* Adjust based on badge position */
+            right: 0px; /* Adjust based on badge position */
+            width: 8px;
+            height: 8px;
+            background-color: var(--unread-dot-color);
+            border-radius: 50%;
+            border: 2px solid var(--bg-color-dark); /* Border to stand out */
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 3; /* Above badge */
+        }
+
+        @keyframes unreadDotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Animations for elements on load */
+        @keyframes fadeInSlideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* No notifications message */
+        .no-notifications {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            color: var(--text-color-secondary);
+            font-size: 1.2em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .nav-icons {
-                position: relative;
-                justify-content: center;
-                margin-bottom: 20px;
+            body {
+                padding: var(--spacing-md);
             }
-
-            .title {
+            .header {
+                margin-bottom: var(--spacing-lg);
+                padding: var(--spacing-sm) 0; /* Adjust header padding on small screens */
+            }
+            .back-icon {
+                left: var(--spacing-md); /* Adjust position for smaller screens */
+                animation: none;
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .main-title {
                 font-size: 2rem;
+                animation: none;
+                opacity: 1;
+                transform: translateY(0);
             }
-
-            .progress-grid {
-                grid-template-columns: 1fr;
+            .notification-card {
+                padding: var(--spacing-lg);
             }
-
-            .progress-section, .feedback-section {
-                padding: 20px;
+            .card-heading {
+                font-size: 1.3rem;
             }
+            .notification-tabs {
+                flex-wrap: wrap;
+            }
+            .tab-button {
+                flex: 1 1 auto; /* Allow buttons to wrap and fill space */
+                min-width: 100px; /* Ensure a minimum width for small screens */
+            }
+        }
 
-            .rating-group {
-                justify-content: center;
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+            .main-title {
+                font-size: 1.8rem;
+            }
+            .notification-card {
+                padding: var(--spacing-md);
+            }
+            .card-heading {
+                font-size: 1.1rem;
+            }
+            .card-content p {
+                font-size: 0.9em;
+            }
+            .nav-icon { /* Renamed to back-icon but keeping for safety if used elsewhere */
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            .action-button {
+                font-size: 0.8em;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+            .card-actions {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: stretch;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="nav-icons">
-                <div class="nav-icon">◀</div>
-                <div class="nav-icon">🏠</div>
+        <header class="header">
+            <span class="back-icon" aria-label="Go back">&#x2190;</span> <div class="header-title">
+                <h1 class="main-title">Hiraya</h1>
             </div>
-            
-            <div class="title-container">
-                <h1 class="title">Weekly Progress Check-up</h1>
-            </div>
+        </header>
+
+        <div class="notification-tabs">
+            <button class="tab-button active" data-category="all">All</button>
+            <button class="tab-button" data-category="tasks">Tasks</button>
+            <button class="tab-button" data-category="social">Social</button>
+            <button class="tab-button" data-category="quotes">Quotes</button>
+            <button class="tab-button" data-category="alerts">Alerts</button>
         </div>
 
-        <div class="progress-section">
-            <div class="section-header">
-                <h2 class="section-title">Your Progress Overview</h2>
+        <main class="notifications-list">
+            <div class="no-notifications" id="noNotificationsMessage">
+                <p>Looks like all your notifications are cleared for this category!</p>
+                <p>Enjoy your peaceful inbox. &#x1F60A;</p>
             </div>
-            
-            <div class="progress-grid">
-                <div class="progress-chart">
-                    <div class="chart-header">
-                        <div class="chart-icon">▲</div>
-                        <div class="chart-title">Weekly Mood Trend</div>
-                    </div>
-                    <div class="chart-placeholder">
-                    </div>
-                </div>
 
-                <div class="motivational-card">
-                    <div class="motivational-title">You are doing GREAT! ★</div>
-                    <div class="motivational-text">
-                        Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference.
-                    </div>
+            <section class="notification-card" data-category="tasks" id="card-daily-reminder">
+                <h2 class="card-heading"><i class="fas fa-clipboard-check"></i> DAILY REMINDER!</h2>
+                <div class="card-content">
+                    <p><strong>Task</strong> – You are not done with your physical task!</p>
+                    <p><strong>Task</strong> – You are not yet done with your social task!</p>
                 </div>
-            </div>
-        </div>
-
-        <div class="feedback-section">
-            <div class="feedback-header">
-                <div class="feedback-icon">○</div>
-                <div class="feedback-title">We would like to have your Feedback!</div>
-            </div>
-            
-            <form class="feedback-form" id="feedbackForm">
-                <div class="form-group">
-                    <label class="form-label">Your Name (Optional)</label>
-                    <input type="text" class="form-input" id="userName" placeholder="Enter your name...">
+                <div class="card-actions">
+                    <button class="action-button primary" onclick="markTaskComplete(this)">Mark Physical Done</button>
+                    <button class="action-button primary" onclick="markTaskComplete(this)">Mark Social Done</button>
                 </div>
+                <span class="timestamp">2 hours ago</span>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
 
-                <div class="form-group">
-                    <label class="form-label">Your Email (Optional)</label>
-                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email...">
+            <section class="notification-card new" data-category="social" id="card-socials">
+                <h2 class="card-heading"><i class="fas fa-users"></i> Socials</h2>
+                <div class="card-content">
+                    <p><strong>Group</strong> – Your group leader updated the group chats theme.</p>
+                    <p><strong>Friend</strong> – Your friend wants to check on how are you doing today?</p>
+                    <p>Friend – Your friend <span class="actionable-text">Franz Matthew Quevedo</span> updated his profile.</p>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label">How are you feeling this week?</label>
-                    <div class="rating-group">
-                        <button type="button" class="rating-btn" data-rating="1">◗ Not Great</button>
-                        <button type="button" class="rating-btn" data-rating="2">◑ Okay</button>
-                        <button type="button" class="rating-btn" data-rating="3">◐ Good</button>
-                        <button type="button" class="rating-btn" data-rating="4">◕ Very Good</button>
-                        <button type="button" class="rating-btn" data-rating="5">● Excellent</button>
-                    </div>
+                <div class="card-actions">
+                    <button class="action-button" onclick="interactSocial(this, 'message')">Message Back</button>
+                    <button class="action-button" onclick="interactSocial(this, 'view-profile')">View Profile</button>
                 </div>
+                <span class="timestamp">15 minutes ago</span>
+                <div class="unread-dot"></div>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
 
-                <div class="form-group">
-                    <label class="form-label">Rate your overall experience</label>
-                    <div class="rating-group">
-                        <button type="button" class="rating-btn" data-experience="1">★</button>
-                        <button type="button" class="rating-btn" data-experience="2">★★</button>
-                        <button type="button" class="rating-btn" data-experience="3">★★★</button>
-                        <button type="button" class="rating-btn" data-experience="4">★★★★</button>
-                        <button type="button" class="rating-btn" data-experience="5">★★★★★</button>
-                    </div>
+            <section class="notification-card" data-category="quotes" id="card-quotes">
+                <h2 class="card-heading"><i class="fas fa-lightbulb"></i> Motivational Quotes</h2>
+                <div class="card-content">
+                    <p class="quote">“Being deeply loved by someone gives you strength”.<br><span class="author">Lao Tzu</span></p>
+                    <p class="quote">“I pride myself on being a family man”.<br><span class="author">Alexander Volkanovski</span></p>
+                    <p class="quote">“The future depends on what we do in the present.”<br><span class="author">Mahatma Gandhi</span></p>
                 </div>
+                <span class="timestamp">Yesterday</span>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
 
-                <div class="form-group">
-                    <label class="form-label">What's been most helpful?</label>
-                    <input type="text" class="form-input" id="helpful" placeholder="Tell us what's working well for you...">
+            <section class="notification-card well-being-alert" data-category="alerts" id="card-alert">
+                <h2 class="card-heading"><i class="fas fa-exclamation-triangle"></i> Well Being Alert!</h2>
+                <div class="card-content">
+                    <p><strong>Warning</strong> – We noticed that your mood for the whole week is Sad, Are you ok?</p>
+                    <p><strong>Warning</strong> – We noticed that you haven’t checked your task for a week, Are you ok?</p>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label">Any suggestions or concerns?</label>
-                    <textarea class="form-textarea" id="suggestions" placeholder="Share your thoughts, suggestions, or any concerns you might have..."></textarea>
+                <div class="card-actions">
+                    <button class="action-button primary" onclick="acknowledgeAlert(this)">Acknowledge</button>
+                    <button class="action-button" onclick="contactSupport(this)">Contact Support</button>
                 </div>
-
-                <button type="submit" class="submit-btn">Submit Feedback</button>
-            </form>
-        </div>
+                <span class="timestamp">3 days ago</span>
+                <div class="read-indicator">&#x2713;</div>
+            </section>
+        </main>
     </div>
 
     <script>
-        const YOUR_EMAIL = 'hirayawebapp@gmail.com';
-        document.addEventListener('DOMContentLoaded', function() {
-            const ratingButtons = document.querySelectorAll('.rating-btn');
-            const navIcons = document.querySelectorAll('.nav-icon');
-            const form = document.getElementById('feedbackForm');
-            
-            ratingButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const group = this.getAttribute('data-rating') ? 'data-rating' : 'data-experience';
-                    const siblings = document.querySelectorAll(`[${group}]`);
-                    siblings.forEach(sibling => sibling.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.notification-card');
+            const navIcons = document.querySelectorAll('.nav-icon'); // Kept this for now, though we now have .back-icon
+            const mainTitle = document.querySelector('.main-title');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const noNotificationsMessage = document.getElementById('noNotificationsMessage');
+            const backIcon = document.querySelector('.back-icon'); // New: Select the back icon
 
-            navIcons.forEach(icon => {
-                icon.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
-            });
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const formData = {
-                    userName: document.getElementById('userName').value || 'Anonymous',
-                    userEmail: document.getElementById('userEmail').value || 'Not provided',
-                    feeling: document.querySelector('.rating-btn[data-rating].active')?.getAttribute('data-rating'),
-                    experience: document.querySelector('.rating-btn[data-experience].active')?.getAttribute('data-experience'),
-                    helpful: document.getElementById('helpful').value,
-                    suggestions: document.getElementById('suggestions').value,
-                    timestamp: new Date().toLocaleString()
-                };
-                if (!formData.feeling || !formData.experience) {
-                    alert('Please provide your mood and experience ratings.');
-                    return;
-                }
-                alert(`Thank you for your feedback! Your responses will be sent to ${YOUR_EMAIL}.`);
-                form.reset();
-                document.querySelectorAll('.rating-btn.active').forEach(btn => btn.classList.remove('active'));
-                console.log('Feedback will be sent to:', YOUR_EMAIL);
-                console.log('Feedback Data:', formData);
-            });
-
-            function getFeelingText(rating) {
-                const feelings = {
-                    '1': 'Not Great',
-                    '2': 'Okay', 
-                    '3': 'Good',
-                    '4': 'Very Good',
-                    '5': 'Excellent'
-                };
-                return feelings[rating] || 'Unknown';
-            }
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+            // --- Card Read/Unread Toggle ---
+            cards.forEach(card => {
+                card.addEventListener('click', function(event) {
+                    // Prevent marking as read if an action button was clicked
+                    if (event.target.closest('.action-button')) {
+                        return;
+                    }
+                    this.classList.toggle('read');
+                    if (this.classList.contains('read')) {
+                        this.classList.remove('new');
+                        const unreadDot = this.querySelector('.unread-dot');
+                        if (unreadDot) {
+                            unreadDot.style.opacity = '0';
+                            unreadDot.style.transform = 'scale(0)';
+                        }
                     }
                 });
-            }, observerOptions);
-
-            document.querySelectorAll('.progress-section, .feedback-section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
             });
+
+            // --- Back Icon Click (Example) ---
+            if (backIcon) {
+                backIcon.addEventListener('click', function() {
+                    alert('Going back!'); // Replace with actual navigation logic
+                    // Example: window.history.back();
+                });
+            }
+
+
+            // --- Main Title Click Pulse ---
+            mainTitle.addEventListener('click', function() {
+                this.classList.add('pulse');
+                this.addEventListener('animationend', () => {
+                    this.classList.remove('pulse');
+                }, { once: true });
+            });
+
+            // --- Tab Filtering Logic ---
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const selectedCategory = this.dataset.category;
+                    let visibleCardsCount = 0;
+
+                    cards.forEach(card => {
+                        const cardCategory = card.dataset.category;
+                        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+                            card.classList.add('active'); // Show card
+                            visibleCardsCount++;
+                        } else {
+                            card.classList.remove('active'); // Hide card
+                        }
+                    });
+
+                    // Show/hide "No notifications" message
+                    if (visibleCardsCount === 0) {
+                        noNotificationsMessage.style.display = 'block';
+                    } else {
+                        noNotificationsMessage.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initial display of all cards on load
+            tabButtons[0].click(); // Simulate click on "All" tab to show all initially
+
+            // --- Action Button Functions (Examples) ---
+            window.markTaskComplete = function(button) {
+                const card = button.closest('.notification-card');
+                if (card) {
+                    // Mark the specific task as done, e.g., change its text or hide it
+                    const taskText = button.previousElementSibling || button.parentElement.previousElementSibling.querySelector('p');
+                    if (taskText) {
+                        taskText.style.textDecoration = 'line-through';
+                        taskText.style.opacity = '0.7';
+                    }
+                    button.remove(); // Remove the button after action
+                    // Check if all tasks in this card are done to mark the card as read
+                    const remainingTasks = card.querySelectorAll('.action-button.primary').length;
+                    if (remainingTasks === 0) {
+                        card.classList.add('read');
+                        card.classList.remove('new');
+                        const unreadDot = card.querySelector('.unread-dot');
+                        if (unreadDot) {
+                            unreadDot.style.opacity = '0';
+                            unreadDot.style.transform = 'scale(0)';
+                        }
+                        alert('Task completed!');
+                    }
+                }
+            };
+
+            window.interactSocial = function(button, action) {
+                const card = button.closest('.notification-card');
+                if (card) {
+                    alert(`Performing social action: ${action} for this notification!`);
+                    card.classList.add('read'); // Mark as read after interaction
+                    card.classList.remove('new');
+                    const unreadDot = card.querySelector('.unread-dot');
+                    if (unreadDot) {
+                        unreadDot.style.opacity = '0';
+                        unreadDot.style.transform = 'scale(0)';
+                    }
+                }
+            };
+
+            window.acknowledgeAlert = function(button) {
+                const card = button.closest('.notification-card');
+                if (card) {
+                    alert('Alert acknowledged! We hope you are doing well.');
+                    card.classList.remove('well-being-alert'); // Stop pulsing
+                    card.classList.add('read'); // Mark as read
+                    card.classList.remove('new');
+                    const unreadDot = card.querySelector('.unread-dot');
+                    if (unreadDot) {
+                        unreadDot.style.opacity = '0';
+                        unreadDot.style.transform = 'scale(0)';
+                    }
+                    // Optionally remove buttons or replace with "Acknowledged" text
+                    button.parentElement.innerHTML = '<p style="color: var(--accent-green-light); font-size:0.9em;">Alert acknowledged.</p>';
+                }
+            };
+
+            window.contactSupport = function(button) {
+                alert('Connecting you to support...');
+                button.closest('.notification-card').classList.add('read');
+            };
+
+            // Initial removal of 'new' badge after a delay (kept for demonstration)
+            setTimeout(() => {
+                const socialCard = document.getElementById('card-socials');
+                if (socialCard && socialCard.classList.contains('new')) {
+                    socialCard.classList.remove('new');
+                    const unreadDot = socialCard.querySelector('.unread-dot');
+                    if (unreadDot) {
+                        unreadDot.style.opacity = '0';
+                        unreadDot.style.transform = 'scale(0)';
+                    }
+                    console.log("Removed 'new' badge from Socials card.");
+                }
+            }, 8000);
         });
     </script>
+
 </body>
 </html>
