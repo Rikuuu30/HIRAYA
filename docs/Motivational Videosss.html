@@ -26,21 +26,23 @@
         <button class="load-more-button" id="load-more-button">Load More Posts</button>
     </div>
     <script>
-        {
-                id: 'post1',
-                user: 'Judson Brewer',
-                description: 'A simple way to break a bad habit',
-                thumbnail: 'https://youtu.be/M4K0s792wAU?si=Z4DNZ7-JT_r6vJoD',
-                videoID: 'M4K0s792wAU',
-                duration: '8:42',
-                likes: 124,
-                comments: 23,
-                shares: 8,
-                isLiked: false,
-                commentsList: [
-                    { author: 'Tristan', text: 'Very insightful talk, thank you!' }
-                ]
-            },
+       const postsData = [
+    {
+        id: 'post1',
+        user: 'Jeff Nippard',
+        description: 'How To Build Muscle And Lose Fat At The Same Time',
+        thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t/maxresdefault.jpg',
+        videoLink: 'https://www.youtube.com/watch?v=M4K0s792wAU&t', // Use the full YouTube URL
+        duration: '10:48',
+        likes: 72,
+        comments: 5,
+        shares: 12,
+        isLiked: false,
+        commentsList: [
+            { author: 'Miguel', text: 'Great video!' },
+            { author: 'Richmon', text: 'Inspired by your dedication.' }
+        ]
+    },
             {
                 id: 'post2',
                 user: 'Judson Brewer',
