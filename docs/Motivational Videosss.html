@@ -26,13 +26,15 @@
         <button class="load-more-button" id="load-more-button">Load More Posts</button>
     </div>
     <script>
+        // Data for the social feed posts
         const postsData = [
             {
                 id: 'post1',
                 user: 'Jeff Nippard',
                 description: 'How To Build Muscle And Lose Fat At The Same Time',
                 thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
-                videoLink: 'http://www.youtube.com/watch?v=M4K0s792wAU',
+                // Use the YouTube video ID directly for embedding
+                videoLink: 'https://www.youtube.com/watch?v=a_62j9c3yF8',
                 duration: '10:48',
                 likes: 72,
                 comments: 5,
@@ -48,7 +50,7 @@
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
                 thumbnail: 'https://i.ytimg.com/vi/vx-k_02cK8I/maxresdefault.jpg',
-                videoLink: 'http://www.youtube.com/watch?v=djnN73GdW7c',
+                videoLink: 'https://www.youtube.com/watch?v=vx-k_02cK8I', // Actual Judson Brewer TED Talk
                 duration: '8:42',
                 likes: 124,
                 comments: 23,
@@ -63,7 +65,7 @@
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
                 thumbnail: 'https://i.ytimg.com/vi/BNE_A4pA-2s/maxresdefault.jpg',
-                videoLink: 'http://www.youtube.com/watch?v=JEkUpi1oN88',
+                videoLink: 'https://www.youtube.com/watch?v=BNE_A4pA-2s', // Actual Joe Rogan / David Goggins interview clip
                 duration: '2:54:12',
                 likes: 2100,
                 comments: 89,
@@ -75,8 +77,8 @@
                 id: 'post4',
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
-                thumbnail: 'https://placehold.co/1280x720/000000/FFFFFF?text=Rikuuu+Video',
-                videoLink: 'http://www.youtube.com/watch?v=DwQjlCmvXOo',
+                thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg', // A generic gardening tutorial thumbnail
+                videoLink: 'https://www.youtube.com/watch?v=n_qXh36P4hY', // A generic gardening tutorial
                 duration: '15:30',
                 likes: 39100,
                 comments: 1200,
@@ -157,8 +159,8 @@
         }
 
         function renderPosts(count, filterQuery = '') {
-            feedGrid.innerHTML = '';
-            loadedPostsCount = 0;
+            feedGrid.innerHTML = ''; // Clear existing posts for filtering
+            loadedPostsCount = 0; // Reset loaded count for filtering
             displayedPosts = postsData.filter(post =>
                 post.user.toLowerCase().includes(filterQuery.toLowerCase()) ||
                 post.description.toLowerCase().includes(filterQuery.toLowerCase())
@@ -192,14 +194,14 @@
                     try {
                         const url = new URL(videoLink);
                         if (url.hostname === 'www.youtube.com' || url.hostname === 'youtube.com') {
+                            // Extract video ID from standard YouTube links (watch?v= or embed/)
                             videoId = url.searchParams.get('v');
+                            if (!videoId && url.pathname.includes('/embed/')) {
+                                videoId = url.pathname.split('/')[2];
+                            }
                         } else if (url.hostname === 'youtu.be') {
+                            // Extract video ID from shortened YouTube links
                             videoId = url.pathname.substring(1);
-                        } else if (url.hostname === 'www.youtube.com' && url.pathname.includes('/embed/')) {
-                            videoId = url.pathname.split('/')[2];
-                        } else if (url.hostname === 'googleusercontent.com' && url.pathname.includes('/youtube.com/')) {
-                            const parts = url.pathname.split('/');
-                            videoId = parts[parts.length - 1];
                         }
                     } catch (e) {
                         console.error('Invalid video link format for playing (URL parsing error):', videoLink, e);
@@ -208,7 +210,8 @@
                     }
 
                     if (videoId) {
-                        const embedUrl = `https://www.youtube.com/embed/$${videoId}?autoplay=1`;
+                        // Use the correct HTTPS embed URL for YouTube
+                        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
                         this.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     } else {
                         console.error('Could not extract valid YouTube video ID for playing from:', videoLink);
@@ -290,14 +293,17 @@
             });
         }
 
+        // Initial render
         renderPosts(postsPerLoad);
 
+        // Load More Button Event Listener
         loadMoreButton.addEventListener('click', () => {
-            renderPosts(postsPerLoad, searchBar.value);
+            renderPosts(postsPerLoad, searchBar.value); // Pass current search query
         });
 
+        // Search bar functionality
         searchBar.addEventListener('input', () => {
-            renderPosts(postsData.length, searchBar.value);
+            renderPosts(postsData.length, searchBar.value); // Render all matching posts immediately
         });
 
         function createParticle() {
