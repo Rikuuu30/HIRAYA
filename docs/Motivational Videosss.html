@@ -180,8 +180,6 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 50px;
             padding-top: 40px;
-            width: 100%; /* Ensure grid takes full width of main-container */
-            max-width: 100%; /* Ensure grid takes full width of main-container */
         }
 
         /* Individual post styling */
@@ -243,7 +241,7 @@
         }
 
         /* Avatar styling */
-        .avatar {
+        .avatar-container {
             width: 85px;
             height: 85px;
             border-radius: 50%;
@@ -254,25 +252,35 @@
             box-shadow: 0 0 30px rgba(0, 255, 127, 0.4);
             transition: all 0.3s ease;
             flex-shrink: 0;
-            background-size: cover;
-            background-position: center;
-            /* Ensure the image covers the avatar circle */
-            background-repeat: no-repeat;
+            overflow: hidden; /* Important to contain the image within the border-radius */
         }
 
-        .avatar::after {
+        .avatar-container::after {
             content: '';
             position: absolute;
             inset: 6px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.88);
+            z-index: 1; /* Ensure the black circle is on top of the image */
         }
 
-        .post:hover .avatar {
+        .avatar-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%; /* Ensure the image itself is circular */
+            z-index: 0; /* Below the pseudo-element for the inner circle */
+        }
+
+        .post:hover .avatar-container {
             border-color: rgba(0, 255, 127, 0.8);
             box-shadow: 0 0 50px rgba(0, 255, 127, 0.6);
             transform: scale(1.1);
         }
+
 
         /* User info text */
         .user-info h3 {
@@ -328,7 +336,7 @@
 
         /* Play button overlay */
         .play-button {
-            position: absolute;
+            position: absolute; /* Changed from relative to absolute */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -395,21 +403,20 @@
         /* Post actions (like, comment, share buttons) */
         .post-actions {
             display: flex;
-            gap: 10px; /* Reduced gap for better fitting */
+            gap: 15px;
             color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
+            /* font-size: 16px;  -- Removed, now controlled by span within */
             font-weight: 600;
             margin-top: 25px;
-            justify-content: space-between; /* Distribute space between buttons */
-            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
 
         /* Individual action button styling */
         .action-button {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center content within button */
-            gap: 8px;
+            gap: 8px; /* Adjusted gap */
             cursor: pointer;
             transition: all 0.3s ease;
             padding: 8px 12px;
@@ -417,13 +424,12 @@
             background: rgba(255, 255, 255, 0.09);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(0, 255, 127, 0.4);
-            flex: 1; /* Allow them to grow and shrink equally */
-            min-width: 0; /* Allow shrinking below content size if necessary */
-            max-width: none; /* Remove max-width constraint */
         }
 
+        /* NEW: Styling for the text inside action buttons */
         .action-button span {
-            white-space: nowrap; /* Prevent text from wrapping */
+            font-size: 14px; /* Made text smaller */
+            font-weight: 600; /* Kept font weight */
         }
 
         .action-button:hover {
@@ -514,7 +520,6 @@
             display: none; /* Hidden by default */
             flex-direction: column;
             gap: 15px;
-            width: 100%; /* Ensure comment section takes full width of post */
         }
 
         .comment-section.active {
@@ -562,7 +567,6 @@
             font-size: 14px;
             transition: all 0.3s ease;
             white-space: nowrap; /* Prevent text wrapping */
-            flex-shrink: 0; /* Prevent button from shrinking */
         }
 
         .post-comment-button:hover {
@@ -625,7 +629,7 @@
                 width: 25px;
                 height: 25px;
             }
-            .avatar {
+            .avatar-container {
                 width: 80px;
                 height: 80px;
             }
@@ -649,14 +653,18 @@
                 padding: 45px;
             }
             .post-actions {
-                font-size: 15px;
-                gap: 12px;
+                /* font-size: 15px; -- Removed */
+                gap: 10px; /* Adjusted gap */
                 margin-top: 20px;
             }
             .action-button {
                 padding: 7px 10px;
                 gap: 6px;
                 border-radius: 20px;
+            }
+            /* NEW: Responsive styling for text inside action buttons */
+            .action-button span {
+                font-size: 13px; /* Smaller for this breakpoint */
             }
             .action-icon {
                 width: 18px;
@@ -709,7 +717,7 @@
             .post {
                 padding: 40px;
             }
-            .avatar {
+            .avatar-container {
                 width: 70px;
                 height: 70px;
                 margin-right: 25px;
@@ -731,14 +739,18 @@
                 margin-left: 6px;
             }
             .post-actions {
-                font-size: 14px;
-                gap: 10px;
+                /* font-size: 14px; -- Removed */
+                gap: 8px; /* Adjusted gap */
                 margin-top: 18px;
             }
             .action-button {
                 padding: 6px 9px;
                 gap: 5px;
                 border-radius: 18px;
+            }
+            /* NEW: Responsive styling for text inside action buttons */
+            .action-button span {
+                font-size: 12px; /* Smaller for this breakpoint */
             }
             .action-icon {
                 width: 16px;
@@ -822,13 +834,13 @@
                 padding: 20px;
             }
 
-            .avatar {
+            .avatar-container {
                 width: 45px;
                 height: 45px;
                 margin-right: 12px;
                 border-width: 2px;
             }
-            .avatar::after {
+            .avatar-container::after {
                 inset: 3px;
             }
 
@@ -861,22 +873,19 @@
             }
 
             .post-actions {
-                font-size: 12px;
-                gap: 6px;
+                /* font-size: 12px; -- Removed */
+                gap: 5px; /* Adjusted gap */
                 margin-top: 12px;
             }
-            /* For very small screens, make buttons take full width or stack cleanly */
+
             .action-button {
                 padding: 4px 7px;
                 gap: 3px;
                 border-radius: 12px;
-                flex: 1; /* Allow buttons to take equal space */
-                min-width: unset; /* Remove min-width to allow shrinking */
-                max-width: unset; /* Remove max-width */
             }
-            /* Adjust for single column if needed on smallest screens */
-            .post-actions {
-                justify-content: space-around; /* Distribute space when wrapping */
+            /* NEW: Responsive styling for text inside action buttons */
+            .action-button span {
+                font-size: 10px; /* Smallest for mobile */
             }
             .action-icon {
                 width: 12px;
@@ -938,9 +947,9 @@
                 id: 'post1',
                 user: 'David Laid',
                 description: 'Aesthetic Body • Fitness Transformation • Ep 17',
-                avatar: 'https://i.ibb.co/L51264c/david-laid.jpg', // Real avatar URL
+                avatar: 'davidlait.jpg',
                 thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
-                videoLink: 'https://www.youtube.com/embed/n-uWtKO6JDo?autoplay=1', // YouTube embed URL
+                videoLink: 'https://www.youtube.com/embed/a_62j9c3yF8', // YouTube embed URL
                 duration: '2:34',
                 likes: 72,
                 comments: 5,
@@ -955,9 +964,9 @@
                 id: 'post2',
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
-                avatar: 'https://i.ibb.co/k2c53fW/judson-brewer.jpg', // Real avatar URL
+                avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHwyfHxwcm9maWxlJTIwcGljdHVyZXxlbnwwfHx8fDE2ODQ1NzI1NzZ8MA&ixlib=rb-4.0.3&q=80&w=400', // Generic profile image 2
                 thumbnail: 'https://i.ytimg.com/vi/vx-k_02cK8I/maxresdefault.jpg',
-                videoLink: 'https://www.youtube.com/embed/-moW9jvvMr4?autoplay=1', // YouTube embed URL
+                videoLink: 'https://www.youtube.com/embed/vx-k_02cK8I', // YouTube embed URL
                 duration: '8:42',
                 likes: 124,
                 comments: 23,
@@ -971,9 +980,9 @@
                 id: 'post3',
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
-                avatar: 'davidlaid.jpg', // Real avatar URL
+                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw1fHxwcm9maWxlJTIwcGljdHVyZXxlbnwwfHx8fDE2ODQ1NzI1NzZ8MA&ixlib=rb-4.0.3&q=80&w=400', // Generic profile image 3
                 thumbnail: 'https://i.ytimg.com/vi/BNE_A4pA-2s/maxresdefault.jpg',
-                videoLink: 'https://www.youtube.com/embed/AbDT2JTSnA8?autoplay=1', // YouTube embed URL
+                videoLink: 'https://www.youtube.com/embed/BNE_A4pA-2s', // YouTube embed URL
                 duration: '2:54:12',
                 likes: 2100,
                 comments: 89,
@@ -985,9 +994,9 @@
                 id: 'post4',
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
-                avatar: 'https://i.ibb.co/c860298/generic-avatar.png', // Real avatar URL
-                thumbnail: 'https://placehold.co/1280x720/000000/FFFFFF?text=Rikuuu+Video', // Placeholder for the last one
-                videoLink: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1', // Example: Rick Astley for demonstration
+                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29329?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw0fHxwcm9maWxlJTIwcGljdHVyZXxlbnwwfHx8fDE2ODQ1NzI1NzZ8MA&ixlib=rb-4.0.3&q=80&w=400', // Generic profile image 4
+                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', // Using a generic thumbnail for the example
+                videoLink: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Example: Rick Astley for demonstration
                 duration: '15:30',
                 likes: 39100,
                 comments: 1200,
@@ -1048,250 +1057,141 @@
 
                 postElement.innerHTML = `
                     <div class="post-content">
-                        <div class="post-header" data-post-id="${post.id}">
-                            <div class="avatar" style="background-image: url('${post.avatar}');"></div>
+                        <div class="post-header">
+                            <div class="avatar-container">
+                                <img src="${post.avatar}" alt="${post.user}'s avatar">
+                            </div>
                             <div class="user-info">
                                 <h3>${post.user}</h3>
                                 <p>${post.description}</p>
                             </div>
                         </div>
-                        <div class="video-container" data-video-link="${post.videoLink}" data-post-id="${post.id}">
+                        <a href="#" class="video-container" data-videolink="${post.videoLink}">
                             <img src="${post.thumbnail}" alt="Video Thumbnail" class="video-thumbnail">
                             <div class="play-button"></div>
                             <div class="video-duration">${post.duration}</div>
+                        </a>
+                        <div class="post-actions">
+                            <div class="action-button like-button ${post.isLiked ? 'liked' : ''}">
+                                <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span>${formatNumber(post.likes)} Likes</span>
+                            </div>
+                            <div class="action-button comment-button">
+                                <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21 15.82c0 1.2-.91 2.2-2.04 2.2H6.97L2 22V4c0-1.1.9-2 2-2h15c1.1 0 2 .9 2 2v11.82z"/>
+                                </svg>
+                                <span>${formatNumber(post.comments)} Comments</span>
+                            </div>
+                            <div class="action-button share-button">
+                                <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.55 1.25.88 2.04.88 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81c-.54-.55-1.25-.88-2.04-.88-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.33 2.04-.88l7.12 4.16c-.05.21-.08.43-.08.64 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                                <span>${formatNumber(post.shares)} Shares</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-actions">
-                        <div class="action-button like-button ${post.isLiked ? 'liked' : ''}" data-post-id="${post.id}">
-                            <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            <span class="like-count">${formatNumber(post.likes)}</span>
-                        </div>
-                        <div class="action-button comment-button" data-post-id="${post.id}">
-                            <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M21 6h-2l-1.27-1.27c-.4-.4-.86-.73-1.4-.73H7.67c-.54 0-1 .33-1.4.73L5 6H3c-.55 0-1 .45-1 1s.45 1 1 1h1v11c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h1c.55 0 1-.45 1-1s-.45-1-1-1zm-5.5 15h-7c-.28 0-.5-.22-.5-.5V9h8v11.5c0 .28-.22-.5-.5.5z"/></svg>
-                            <span class="comment-count">${formatNumber(post.comments)}</span>
-                        </div>
-                        <div class="action-button share-button" data-post-id="${post.id}">
-                            <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-                            <span class="share-count">${formatNumber(post.shares)}</span>
-                        </div>
-                    </div>
-                    <div class="comment-section" id="comment-section-${post.id}">
-                        <div class="comments-list" id="comments-list-${post.id}">
-                            ${commentsHtml}
-                        </div>
-                        <div class="comment-input-area">
-                            <textarea class="comment-input" placeholder="Add a comment..." rows="1"></textarea>
-                            <button class="post-comment-button" data-post-id="${post.id}">Post</button>
+                        <div class="comment-section" id="comments-${post.id}">
+                            <div class="comments-list">
+                                ${commentsHtml}
+                            </div>
+                            <div class="comment-input-area">
+                                <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                                <button class="post-comment-button" data-post-id="${post.id}">Post</button>
+                            </div>
                         </div>
                     </div>
                 `;
                 feedGrid.appendChild(postElement);
-            });
 
-            // Attach event listeners after rendering posts
-            attachPostActionListeners();
+                // Add event listeners for interaction
+                const likeButton = postElement.querySelector('.like-button');
+                likeButton.addEventListener('click', () => toggleLike(post.id));
+
+                const commentButton = postElement.querySelector('.comment-button');
+                commentButton.addEventListener('click', () => toggleComments(post.id));
+
+                const videoContainer = postElement.querySelector('.video-container');
+                videoContainer.addEventListener('click', (event) => {
+                    // Prevent navigating if clicking the play button directly
+                    if (!event.target.closest('.play-button')) {
+                        playVideo(videoContainer, post.videoLink);
+                    }
+                });
+
+                const postCommentButton = postElement.querySelector(`.post-comment-button[data-post-id="${post.id}"]`);
+                postCommentButton.addEventListener('click', () => addComment(post.id));
+            });
+        }
+
+        // --- Interaction Functions ---
+
+        /**
+         * Toggles the like status of a post.
+         * @param {string} postId The ID of the post.
+         */
+        function toggleLike(postId) {
+            const post = postsData.find(p => p.id === postId);
+            if (post) {
+                post.isLiked = !post.isLiked;
+                post.likes += post.isLiked ? 1 : -1; // Increment/decrement likes
+                renderPosts(postsData); // Re-render all posts to update the specific post
+            }
         }
 
         /**
-         * Attaches click event listeners to post action buttons and other interactive elements.
+         * Toggles the visibility of the comment section for a post.
+         * @param {string} postId The ID of the post.
          */
-        function attachPostActionListeners() {
-            // Like button toggle
-            document.querySelectorAll('.like-button').forEach(button => {
-                button.onclick = (event) => {
-                    const postId = event.currentTarget.dataset.postId;
-                    const post = postsData.find(p => p.id === postId);
-                    if (post) {
-                        if (post.isLiked) {
-                            post.likes--;
-                            button.classList.remove('liked');
-                        } else {
-                            post.likes++;
-                            button.classList.add('liked');
-                        }
-                        post.isLiked = !post.isLiked;
-                        event.currentTarget.querySelector('.like-count').textContent = formatNumber(post.likes);
-                        console.log(`Post ${postId} liked status: ${post.isLiked}, New likes: ${post.likes}`);
-                    }
-                };
-            });
-
-            // Comment button - toggle visibility of comment section
-            document.querySelectorAll('.comment-button').forEach(button => {
-                button.onclick = (event) => {
-                    const postId = event.currentTarget.dataset.postId;
-                    const commentSection = document.getElementById(`comment-section-${postId}`);
-                    if (commentSection) {
-                        commentSection.classList.toggle('active'); // Toggle visibility
-                        console.log(`Comment section for post ${postId} toggled.`);
-                    }
-                };
-            });
-
-            // Share button
-            document.querySelectorAll('.share-button').forEach(button => {
-                button.onclick = async (event) => {
-                    const postId = event.currentTarget.dataset.postId;
-                    const post = postsData.find(p => p.id === postId);
-                    if (post && post.videoLink) {
-                        try {
-                            // Use document.execCommand for clipboard copy as navigator.clipboard might not work in iframes
-                            const tempInput = document.createElement('textarea');
-                            tempInput.value = post.videoLink;
-                            document.body.appendChild(tempInput);
-                            tempInput.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(tempInput);
-                            console.log(`Link copied to clipboard for post ${postId}: ${post.videoLink}`);
-                            alert('Video link copied to clipboard!'); // Using alert for simple feedback, consider custom modal
-                        } catch (err) {
-                            console.error('Failed to copy text: ', err);
-                            alert('Failed to copy link.'); // Using alert for simple feedback, consider custom modal
-                        }
-                    } else {
-                        console.log(`Share button clicked for post ${postId} (no link available to copy)`);
-                    }
-                };
-            });
-
-            // Video play functionality
-            document.querySelectorAll('.video-container').forEach(container => {
-                const playButton = container.querySelector('.play-button');
-                const videoThumbnail = container.querySelector('.video-thumbnail');
-                const videoDuration = container.querySelector('.video-duration');
-                const videoLink = container.dataset.videoLink;
-
-                playButton.onclick = (event) => {
-                    event.stopPropagation(); // Prevent the parent anchor tag from navigating
-                    event.preventDefault(); // Prevent default behavior if it was an anchor
-
-                    if (videoLink && videoLink !== '#') {
-                        // Create an iframe for the YouTube video
-                        const iframe = document.createElement('iframe');
-                        iframe.setAttribute('src', videoLink);
-                        iframe.setAttribute('frameborder', '0');
-                        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-                        iframe.setAttribute('allowfullscreen', '');
-                        iframe.classList.add('embedded-video'); // Add a class for potential styling
-
-                        // Hide thumbnail, play button, and duration
-                        videoThumbnail.style.display = 'none';
-                        playButton.style.display = 'none';
-                        videoDuration.style.display = 'none';
-
-                        // Append the iframe
-                        container.appendChild(iframe);
-                    } else {
-                        console.log('No valid video link for this post.');
-                        alert('This video is not available for playback.'); // Simple feedback
-                    }
-                };
-            });
-
-            // Avatar/User Info click to simulate profile navigation
-            document.querySelectorAll('.post-header').forEach(header => {
-                header.onclick = (event) => {
-                    const postId = event.currentTarget.dataset.postId;
-                    const post = postsData.find(p => p.id === postId);
-                    if (post) {
-                        console.log(`Navigating to ${post.user}'s profile (Post ID: ${postId})`);
-                        alert(`Simulating navigation to ${post.user}'s profile.`); // Simple feedback
-                    }
-                };
-            });
-
-            // Post Comment button functionality
-            document.querySelectorAll('.post-comment-button').forEach(button => {
-                button.onclick = (event) => {
-                    const postId = event.currentTarget.dataset.postId;
-                    const post = postsData.find(p => p.id === postId);
-                    const commentInput = event.currentTarget.previousElementSibling; // The textarea
-                    const commentText = commentInput.value.trim();
-
-                    if (commentText && post) {
-                        const newComment = {
-                            author: 'Current User', // Placeholder for current user
-                            text: commentText
-                        };
-                        post.commentsList.push(newComment);
-                        post.comments++; // Increment comment count
-
-                        // Update the displayed comments and count
-                        const commentsListElement = document.getElementById(`comments-list-${postId}`);
-                        if (commentsListElement) {
-                            commentsListElement.innerHTML += renderCommentItem(newComment);
-                        }
-                        document.querySelector(`.comment-button[data-post-id="${postId}"] .comment-count`).textContent = formatNumber(post.comments);
-
-                        commentInput.value = ''; // Clear input
-                        console.log(`Comment posted on post ${postId}: "${commentText}"`);
-                        alert('Comment posted!'); // Simple feedback
-                    } else {
-                        alert('Please enter a comment.');
-                    }
-                };
-            });
+        function toggleComments(postId) {
+            const commentSection = document.getElementById(`comments-${postId}`);
+            if (commentSection) {
+                commentSection.classList.toggle('active');
+            }
         }
 
-        // Initial render of all posts when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPosts(postsData);
+        /**
+         * Plays a video by replacing the thumbnail and play button with an iframe.
+         * @param {HTMLElement} videoContainer The video container element.
+         * @param {string} videoLink The embed URL for the video.
+         */
+        function playVideo(videoContainer, videoLink) {
+            videoContainer.innerHTML = `<iframe src="${videoLink}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        }
 
-            // Search functionality
-            const searchBar = document.querySelector('.search-bar');
-            searchBar.addEventListener('input', (event) => {
-                const query = event.target.value.toLowerCase();
-                const filteredPosts = postsData.filter(post =>
-                    post.user.toLowerCase().includes(query) ||
-                    post.description.toLowerCase().includes(query) ||
-                    post.commentsList.some(comment => comment.text.toLowerCase().includes(query)) // Search comments too
-                );
-                renderPosts(filteredPosts); // Re-render with filtered posts
-            });
+        /**
+         * Adds a new comment to a post.
+         * @param {string} postId The ID of the post to add a comment to.
+         */
+        function addComment(postId) {
+            const post = postsData.find(p => p.id === postId);
+            if (post) {
+                const commentInput = document.querySelector(`#comments-${postId} .comment-input`);
+                const commentText = commentInput.value.trim();
 
-            // Header icon interactivity (simple console logs for demonstration)
-            document.getElementById('checkmark-icon').addEventListener('click', (event) => {
-                event.preventDefault(); // Prevent default anchor behavior
-                console.log('Checkmark icon clicked!');
-                alert('Checkmark icon clicked! (Functionality not yet implemented)');
-            });
+                if (commentText) {
+                    const newComment = { author: 'You', text: commentText }; // Assuming 'You' as the author for new comments
+                    post.commentsList.push(newComment);
+                    post.comments++; // Increment comment count
+                    renderPosts(postsData); // Re-render all posts to show new comment
+                    commentInput.value = ''; // Clear the input field
+                }
+            }
+        }
 
-            document.getElementById('menu-icon').addEventListener('click', (event) => {
-                event.preventDefault(); // Prevent default anchor behavior
-                console.log('Menu icon clicked!');
-                alert('Menu icon clicked! (Functionality not yet implemented)');
-            });
-
-            // Load More Posts button functionality
-            document.getElementById('load-more-button').addEventListener('click', () => {
-                console.log('Load More Posts button clicked!');
-                alert('No more posts to load at the moment. This is a placeholder.');
-                // In a real application, you would fetch more data from a server here
-                // and append it to the existing posts.
-            });
+        // Event listener for the "Load More Posts" button
+        document.getElementById('load-more-button').addEventListener('click', () => {
+            // In a real application, you would fetch more data here.
+            // For this example, we'll just re-render the existing posts.
+            // You could, for instance, have a `currentPage` and `postsPerPage`
+            // variables and load more data based on that.
+            console.log('Load More Posts clicked!');
         });
 
-        // Particle animation setup
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            particle.style.left = `${x}vw`;
-            particle.style.top = `${y}vh`;
-            particle.style.animationDelay = `${Math.random() * 22}s`;
-            particle.style.animationDuration = `${Math.random() * 8 + 14}s`;
-
-            document.body.appendChild(particle);
-
-            // Remove particle after its animation ends to prevent DOM bloat
-            setTimeout(() => {
-                particle.remove();
-            }, 22000); // Matches the animation-duration + a buffer
-        }
-
-        // Create a new particle every 150ms
-        setInterval(createParticle, 150);
+        // Initial rendering of posts when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPosts(postsData);
+        });
     </script>
 </body>
 </html>
