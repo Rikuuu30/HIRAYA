@@ -33,7 +33,7 @@
                 user: 'Jeff Nippard',
                 description: 'How To Build Muscle And Lose Fat At The Same Time',
                 thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
-                videoID: 'a_62j9c3yF8', // Direct YouTube Video ID
+                videoID: 'YOUR_ACTUAL_JEFF_NIPPARD_VIDEO_ID_HERE', // <--- REPLACE THIS
                 duration: '10:48',
                 likes: 72,
                 comments: 5,
@@ -49,7 +49,7 @@
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
                 thumbnail: 'https://i.ytimg.com/vi/vx-k_02cK8I/maxresdefault.jpg',
-                videoID: 'vx-k_02cK8I', // Direct YouTube Video ID
+                videoID: 'YOUR_ACTUAL_JUDSON_BREWER_VIDEO_ID_HERE', // <--- REPLACE THIS
                 duration: '8:42',
                 likes: 124,
                 comments: 23,
@@ -64,7 +64,7 @@
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
                 thumbnail: 'https://i.ytimg.com/vi/BNE_A4pA-2s/maxresdefault.jpg',
-                videoID: 'BNE_A4pA-2s', // Direct YouTube Video ID
+                videoID: 'YOUR_ACTUAL_JOE_ROGAN_GOGGINS_VIDEO_ID_HERE', // <--- REPLACE THIS
                 duration: '2:54:12',
                 likes: 2100,
                 comments: 89,
@@ -76,8 +76,8 @@
                 id: 'post4',
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
-                thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg', // A generic gardening tutorial thumbnail
-                videoID: 'n_qXh36P4hY', // Direct YouTube Video ID (example for a generic tutorial)
+                thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg',
+                videoID: 'YOUR_ACTUAL_GARDEN_TUTORIAL_VIDEO_ID_HERE', // <--- REPLACE THIS
                 duration: '15:30',
                 likes: 39100,
                 comments: 1200,
@@ -187,11 +187,10 @@
             document.querySelectorAll('.video-container:not([data-listener-added])').forEach(videoContainer => {
                 videoContainer.addEventListener('click', function(event) {
                     event.preventDefault();
-                    // Get the video ID directly from the dataset attribute
                     const videoId = this.dataset.videoid;
 
                     if (videoId) {
-                        // Use the correct HTTPS YouTube embed URL with template literal
+                        // Correct HTTPS YouTube embed URL with template literal
                         const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
                         this.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     } else {
@@ -262,8 +261,9 @@
 
             document.querySelectorAll('.share-button:not([data-listener-added])').forEach(button => {
                 button.addEventListener('click', function() {
-                    const videoIdToShare = this.dataset.videoid; // Get the video ID to share
-                    const shareLink = `https://www.youtube.com/watch?v=${videoIdToShare}`; // Construct a standard shareable YouTube URL
+                    const videoIdToShare = this.dataset.videoid;
+                    // Construct a standard shareable YouTube URL
+                    const shareLink = `https://www.youtube.com/watch?v=${videoIdToShare}`;
                     navigator.clipboard.writeText(shareLink).then(() => {
                         alert('Video link copied to clipboard!');
                     }).catch(err => {
@@ -280,12 +280,12 @@
 
         // Load More Button Event Listener
         loadMoreButton.addEventListener('click', () => {
-            renderPosts(postsPerLoad, searchBar.value); // Pass current search query
+            renderPosts(postsPerLoad, searchBar.value);
         });
 
         // Search bar functionality
         searchBar.addEventListener('input', () => {
-            renderPosts(postsData.length, searchBar.value); // Render all matching posts immediately
+            renderPosts(postsData.length, searchBar.value);
         });
 
         function createParticle() {
