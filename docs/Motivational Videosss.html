@@ -28,43 +28,26 @@
     <script>
         const postsData = [
             {
-                id: 'post1',
-                user: 'Jeff Nippard',
-                description: 'How To Build Muscle And Lose Fat At The Same Time',
-                thumbnail: 'https://i.ytimg.com/vi/a_62j9c3yF8/maxresdefault.jpg',
-                videoID: 'a_62j9c3yF8',
-                duration: '10:48',
-                likes: 72,
-                comments: 5,
-                shares: 12,
+                id: 'post2',
+                user: 'Judson Brewer',
+                description: 'A simple way to break a bad habit',
+                thumbnail: 'https://www.youtube.com/watch?v=M4K0s792wAU&t',
+                videoID: 'M4K0s792wAU&t',
+                duration: '8:42',
+                likes: 124,
+                comments: 23,
+                shares: 8,
                 isLiked: false,
                 commentsList: [
-                    { author: 'Miguel', text: 'Great video!' },
-                    { author: 'Richmon', text: 'Inspired by your dedication.' }
+                    { author: 'Tristan', text: 'Very insightful talk, thank you!' }
                 ]
             },
-        ];
-        document.querySelectorAll('.video-container:not([data-listener-added])').forEach(videoContainer => {
-            videoContainer.addEventListener('click', function(event) {
-                event.preventDefault();
-                const videoId = this.dataset.videoid;
-
-                if (videoId) {
-                    const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
-                    this.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                } else {
-                    console.error('Video ID is missing for playback.');
-                    alert('Error: Could not play this video. The video ID is missing.');
-                }
-            });
-            videoContainer.setAttribute('data-listener-added', 'true');
-        });
             {
                 id: 'post2',
                 user: 'Judson Brewer',
                 description: 'A simple way to break a bad habit',
-                thumbnail: 'https://www.youtube.com/watch?v=-moW9jvvMr4&t=10s',
-                videoID: 'moW9jvvMr4&t=10s',
+                thumbnail: 'https://www.youtube.com/watch?v=-moW9jvvMr4&t',
+                videoID: 'moW9jvvMr4&t',
                 duration: '8:42',
                 likes: 124,
                 comments: 23,
@@ -78,9 +61,8 @@
                 id: 'post3',
                 user: 'Joe Rogan',
                 description: 'The Rogan Experience #1859 - David Goggins',
-                thumbnail: 'https://www.youtube.com/watch?v=AbDT2JTSnA8&t=2s',
-                // Correct YouTube Video ID for Joe Rogan / David Goggins clip
-                videoID: 'AbDT2JTSnA8&t=2s',
+                thumbnail: 'https://www.youtube.com/watch?v=AbDT2JTSnA8&t',
+                videoID: 'AbDT2JTSnA8&t',
                 duration: '2:54:12',
                 likes: 2100,
                 comments: 89,
@@ -93,7 +75,6 @@
                 user: 'Rikuuu',
                 description: 'Grow a garden tutorial #999 - FT. TristiBlox',
                 thumbnail: 'https://i.ytimg.com/vi/n_qXh36P4hY/maxresdefault.jpg',
-                // Correct YouTube Video ID for generic gardening tutorial
                 videoID: 'n_qXh36P4hY',
                 duration: '15:30',
                 likes: 39100,
@@ -102,7 +83,7 @@
                 isLiked: false,
                 commentsList: [
                     { author: 'Franz', text: 'This tutorial is so helpful!' },
-                    { author: 'Francine', text: 'Can\'t wait to try this out.' },
+                    { author: 'Francine', text: 'Can't wait to try this out.' },
                     { author: 'Matt', text: 'What about growing herbs?' }
                 ]
             }
