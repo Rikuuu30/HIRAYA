@@ -10,24 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Global Reset & Box Sizing */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* CSS Variables for easy theming and consistency */
         :root {
             --bg-color-dark: #000000;
             --card-bg-light: rgba(255, 255, 255, 0.03);
             --border-color-green: rgba(0, 255, 127, 0.2);
-            --accent-green-light: #00ff7f; /* Spring Green */
-            --accent-green-dark: #adff2f; /* Green Yellow */
-            --accent-blue: #00bfff;     /* Deep Sky Blue */
-            --warning-red: #ff3333; /* For alert */
-            --new-badge-color: #ffcc00; /* Amber for 'New' */
-            --unread-dot-color: #ff007f; /* Vibrant pink for unread */
+            --accent-green-light: #00ff7f;
+            --accent-green-dark: #adff2f;
+            --accent-blue: #00bfff;
+            --warning-red: #ff3333;
+            --new-badge-color: #ffcc00;
+            --unread-dot-color: #ff007f;
 
             --text-color-light: #ffffff;
             --text-color-secondary: rgba(255, 255, 255, 0.9);
@@ -52,15 +50,14 @@
             background: var(--bg-color-dark);
             color: var(--text-color-light);
             min-height: 100vh;
-            padding: var(--spacing-md); /* Overall page padding */
+            padding: var(--spacing-md);
             position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
-            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+            align-items: center;
+            overflow-x: hidden;
         }
 
-        /* Static Background Gradients (Removed Parallax) */
         body::before {
             content: '';
             position: fixed;
@@ -85,24 +82,22 @@
             z-index: 1;
         }
 
-        /* Header (Hiraya Title and Back Icon) */
         .header {
             text-align: center;
             margin-bottom: var(--spacing-xxl);
             position: relative;
             width: 100%;
-            padding: var(--spacing-md) 0; /* Adjusted padding */
+            padding: var(--spacing-md) 0;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(0, 255, 127, 0.1);
             border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-            display: flex; /* Use flexbox for alignment */
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 70px; /* Ensure sufficient height for the header bar */
+            min-height: 70px;
         }
 
-        /* Back Arrow Icon */
         .back-icon {
             position: absolute;
             left: var(--spacing-xl);
@@ -129,7 +124,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            flex-grow: 1; /* Allows title to take available space and center */
+            flex-grow: 1;
         }
 
         .main-title {
@@ -141,7 +136,7 @@
             background-clip: text;
             text-shadow: 0 0 30px rgba(0, 255, 127, 0.5), 0 0 50px rgba(0, 191, 255, 0.3);
             margin: 0;
-            cursor: pointer; /* Make it clickable */
+            cursor: pointer;
             transition: transform 0.2s ease, text-shadow 0.2s ease;
             opacity: 0;
             transform: translateY(-20px);
@@ -163,7 +158,6 @@
             100% { transform: scale(1); }
         }
 
-        /* --- Tabs for Categories --- */
         .notification-tabs {
             display: flex;
             justify-content: center;
@@ -203,7 +197,6 @@
             transform: translateY(-2px);
         }
 
-        /* Notification Card Styles */
         .notification-card {
             background: var(--card-bg-light);
             backdrop-filter: blur(20px);
@@ -213,24 +206,22 @@
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             margin-bottom: var(--spacing-md);
-            position: relative; /* For new badge and read indicator */
-            overflow: hidden; /* For shine effect */
-            will-change: transform, box-shadow; /* Optimize for animation */
-            display: none; /* Hidden by default for filtering */
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            display: none;
         }
 
         .notification-card.active {
-            display: block; /* Show active cards */
+            display: block;
         }
 
-        /* Card Hover Effects (subtle 3D tilt + glow) */
         .notification-card:hover {
-            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px); /* Subtle 3D tilt and lift */
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px);
             box-shadow: 0 15px 40px rgba(0, 255, 127, 0.2), 0 0 60px rgba(0, 191, 255, 0.1);
             border-color: rgba(0, 255, 127, 0.6);
         }
 
-        /* Card Shine Effect on Hover */
         .notification-card::before {
             content: '';
             position: absolute;
@@ -247,16 +238,15 @@
             left: 100%;
         }
 
-        /* Card Read State */
         .notification-card.read {
-            border-color: rgba(100, 100, 100, 0.2); /* Fainter border */
-            background: rgba(255, 255, 255, 0.015); /* Slightly darker background to show read */
-            opacity: 0.8; /* Slightly less prominent */
+            border-color: rgba(100, 100, 100, 0.2);
+            background: rgba(255, 255, 255, 0.015);
+            opacity: 0.8;
             transition: all 0.5s ease;
         }
 
         .notification-card.read .read-indicator {
-            opacity: 1; /* Show indicator */
+            opacity: 1;
             transform: scale(1);
         }
 
@@ -269,11 +259,9 @@
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none; /* Do not interfere with card clicks */
+            pointer-events: none;
         }
 
-
-        /* Card Heading */
         .card-heading {
             font-size: 1.5rem;
             font-weight: 600;
@@ -286,15 +274,14 @@
             text-shadow: 0 0 10px rgba(0, 255, 127, 0.1);
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm); /* Gap between icon and text */
+            gap: var(--spacing-sm);
         }
 
         .card-heading i {
-            color: var(--accent-green-light); /* Default icon color */
+            color: var(--accent-green-light);
             font-size: 1.2em;
         }
 
-        /* Card Content */
         .card-content p {
             margin: var(--spacing-sm) 0;
             line-height: 1.6;
@@ -306,7 +293,6 @@
             font-weight: 600;
         }
 
-        /* Actionable text elements with enhanced interaction */
         .actionable-text {
             cursor: pointer;
             position: relative;
@@ -338,7 +324,6 @@
             width: 100%;
         }
 
-        /* Timestamp */
         .timestamp {
             font-size: 0.85em;
             color: var(--text-color-faded);
@@ -353,12 +338,11 @@
             opacity: 1;
         }
 
-        /* Action Buttons */
         .card-actions {
             display: flex;
             gap: var(--spacing-sm);
             margin-top: var(--spacing-md);
-            justify-content: flex-end; /* Align buttons to the right */
+            justify-content: flex-end;
         }
 
         .action-button {
@@ -390,9 +374,9 @@
             background: var(--accent-green-light);
             color: var(--bg-color-dark);
             box-shadow: 0 4px 15px rgba(0, 255, 127, 0.3);
+            transform: translateY(-2px);
         }
 
-        /* Motivational Quotes specific styling */
         .quote {
             font-style: italic;
             margin-bottom: var(--spacing-sm);
@@ -407,7 +391,6 @@
             text-shadow: 0 0 8px rgba(173, 255, 47, 0.2);
         }
 
-        /* Well Being Alert specific styling and animation */
         .well-being-alert {
             border: 1px solid var(--warning-red);
             background: rgba(255, 51, 51, 0.05);
@@ -431,7 +414,6 @@
             }
         }
 
-        /* "New" Badge Effect */
         .notification-card.new::after {
             content: 'NEW!';
             position: absolute;
@@ -444,10 +426,10 @@
             font-size: 0.7em;
             font-weight: 700;
             text-transform: uppercase;
-            animation: bounceIn 0.5s ease-out; /* Removed continuous flash */
+            animation: bounceIn 0.5s ease-out;
             transform-origin: top right;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            z-index: 2; /* Above other content */
+            z-index: 2;
         }
 
         .notification-card.new .unread-dot {
@@ -458,17 +440,17 @@
 
         .unread-dot {
             position: absolute;
-            top: 5px; /* Adjust based on badge position */
-            right: 0px; /* Adjust based on badge position */
+            top: 5px;
+            right: 0px;
             width: 8px;
             height: 8px;
             background-color: var(--unread-dot-color);
             border-radius: 50%;
-            border: 2px solid var(--bg-color-dark); /* Border to stand out */
+            border: 2px solid var(--bg-color-dark);
             opacity: 0;
             transform: scale(0.5);
             transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 3; /* Above badge */
+            z-index: 3;
         }
 
         @keyframes unreadDotPulse {
@@ -482,7 +464,6 @@
             100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
-        /* Animations for elements on load */
         @keyframes fadeInSlideRight {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
@@ -493,7 +474,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* No notifications message */
         .no-notifications {
             text-align: center;
             padding: var(--spacing-xxl);
@@ -502,7 +482,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInSlideUp 0.8s ease-out forwards;
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         @keyframes fadeInSlideUp {
@@ -510,17 +490,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive Adjustments */
         @media (max-width: 768px) {
             body {
                 padding: var(--spacing-md);
             }
             .header {
                 margin-bottom: var(--spacing-lg);
-                padding: var(--spacing-sm) 0; /* Adjust header padding on small screens */
+                padding: var(--spacing-sm) 0;
             }
             .back-icon {
-                left: var(--spacing-md); /* Adjust position for smaller screens */
+                left: var(--spacing-md);
                 animation: none;
                 opacity: 1;
                 transform: translateX(0);
@@ -541,8 +520,8 @@
                 flex-wrap: wrap;
             }
             .tab-button {
-                flex: 1 1 auto; /* Allow buttons to wrap and fill space */
-                min-width: 100px; /* Ensure a minimum width for small screens */
+                flex: 1 1 auto;
+                min-width: 100px;
             }
         }
 
@@ -562,7 +541,7 @@
             .card-content p {
                 font-size: 0.9em;
             }
-            .nav-icon { /* Renamed to back-icon but keeping for safety if used elsewhere */
+            .nav-icon {
                 width: 35px;
                 height: 35px;
                 font-size: 16px;
@@ -572,7 +551,7 @@
                 padding: var(--spacing-xs) var(--spacing-sm);
             }
             .card-actions {
-                flex-direction: column; /* Stack buttons vertically */
+                flex-direction: column;
                 align-items: stretch;
             }
         }
@@ -581,8 +560,9 @@
 <body>
     <div class="container">
         <header class="header">
-            <span class="back-icon" aria-label="Go back">&#x2190;</span> <div class="header-title">
-                <h1 class="main-title">Hiraya</h1>
+            <span class="back-icon" aria-label="Go back">&#x2190;</span>
+            <div class="header-title">
+                <h1 class="main-title">NOTIFICATION</h1>
             </div>
         </header>
 
@@ -660,16 +640,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.notification-card');
-            const navIcons = document.querySelectorAll('.nav-icon'); // Kept this for now, though we now have .back-icon
+            const navIcons = document.querySelectorAll('.nav-icon');
             const mainTitle = document.querySelector('.main-title');
             const tabButtons = document.querySelectorAll('.tab-button');
             const noNotificationsMessage = document.getElementById('noNotificationsMessage');
-            const backIcon = document.querySelector('.back-icon'); // New: Select the back icon
+            const backIcon = document.querySelector('.back-icon');
 
-            // --- Card Read/Unread Toggle ---
             cards.forEach(card => {
                 card.addEventListener('click', function(event) {
-                    // Prevent marking as read if an action button was clicked
                     if (event.target.closest('.action-button')) {
                         return;
                     }
@@ -685,16 +663,12 @@
                 });
             });
 
-            // --- Back Icon Click (Example) ---
             if (backIcon) {
                 backIcon.addEventListener('click', function() {
-                    alert('Going back!'); // Replace with actual navigation logic
-                    // Example: window.history.back();
+                    alert('Going back!');
                 });
             }
 
-
-            // --- Main Title Click Pulse ---
             mainTitle.addEventListener('click', function() {
                 this.classList.add('pulse');
                 this.addEventListener('animationend', () => {
@@ -702,7 +676,6 @@
                 }, { once: true });
             });
 
-            // --- Tab Filtering Logic ---
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -714,14 +687,13 @@
                     cards.forEach(card => {
                         const cardCategory = card.dataset.category;
                         if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-                            card.classList.add('active'); // Show card
+                            card.classList.add('active');
                             visibleCardsCount++;
                         } else {
-                            card.classList.remove('active'); // Hide card
+                            card.classList.remove('active');
                         }
                     });
 
-                    // Show/hide "No notifications" message
                     if (visibleCardsCount === 0) {
                         noNotificationsMessage.style.display = 'block';
                     } else {
@@ -730,21 +702,19 @@
                 });
             });
 
-            // Initial display of all cards on load
-            tabButtons[0].click(); // Simulate click on "All" tab to show all initially
+            tabButtons[0].click();
 
-            // --- Action Button Functions (Examples) ---
             window.markTaskComplete = function(button) {
                 const card = button.closest('.notification-card');
                 if (card) {
-                    // Mark the specific task as done, e.g., change its text or hide it
-                    const taskText = button.previousElementSibling || button.parentElement.previousElementSibling.querySelector('p');
+                    const taskTextElement = button.previousElementSibling;
+                    const taskText = taskTextElement && taskTextElement.tagName === 'P' ? taskTextElement : button.parentElement.previousElementSibling.querySelector('p');
+
                     if (taskText) {
                         taskText.style.textDecoration = 'line-through';
                         taskText.style.opacity = '0.7';
                     }
-                    button.remove(); // Remove the button after action
-                    // Check if all tasks in this card are done to mark the card as read
+                    button.remove();
                     const remainingTasks = card.querySelectorAll('.action-button.primary').length;
                     if (remainingTasks === 0) {
                         card.classList.add('read');
@@ -763,7 +733,7 @@
                 const card = button.closest('.notification-card');
                 if (card) {
                     alert(`Performing social action: ${action} for this notification!`);
-                    card.classList.add('read'); // Mark as read after interaction
+                    card.classList.add('read');
                     card.classList.remove('new');
                     const unreadDot = card.querySelector('.unread-dot');
                     if (unreadDot) {
@@ -777,25 +747,22 @@
                 const card = button.closest('.notification-card');
                 if (card) {
                     alert('Alert acknowledged! We hope you are doing well.');
-                    card.classList.remove('well-being-alert'); // Stop pulsing
-                    card.classList.add('read'); // Mark as read
+                    card.classList.remove('well-being-alert');
+                    card.classList.add('read');
                     card.classList.remove('new');
                     const unreadDot = card.querySelector('.unread-dot');
                     if (unreadDot) {
                         unreadDot.style.opacity = '0';
                         unreadDot.style.transform = 'scale(0)';
                     }
-                    // Optionally remove buttons or replace with "Acknowledged" text
                     button.parentElement.innerHTML = '<p style="color: var(--accent-green-light); font-size:0.9em;">Alert acknowledged.</p>';
                 }
             };
 
             window.contactSupport = function(button) {
-                alert('Connecting you to support...');
-                button.closest('.notification-card').classList.add('read');
+                window.location.href = 'contactus.html';
             };
 
-            // Initial removal of 'new' badge after a delay (kept for demonstration)
             setTimeout(() => {
                 const socialCard = document.getElementById('card-socials');
                 if (socialCard && socialCard.classList.contains('new')) {
@@ -805,11 +772,9 @@
                         unreadDot.style.opacity = '0';
                         unreadDot.style.transform = 'scale(0)';
                     }
-                    console.log("Removed 'new' badge from Socials card.");
                 }
-            }, 8000);
+            }, 8);
         });
     </script>
-
 </body>
 </html>
