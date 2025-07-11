@@ -19,7 +19,7 @@
       color: white;
       position: relative;
       overflow-x: hidden;
-      padding: 20px 0;
+      padding: 0; /* Changed from 20px 0 */
     }
 
     body::before {
@@ -29,7 +29,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.12) 0%, transparent 50%),
@@ -44,11 +44,21 @@
       50% { transform: translateY(-20px) rotate(1deg); }
     }
 
-    .logo {
-      position: fixed;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
+    .header { /* New header style */
+      position: relative;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6), rgba(0,0,0,0.8));
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 255, 127, 0.2);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px; /* Fixed height for the header */
+    }
+
+    .header-title { /* Style for the header text */
       font-size: 2.5rem;
       font-weight: 700;
       background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
@@ -57,8 +67,9 @@
       background-clip: text;
       text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
       animation: logoGlow 3s ease-in-out infinite alternate;
-      z-index: 100;
     }
+
+    /* Removed .back-arrow styles */
 
     @keyframes logoGlow {
       0% { text-shadow: 0 0 30px rgba(0, 255, 127, 0.5); }
@@ -69,13 +80,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 120px 20px 20px;
+      padding: 20px; /* Adjusted padding from 120px 20px 20px */
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .page-title {
-      font-size: 3rem;
+    .page-title { /* This class is now used for the smaller subtitle, so its previous styles are irrelevant here */
+      font-size: 3rem; /* Original page-title style, but this element is removed in HTML */
       font-weight: 700;
       margin-bottom: 20px;
       background: linear-gradient(45deg, #00ff7f, #adff2f);
@@ -87,7 +98,7 @@
       position: relative;
     }
 
-    .page-title::after {
+    .page-title::after { /* This pseudo-element is no longer needed as the main title is in the header */
       content: '';
       position: absolute;
       bottom: -15px;
@@ -123,7 +134,7 @@
       border: 1px solid rgba(0, 255, 127, 0.2);
       border-radius: 25px;
       padding: 40px;
-      box-shadow: 
+      box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.4),
         0 0 60px rgba(0, 255, 127, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -152,7 +163,7 @@
       border: 1px solid rgba(0, 191, 255, 0.2);
       border-radius: 25px;
       padding: 40px;
-      box-shadow: 
+      box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.4),
         0 0 60px rgba(0, 191, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -437,29 +448,28 @@
     }
 
     @media (max-width: 768px) {
-      .logo {
+      .header {
+        height: 60px;
+      }
+
+      .header-title {
         font-size: 2rem;
-        top: 20px;
       }
-      
+
       .main-container {
-        padding: 100px 15px 20px;
+        padding: 15px; /* Adjusted padding */
       }
-      
-      .page-title {
-        font-size: 2.2rem;
-      }
-      
+
       .contact-grid {
         grid-template-columns: 1fr;
         gap: 30px;
       }
-      
+
       .contact-form-section,
       .contact-info-section {
         padding: 30px 25px;
       }
-      
+
       .subtitle {
         font-size: 1.1rem;
       }
@@ -467,12 +477,13 @@
   </style>
 </head>
 <body>
-  <div class="logo">Hiraya</div>
-  
+  <div class="header">
+    <h1 class="header-title">Contact Us</h1>
+  </div>
+
   <div class="main-container">
-    <h1 class="page-title">Contact Us</h1>
     <p class="subtitle">Have questions, feedback, or need support? We'd love to hear from you! Reach out to our team and we'll get back to you as soon as possible.</p>
-    
+
     <div class="contact-grid">
       <div class="contact-form-section">
         <h2 class="section-title">Send us a Message</h2>
@@ -481,31 +492,31 @@
             <label class="form-label" for="name">Your Name</label>
             <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
           </div>
-          
+
           <div class="form-group">
             <label class="form-label" for="email">Email Address</label>
             <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com" required>
           </div>
-          
+
           <div class="form-group">
             <label class="form-label" for="subject">Subject</label>
             <input type="text" id="subject" name="subject" class="form-input" placeholder="What's this about?" required>
           </div>
-          
+
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
             <textarea id="message" name="message" class="form-textarea" placeholder="Tell us how we can help you..." required></textarea>
           </div>
-          
+
           <button type="submit" class="submit-button">Send Message</button>
         </form>
-        
+
         <div class="response-info">
-          <h4></h4>Quick Response</h4>
+          <h4>Quick Response</h4>
           <p>We typically respond within 24-48 hours. For urgent matters, please mention it in your subject line.</p>
         </div>
       </div>
-      
+
       <div class="contact-info-section">
         <h2 class="section-title">Get in Touch</h2>
         <div class="contact-info">
@@ -518,7 +529,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="contact-item">
             <div class="contact-icon"></div>
             <div class="contact-details">
@@ -526,7 +537,7 @@
               <div class="contact-value">hiraya-wellness.com</div>
             </div>
           </div>
-          
+
           <div class="contact-item">
             <div class="contact-icon"></div>
             <div class="contact-details">
@@ -534,7 +545,7 @@
               <div class="contact-value">Web & Mobile App</div>
             </div>
           </div>
-          
+
           <div class="contact-item">
             <div class="contact-icon"></div>
             <div class="contact-details">
@@ -543,14 +554,14 @@
             </div>
           </div>
         </div>
-        
+
         <div class="response-info">
           <h4>We're Here to Help</h4>
           <p>Whether you have technical questions, feature requests, or just want to share your wellness journey with us, don't hesitate to reach out!</p>
         </div>
       </div>
     </div>
-    
+
     <a href="hiraya_homepage.html" class="back-button">Back to Home</a>
   </div>
 
@@ -573,11 +584,11 @@
       const originalText = submitButton.textContent;
       submitButton.textContent = 'Opening Email Client...';
       submitButton.style.background = 'linear-gradient(45deg, #555, #777)';
-      
+
       setTimeout(() => {
         submitButton.textContent = originalText;
         submitButton.style.background = 'linear-gradient(45deg, #00ff7f, #adff2f)';
-    
+
         this.reset();
       }, 2000);
     });
@@ -589,22 +600,22 @@
       particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
       const colors = ['rgba(0, 255, 127, 0.6)', 'rgba(173, 255, 47, 0.6)', 'rgba(0, 191, 255, 0.6)'];
       particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-      
+
       document.body.appendChild(particle);
-      
+
       setTimeout(() => {
         if (particle.parentNode) {
           particle.remove();
         }
       }, 10000);
     }
-    
+
     setInterval(createParticle, 1500);
     document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
       input.addEventListener('focus', function() {
         this.parentElement.style.transform = 'translateY(-2px)';
       });
-      
+
       input.addEventListener('blur', function() {
         this.parentElement.style.transform = 'translateY(0)';
       });
@@ -613,7 +624,7 @@
       item.addEventListener('mouseenter', function() {
         this.style.transform = 'translateX(10px) scale(1.02)';
       });
-      
+
       item.addEventListener('mouseleave', function() {
         this.style.transform = 'translateX(0) scale(1)';
       });
