@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Tristan Josh Cachapero</title>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <style>
-        /* Base styles for all elements */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body styling with responsive font sizes and background animation */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #000000;
@@ -24,7 +23,6 @@
             font-size: 16px;
         }
 
-        /* Animated background effect */
         body::before {
             content: '';
             position: fixed;
@@ -46,7 +44,6 @@
             50% { opacity: 0.7; }
         }
 
-        /* Main container for content, responsive max-width */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -54,7 +51,6 @@
             padding: 20px;
         }
 
-        /* Header section layout */
         .header {
             display: flex;
             align-items: center;
@@ -67,7 +63,6 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
         }
 
-        /* Navigation icons container */
         .nav-icons {
             position: absolute;
             left: 20px;
@@ -75,7 +70,6 @@
             gap: 15px;
         }
 
-        /* Styling for navigation icon links */
         .nav-icon-link {
             width: 40px;
             height: 40px;
@@ -123,14 +117,10 @@
             transform: translateY(0) rotate(-5deg) scale(0.95);
         }
 
-        /* Specific styling for SVG icons within nav links */
-        .nav-icon-link svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        .nav-icon-link iconify-icon {
+            font-size: 20px;
         }
 
-        /* Profile title styling with gradient and glow */
         .profile-title {
             font-size: clamp(1.2rem, 4vw, 1.5rem);
             font-weight: 600;
@@ -148,7 +138,6 @@
             50% { filter: drop-shadow(0 0 15px rgba(0, 255, 127, 0.6)); }
         }
 
-        /* Export Data Button */
         .export-button-container {
             position: absolute;
             right: 20px;
@@ -174,8 +163,6 @@
             transform: translateY(0);
         }
 
-
-        /* Profile header section styling */
         .profile-header {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
@@ -221,7 +208,6 @@
             border-color: rgba(0, 255, 127, 0.6);
         }
 
-        /* Profile image styling */
         .profile-image {
             width: 80px;
             height: 80px;
@@ -247,10 +233,9 @@
             box-shadow: 0 0 30px rgba(0, 255, 127, 0.8);
         }
 
-        .profile-image svg {
-            width: 50px;
-            height: 50px;
-            fill: #000;
+        .profile-image iconify-icon {
+            font-size: 50px;
+            color: #000;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -274,7 +259,6 @@
             opacity: 1;
         }
 
-        /* Profile info text styling */
         .profile-info {
             position: relative;
             z-index: 1;
@@ -295,7 +279,6 @@
             text-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
         }
 
-        /* Main content area for stat cards */
         .main-content-area {
             display: flex;
             flex-direction: column;
@@ -303,7 +286,6 @@
             margin-bottom: 30px;
         }
 
-        /* Top row of horizontally aligned cards (Sleep, Activity, Mood) */
         .top-row-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -312,7 +294,6 @@
             align-items: stretch;
         }
 
-        /* Bottom row of grid cards (Meals, Water, Notes, Insights) */
         .bottom-row-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -321,7 +302,6 @@
             align-items: stretch;
         }
 
-        /* Base styling for all stat cards */
         .stat-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
@@ -362,7 +342,6 @@
             transform: translateY(-5px) scale(0.98);
         }
 
-        /* Specific background gradients for stat cards */
         .sleep-card { background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(0, 150, 100, 0.05)); }
         .activity-card { background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(138, 43, 226, 0.05)); }
         .mood-card { background: linear-gradient(135deg, rgba(186, 85, 211, 0.1), rgba(138, 43, 226, 0.05)); }
@@ -371,8 +350,6 @@
         .notes-card { background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 140, 0, 0.05)); }
         .insights-card { background: linear-gradient(135deg, rgba(173, 255, 47, 0.1), rgba(124, 252, 0, 0.05)); }
 
-
-        /* Header within stat cards */
         .stat-header {
             display: flex;
             align-items: center;
@@ -380,7 +357,6 @@
             margin-bottom: 15px;
         }
 
-        /* Icon styling within stat cards */
         .stat-icon {
             width: 50px;
             height: 50px;
@@ -399,13 +375,10 @@
             filter: brightness(1.2);
         }
 
-        .stat-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: currentColor;
+        .stat-icon iconify-icon {
+            font-size: 30px;
         }
 
-        /* Specific icon background gradients */
         .sleep-icon { background: linear-gradient(45deg, #00ff7f, #adff2f); }
         .activity-icon { background: linear-gradient(45deg, #ff1493, #8a2be2); }
         .mood-icon { background: linear-gradient(45deg, #ba55d3, #8a2be2); }
@@ -414,7 +387,6 @@
         .notes-icon { background: linear-gradient(45deg, #ffa500, #ff8c00); }
         .insights-icon { background: linear-gradient(45deg, #adff2f, #7cfc00); }
 
-        /* Stat info text styling */
         .stat-info {
             flex-grow: 1;
             display: flex;
@@ -468,7 +440,6 @@
             transform: scale(1.05);
         }
 
-        /* Mood selector buttons */
         .mood-selector {
             display: flex;
             gap: 10px;
@@ -490,10 +461,9 @@
             transition: all 0.2s ease;
         }
 
-        .mood-button svg {
-            width: 28px;
-            height: 28px;
-            fill: rgba(255, 255, 255, 0.7);
+        .mood-button iconify-icon {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.7);
             transition: fill 0.2s ease;
         }
 
@@ -509,12 +479,10 @@
             box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
         }
 
-        .mood-button.selected svg {
-            fill: #fff;
+        .mood-button.selected iconify-icon {
+            color: #fff;
         }
 
-
-        /* Meal checklist styling */
         .meal-checklist {
             margin-top: 15px;
             flex-grow: 1;
@@ -613,15 +581,14 @@
             color: #00ff7f;
         }
 
-        .meal-item .meal-icon-svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        .meal-item iconify-icon {
+            font-size: 20px;
+            color: currentColor;
             margin-left: auto;
             transition: transform 0.3s ease;
         }
 
-        .meal-item:hover .meal-icon-svg {
+        .meal-item:hover iconify-icon {
             transform: scale(1.2) rotate(10deg);
         }
 
@@ -649,7 +616,6 @@
             transition: width 1s ease;
         }
 
-        /* Water intake tracker specific styles */
         .water-tracker {
             display: flex;
             flex-direction: column;
@@ -792,7 +758,6 @@
             background: #555;
         }
 
-        /* Input fields for Sleep and Physical Activity */
         .stat-input-group {
             display: flex;
             align-items: center;
@@ -840,7 +805,6 @@
             transform: translateY(0);
         }
 
-        /* Chart container */
         .chart-container {
             width: 100%;
             height: 60px;
@@ -853,7 +817,7 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative; /* For tooltips */
+            position: relative;
         }
 
         .chart-bar {
@@ -862,7 +826,7 @@
             border-radius: 2px;
             transition: height 0.5s ease-out;
             min-width: 5px;
-            position: relative; /* For tooltips */
+            position: relative;
         }
         .activity-card .chart-bar {
             background: linear-gradient(to top, #ff1493, #8a2be2);
@@ -871,7 +835,6 @@
             background: linear-gradient(to top, #00bfff, #0096c8);
         }
 
-        /* Chart tooltip */
         .chart-tooltip {
             position: absolute;
             background: rgba(0, 0, 0, 0.8);
@@ -880,7 +843,7 @@
             border-radius: 5px;
             font-size: 0.75rem;
             white-space: nowrap;
-            bottom: 100%; /* Position above the bar */
+            bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
             margin-bottom: 5px;
@@ -895,7 +858,6 @@
             visibility: visible;
         }
 
-        /* Notes section */
         .notes-card {
             background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 140, 0, 0.05));
             border-radius: 15px;
@@ -909,7 +871,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            grid-column: span 2; /* Span two columns in the bottom row */
+            grid-column: span 2;
         }
         .notes-card:hover {
             border-color: rgba(255, 165, 0, 0.6);
@@ -962,7 +924,6 @@
             transform: translateY(0);
         }
 
-        /* Insights Card */
         .insights-card {
             background: linear-gradient(135deg, rgba(173, 255, 47, 0.1), rgba(124, 252, 0, 0.05));
             border-radius: 15px;
@@ -971,15 +932,15 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            cursor: default; /* Not clickable like others */
+            cursor: pointer; /* Changed to pointer */
             transform-style: preserve-3d;
             display: flex;
             flex-direction: column;
             width: 100%;
-            grid-column: span 2; /* Span two columns in the bottom row */
+            grid-column: span 2;
         }
         .insights-card:hover {
-            transform: none; /* No hover transform */
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg); /* Added hover transform */
             border-color: rgba(173, 255, 47, 0.6);
             box-shadow: 0 20px 40px rgba(173, 255, 47, 0.3);
         }
@@ -1010,7 +971,6 @@
             transform: translateY(-1px);
         }
 
-        /* Long-Term Goal Styling */
         .long-term-goal-group {
             display: flex;
             flex-direction: column;
@@ -1057,16 +1017,14 @@
             cursor: pointer;
         }
 
-        /* Streak Display */
         .streak-display {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #ffd700; /* Gold color for streaks */
+            color: #ffd700;
             margin-top: 10px;
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
 
-        /* Badges section grid layout */
         .badges-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1074,7 +1032,6 @@
             justify-content: center;
         }
 
-        /* Base styling for badge cards */
         .badge-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
@@ -1107,11 +1064,9 @@
             box-shadow: 0 15px 35px rgba(0, 255, 127, 0.25);
         }
 
-        /* Specific background gradients for badge cards */
         .tasks-card { background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(173, 255, 47, 0.05)); }
         .badges-card { background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 150, 200, 0.05)); }
 
-        /* Header within badge cards */
         .badge-header {
             display: flex;
             align-items: center;
@@ -1119,7 +1074,6 @@
             margin-bottom: 20px;
         }
 
-        /* Icon styling within badge card headers */
         .badge-title-icon {
             width: 40px;
             height: 40px;
@@ -1137,11 +1091,9 @@
             transform: rotate(20deg) scale(1.1);
         }
 
-        /* Specific icon background gradients for badge card headers */
         .tasks-title-icon { background: linear-gradient(45deg, #00ff7f, #adff2f); }
         .badges-title-icon { background: linear-gradient(45deg, #00bfff, #0096c8); }
 
-        /* Title styling within badge cards */
         .badge-title {
             font-size: clamp(1.1rem, 3.5vw, 1.3rem);
             font-weight: 600;
@@ -1156,7 +1108,6 @@
             color: #adff2f;
         }
 
-        /* Grid layout for individual badges */
         .badge-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1165,7 +1116,6 @@
             align-items: center;
         }
 
-        /* Styling for individual badge items */
         .badge-item {
             width: 60px;
             height: 60px;
@@ -1203,7 +1153,6 @@
             transform: scale(1.1) rotate(-10deg);
         }
 
-        /* Specific badge item background and shadow */
         .badge-earned { background: linear-gradient(45deg, #ff6347, #ffa500); box-shadow: 0 0 15px rgba(255, 165, 0, 0.3); animation: badgePulse 2s ease-in-out infinite; }
         .badge-special { background: linear-gradient(45deg, #ffd700, #ffff00); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); animation: badgeGlow 3s ease-in-out infinite alternate; }
         .badge-nature { background: linear-gradient(45deg, #32cd32, #90ee90); box-shadow: 0 0 15px rgba(50, 205, 50, 0.3); }
@@ -1220,7 +1169,6 @@
             100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
         }
         
-        /* Notification styling */
         .notification {
             position: fixed;
             top: 20px;
@@ -1240,7 +1188,6 @@
             transform: translateX(0);
         }
 
-        /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             body {
                 padding: 0;
@@ -1343,10 +1290,9 @@
     <div class="container">
         <div class="header">
             <div class="nav-icons">
-                <a href="#" class="nav-icon-link" onclick="showNotification('Going back!')" aria-label="Go Back">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z"/>
-                    </svg>
+                <!-- Add your desired HTML file link here -->
+                <a href="hiraya_homepage.html" class="nav-icon-link" onclick="showNotification('Going back!')" aria-label="Go Back">
+                    <iconify-icon icon="ph:arrow-left-fill"></iconify-icon>
                 </a>
             </div>
             <h1 class="profile-title">Profile</h1>
@@ -1356,14 +1302,12 @@
         </div>
         <div class="profile-header" onclick="showNotification('Profile updated!')">
             <div class="profile-image" id="profile-image-container" onclick="document.getElementById('profile-image-upload').click(); event.stopPropagation();">
-                <svg id="profile-image-placeholder" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
-                </svg>
+                <iconify-icon id="profile-image-placeholder" icon="ph:user-fill"></iconify-icon>
                 <img id="uploaded-profile-image" src="" alt="Profile Image" class="hidden">
             </div>
             <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
             <div class="profile-info">
-                <h2 onclick="event.stopPropagation(); showNotification('Hello Tristan! 👋')">Tristan Josh Cachapero</h2>
+                <h2 onclick="event.stopPropagation(); showNotification('Hello Tristan! 👋')">User</h2>
             </div>
         </div>
         
@@ -1372,9 +1316,7 @@
                 <div class="stat-card sleep-card">
                     <div class="stat-header">
                         <div class="stat-icon sleep-icon" onclick="event.stopPropagation(); showNotification('Sleep is important! 😴')">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 3C7.6 3 4 6.6 4 11C4 15.4 7.6 19 12 19C16.4 19 20 15.4 20 11C20 6.6 16.4 3 12 3ZM12 17C8.69 17 6 14.31 6 11C6 7.69 8.69 5 12 5C15.31 5 18 7.69 18 11C18 14.31 15.31 17 12 17ZM15 10H13V8H15V10ZM11 10H9V8H11V10ZM12 15C10.67 15 9.4 14.33 8.5 13H15.5C14.6 14.33 13.33 15 12 15Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:moon-fill"></iconify-icon>
                         </div>
                         <div class="stat-info">
                             <h3>Sleep</h3>
@@ -1409,9 +1351,7 @@
                 <div class="stat-card activity-card">
                     <div class="stat-header">
                         <div class="stat-icon activity-icon" onclick="event.stopPropagation(); showNotification('Keep moving! 🏃‍♂️')">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.5 5.5C13.5 4.67 12.83 4 12 4C11.17 4 10.5 4.67 10.5 5.5C10.5 6.33 11.17 7 12 7C12.83 7 13.5 6.33 13.5 5.5ZM17 12H15V22H13V16H11V22H9V12H7V9L12 2L17 9V12Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:barbell-fill"></iconify-icon>
                         </div>
                         <div class="stat-info">
                             <h3>Physical Activity</h3>
@@ -1446,28 +1386,20 @@
                 <div class="stat-card mood-card">
                     <div class="stat-header">
                         <div class="stat-icon mood-icon" onclick="event.stopPropagation(); showNotification('Spread the love! 💖')">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:smiley-fill"></iconify-icon>
                         </div>
                         <div class="stat-info">
                             <h3>Mood</h3>
                             <div class="mood-text" id="mood-text">Feeling great!</div>
                             <div class="mood-selector">
                                 <div class="mood-button" data-mood="Feeling great!" onclick="setMood(this, 'Feeling great!')">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:smiley-fill"></iconify-icon>
                                 </div>
                                 <div class="mood-button" data-mood="Neutral" onclick="setMood(this, 'Neutral')">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM17 14H7V15H17V14Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:smiley-meh-fill"></iconify-icon>
                                 </div>
                                 <div class="mood-button" data-mood="Feeling down" onclick="setMood(this, 'Feeling down')">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C14.33 17.5 16.31 16.04 17.11 14H6.89C7.69 16.04 9.67 17.5 12 17.5Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:smiley-sad-fill"></iconify-icon>
                                 </div>
                             </div>
                         </div>
@@ -1479,9 +1411,7 @@
                 <div class="stat-card meals-card">
                     <div class="stat-header">
                         <div class="stat-icon meals-icon" onclick="showNotification('Track your nutrition! 🍽️')">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 5H3C2.45 5 2 5.45 2 6V18C2 18.55 2.45 19 3 19H21C21.55 19 22 18.55 22 18V6C22 5.45 21.55 5 21 5ZM20 17H4V7H20V17ZM11 9H13V15H11V9ZM7 9H9V15H7V9ZM15 9H17V15H15V9Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:fork-knife-fill"></iconify-icon>
                         </div>
                         <div class="stat-info">
                             <h3>Meals & Nutrition</h3>
@@ -1489,30 +1419,22 @@
                                 <div class="meal-item" onclick="toggleMeal(this, 'breakfast')">
                                     <div class="meal-checkbox checked"></div>
                                     <span class="meal-label">Breakfast</span>
-                                    <svg class="meal-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M20 3H4C2.9 3 2 3.9 2 5V14C2 15.1 2.9 16 4 16H18C19.1 16 20 15.1 20 14V11H22V5C22 3.9 21.1 3 20 3ZM20 14H4V5H20V14ZM18 18H6V20H18V18Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:coffee-fill"></iconify-icon>
                                 </div>
                                 <div class="meal-item" onclick="toggleMeal(this, 'lunch')">
                                     <div class="meal-checkbox checked"></div>
                                     <span class="meal-label">Lunch</span>
-                                    <svg class="meal-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M22 11H2V13H22V11ZM17 1H7C5.9 1 5 1.9 5 3V6H19V3C19 1.9 18.1 1 17 1ZM20 15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:pizza-fill"></iconify-icon>
                                 </div>
                                 <div class="meal-item" onclick="toggleMeal(this, 'dinner')">
                                     <div class="meal-checkbox checked"></div>
                                     <span class="meal-label">Dinner</span>
-                                    <svg class="meal-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 18H12V22H10V18ZM10 2C10 1.45 10.45 1 11 1H13C13.55 1 14 1.45 14 2V18H10V2ZM16 18H18V22H16V18ZM16 2C16 1.45 16.45 1 17 1H19C19.55 1 20 1.45 20 2V18H16V2Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:bowl-food-fill"></iconify-icon>
                                 </div>
                                 <div class="meal-item" onclick="toggleMeal(this, 'snacks')">
                                     <div class="meal-checkbox"></div>
                                     <span class="meal-label">Snacks</span>
-                                    <svg class="meal-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6Z"/>
-                                    </svg>
+                                    <iconify-icon icon="ph:cookie-fill"></iconify-icon>
                                 </div>
                             </div>
                             <div class="meal-progress">
@@ -1527,9 +1449,7 @@
                 <div class="stat-card water-card">
                     <div class="stat-header">
                         <div class="stat-icon water-icon" onclick="showNotification('Stay hydrated! 💧')">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12 17C10.34 17 9 15.66 9 14C9 12.34 12 7 12 7C12 7 15 12.34 15 14C15 15.66 13.66 17 12 17Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:drop-fill"></iconify-icon>
                         </div>
                         <div class="stat-info">
                             <h3>Water Intake</h3>
@@ -1562,13 +1482,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- New Notes Section -->
                 <div class="stat-card notes-card">
                     <div class="stat-header">
                         <div class="stat-icon notes-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 2H5C3.89 2 3 2.9 3 4V20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V4C21 2.9 20.1 2 19 2ZM19 20H5V4H19V20ZM12 18H7V16H12V18ZM17 14H7V12H17V14ZM17 10H7V8H17V10Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:note-fill"></iconify-icon>
                         </div>
                         <div class="stat-info" style="align-items: flex-start; text-align: left;">
                             <h3>Daily Notes</h3>
@@ -1577,13 +1494,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- New Insights Card -->
-                <div class="stat-card insights-card">
+                <div class="stat-card insights-card" onclick="generateInsights()">
                     <div class="stat-header">
                         <div class="stat-icon insights-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 17H13V15H11V17ZM11 7H13V13H11V7Z"/>
-                            </svg>
+                            <iconify-icon icon="ph:lightbulb-filament-fill"></iconify-icon>
                         </div>
                         <div class="stat-info" style="align-items: flex-start; text-align: left;">
                             <h3>Insights & Tips</h3>
@@ -1630,7 +1544,6 @@
     <div id="notification" class="notification">Notification!</div>
 
     <script>
-        // --- Data Storage (using localStorage for persistence) ---
         let mealCheckboxes = JSON.parse(localStorage.getItem('mealCheckboxes')) || {
             breakfast: false,
             lunch: false,
@@ -1659,18 +1572,15 @@
         let activityStreak = parseInt(localStorage.getItem('activityStreak')) || 0;
         let lastActivityLogDate = localStorage.getItem('lastActivityLogDate') || '';
 
-
         let currentMoodText = localStorage.getItem('currentMoodText') || "Feeling great!";
         let dailyNotes = localStorage.getItem('dailyNotes') || "";
 
-        // Dummy historical data for charts (last 7 days)
         let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [7, 8.5, 7.5, 9, 8, 7, 8.57];
         let activityHistory = JSON.parse(localStorage.getItem('activityHistory')) || [0.5, 1, 0.75, 1.2, 1, 0.8, 1];
         let waterHistory = JSON.parse(localStorage.getItem('waterHistory')) || [2, 2.5, 1.8, 2.2, 2.5, 2.1, 1.375];
 
-        // --- Helper Functions ---
         function getTodayDateString() {
-            return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            return new Date().toISOString().slice(0, 10);
         }
 
         function formatHoursMinutes(decimalHours) {
@@ -1688,7 +1598,6 @@
             }, 2500);
         }
 
-        // --- Profile Image Upload ---
         document.addEventListener('DOMContentLoaded', () => {
             const profileImageUpload = document.getElementById('profile-image-upload');
             const uploadedProfileImage = document.getElementById('uploaded-profile-image');
@@ -1716,7 +1625,6 @@
             });
         });
 
-        // --- Meal Tracker Functions ---
         function toggleMeal(element, meal) {
             const checkbox = element.querySelector('.meal-checkbox');
             checkbox.classList.toggle('checked');
@@ -1738,7 +1646,6 @@
             document.getElementById('meal-progress-bar').style.width = `${percentage}%`;
         }
 
-        // --- Sleep Tracker Functions ---
         function updateSleepTracker() {
             document.getElementById('sleep-value').innerText = formatHoursMinutes(currentSleepHours);
             document.getElementById('sleep-subtext').innerText = `of ${dailySleepGoalHours}h sleep`;
@@ -1770,24 +1677,25 @@
 
             if (!isNaN(newLoggedHours) && newLoggedHours >= 0) {
                 currentSleepHours = newLoggedHours;
-                weeklySleepAchieved += newLoggedHours; // Accumulate for weekly goal
+                weeklySleepAchieved += newLoggedHours;
 
-                // Update streak
-                if (newLoggedHours >= dailySleepGoalHours) {
-                    if (lastSleepLogDate === '' || new Date(lastSleepLogDate).setDate(new Date(lastSleepLogDate).getDate() + 1) === new Date(today).getTime()) {
-                        sleepStreak++;
-                    } else if (lastSleepLogDate !== today) {
-                        sleepStreak = 1;
-                    }
+                const lastDate = new Date(lastSleepLogDate);
+                const todayDate = new Date(today);
+                const diffTime = Math.abs(todayDate - lastDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (lastSleepLogDate === '' || diffDays === 1) {
+                    sleepStreak++;
+                } else if (diffDays === 0) {
                 } else {
-                    sleepStreak = 0; // Reset streak if goal not met
+                    sleepStreak = 1;
                 }
                 lastSleepLogDate = today;
 
                 sleepHistory.push(newLoggedHours);
                 if (sleepHistory.length > 7) sleepHistory.shift();
                 updateSleepTracker();
-                generateInsights(); // Regenerate insights after logging
+                generateInsights();
                 showNotification(`Logged ${newLoggedHours.toFixed(1)}h of sleep!`);
             } else {
                 showNotification('Please enter a valid non-negative number for sleep hours.');
@@ -1820,7 +1728,6 @@
             }
         }
 
-        // --- Physical Activity Tracker Functions ---
         function updateActivityTracker() {
             document.getElementById('activity-value').innerText = formatHoursMinutes(currentActivityHours);
             document.getElementById('activity-subtext').innerText = `of ${dailyActivityGoalHours}h planned`;
@@ -1852,17 +1759,18 @@
 
             if (!isNaN(newLoggedHours) && newLoggedHours >= 0) {
                 currentActivityHours = newLoggedHours;
-                weeklyActivityAchieved += newLoggedHours; // Accumulate for weekly goal
+                weeklyActivityAchieved += newLoggedHours;
 
-                // Update streak
-                if (newLoggedHours >= dailyActivityGoalHours) {
-                    if (lastActivityLogDate === '' || new Date(lastActivityLogDate).setDate(new Date(lastActivityLogDate).getDate() + 1) === new Date(today).getTime()) {
-                        activityStreak++;
-                    } else if (lastActivityLogDate !== today) {
-                        activityStreak = 1;
-                    }
+                const lastDate = new Date(lastActivityLogDate);
+                const todayDate = new Date(today);
+                const diffTime = Math.abs(todayDate - lastDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (lastActivityLogDate === '' || diffDays === 1) {
+                    activityStreak++;
+                } else if (diffDays === 0) {
                 } else {
-                    activityStreak = 0; // Reset streak if goal not met
+                    activityStreak = 1;
                 }
                 lastActivityLogDate = today;
 
@@ -1902,7 +1810,6 @@
             }
         }
 
-        // --- Mood Tracker Functions ---
         function setMood(element, mood) {
             document.querySelectorAll('.mood-button').forEach(btn => btn.classList.remove('selected'));
             element.classList.add('selected');
@@ -1923,12 +1830,10 @@
             });
         }
 
-        // --- Water Tracker Functions ---
         function adjustWater(amount) {
             const today = getTodayDateString();
             currentWaterIntakeLiters = currentWaterIntakeLiters + amount;
             
-            // Cap at daily goal when adding, but allow going below zero when subtracting
             if (amount > 0) {
                 currentWaterIntakeLiters = Math.min(currentWaterIntakeLiters, dailyWaterGoalLiters);
             } else {
@@ -1937,22 +1842,25 @@
             
             currentWaterIntakeLiters = parseFloat(currentWaterIntakeLiters.toFixed(3));
 
-            // Update weekly achieved
-            weeklyWaterAchieved += amount; // Add/subtract from weekly total
-            weeklyWaterAchieved = Math.max(0, parseFloat(weeklyWaterAchieved.toFixed(3))); // Ensure non-negative
+            weeklyWaterAchieved += amount;
+            weeklyWaterAchieved = Math.max(0, parseFloat(weeklyWaterAchieved.toFixed(3)));
 
-            // Update streak (only if daily goal is met)
             if (currentWaterIntakeLiters >= dailyWaterGoalLiters) {
-                if (lastWaterLogDate === '' || new Date(lastWaterLogDate).setDate(new Date(lastWaterLogDate).getDate() + 1) === new Date(today).getTime()) {
+                const lastDate = new Date(lastWaterLogDate);
+                const todayDate = new Date(today);
+                const diffTime = Math.abs(todayDate - lastDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (lastWaterLogDate === '' || diffDays === 1) {
                     waterStreak++;
-                } else if (lastWaterLogDate !== today) {
+                } else if (diffDays === 0) {
+                } else {
                     waterStreak = 1;
                 }
             } else {
-                waterStreak = 0; // Reset streak if goal not met
+                waterStreak = 0;
             }
             lastWaterLogDate = today;
-
 
             waterHistory.push(currentWaterIntakeLiters);
             if (waterHistory.length > 7) waterHistory.shift();
@@ -2024,7 +1932,6 @@
             renderChart('water-chart', waterHistory, dailyWaterGoalLiters, 'L');
         }
 
-        // --- Daily Notes Functions ---
         function saveDailyNotes() {
             const textarea = document.getElementById('daily-notes-textarea');
             dailyNotes = textarea.value;
@@ -2036,7 +1943,6 @@
             document.getElementById('daily-notes-textarea').value = dailyNotes;
         }
 
-        // --- Chart Rendering Function (Simple Bar Chart with Tooltips) ---
         function renderChart(containerId, data, goal, unit = '') {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -2060,12 +1966,10 @@
             });
         }
 
-        // --- Personalized Insights & Tips ---
         function generateInsights() {
             const insightTextElement = document.getElementById('insight-text');
             let insight = "Keep tracking your progress!";
 
-            // Sleep insights
             if (currentSleepHours >= dailySleepGoalHours * 1.1) {
                 insight = "You're getting plenty of sleep! Keep up the great rest! 😴";
             } else if (currentSleepHours < dailySleepGoalHours * 0.9) {
@@ -2074,7 +1978,6 @@
                 insight = `Fantastic! You're on a ${sleepStreak}-day sleep streak! Keep it going! ✨`;
             }
 
-            // Activity insights
             if (currentActivityHours >= dailyActivityGoalHours * 1.1) {
                 insight = "Awesome activity levels! You're crushing your fitness goals! 🏃‍♀️";
             } else if (currentActivityHours < dailyActivityGoalHours * 0.9) {
@@ -2083,7 +1986,6 @@
                 insight = `Wow! You've maintained your activity for ${activityStreak} days! 💪`;
             }
 
-            // Water insights
             if (currentWaterIntakeLiters >= dailyWaterGoalLiters) {
                 insight = "You're perfectly hydrated today! Excellent work! 💧";
             } else if (currentWaterIntakeLiters < dailyWaterGoalLiters * 0.7) {
@@ -2092,7 +1994,6 @@
                 insight = `Amazing! You're on a ${waterStreak}-day hydration streak! 🌊`;
             }
 
-            // Combined insights (simple example)
             if (currentSleepHours >= dailySleepGoalHours && currentWaterIntakeLiters >= dailyWaterGoalLiters) {
                 insight = "You're nailing both sleep and hydration today! Great balance! 🌟";
             }
@@ -2100,11 +2001,9 @@
                 insight = "You're on track for a fantastic week of sleep and activity! 🎉";
             }
 
-
             insightTextElement.innerText = insight;
         }
 
-        // --- Export Data Option ---
         function exportData() {
             const dataToExport = {
                 mealCheckboxes: mealCheckboxes,
@@ -2146,7 +2045,6 @@
             showNotification('Data exported successfully!');
         }
 
-        // --- Global Initialization ---
         window.onload = () => {
             updateMealProgress();
             updateWaterTracker();
@@ -2154,13 +2052,16 @@
             updateActivityTracker();
             updateMoodTracker();
             loadDailyNotes();
-            generateInsights(); // Generate initial insights on load
+            generateInsights();
 
-            // Initial chart rendering
             renderChart('sleep-chart', sleepHistory, dailySleepGoalHours, 'h');
             renderChart('activity-chart', activityHistory, dailyActivityGoalHours, 'h');
             renderChart('water-chart', waterHistory, dailyWaterGoalLiters, 'L');
         };
+
+        function showBadgeInfo(name, emoji) {
+            showNotification(`Badge: ${name} ${emoji}`);
+        }
     </script>
 </body>
 </html>
