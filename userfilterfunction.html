@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Questionnaires</title>
     <style>
-        /* General Styles & Reset */
         * {
             margin: 0;
             padding: 0;
@@ -17,15 +16,14 @@
             background: #000000;
             color: #ffffff;
             min-height: 100vh;
-            padding: 40px 20px; /* More padding for overall page */
+            padding: 40px 20px;
             position: relative;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align from top for scrollable content */
+            align-items: flex-start;
             overflow-y: auto;
         }
 
-        /* Background Glow Effect */
         body::before {
             content: '';
             position: fixed;
@@ -41,40 +39,38 @@
             z-index: -1;
         }
 
-        /* Main Container for the Tabbed Interface */
         .container {
-            max-width: 800px; /* Centralized, single column max width */
+            max-width: 800px;
             width: 100%;
             margin: 0 auto;
             display: flex;
-            flex-direction: column; /* Stacks navigation and content */
-            gap: 30px; /* Space between navigation and content */
+            flex-direction: column;
+            gap: 30px;
             padding: 0;
         }
 
-        /* Tab Navigation Styling */
         .tab-navigation {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 20px; /* Space below navigation buttons */
-            flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-button {
             padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.08); /* Slightly lighter background for inactive */
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(0, 255, 127, 0.1);
-            border-radius: 15px; /* Rounded buttons */
-            color: rgba(255, 255, 255, 0.6); /* Muted color for inactive */
+            border-radius: 15px;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none; /* For potential a-tag buttons */
+            text-decoration: none;
             text-align: center;
-            flex-grow: 1; /* Allow buttons to grow */
-            max-width: 350px; /* Limit individual button width */
+            flex-grow: 1;
+            max-width: 350px;
         }
 
         .tab-button:hover {
@@ -86,13 +82,12 @@
 
         .tab-button.active {
             background: linear-gradient(45deg, #00ff7f, #adff2f);
-            color: #000000; /* Black text for active tab */
+            color: #000000;
             border-color: #00ff7f;
             box-shadow: 0 5px 20px rgba(0, 255, 127, 0.4);
-            transform: translateY(0); /* Reset transform for active tab */
+            transform: translateY(0);
         }
 
-        /* Individual Questionnaire Card Styling (within tab content) */
         .questionnaire-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -100,12 +95,13 @@
             padding: 30px;
             border: 1px solid rgba(0, 255, 127, 0.2);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            display: none; /* Hidden by default for tabbed content */
+            display: none;
+            opacity: 0;
             transition: opacity 0.5s ease;
         }
 
         .questionnaire-card.active {
-            display: block; /* Show active card */
+            display: block;
             opacity: 1;
         }
 
@@ -129,7 +125,6 @@
             line-height: 1.6;
         }
 
-        /* Question Group Styling */
         .question-group {
             margin-bottom: 25px;
             padding-bottom: 20px;
@@ -151,10 +146,9 @@
             padding-right: 10px;
         }
 
-        /* Radio Options Layout */
         .radio-options {
             display: flex;
-            flex-direction: row; /* Default: row for desktop */
+            flex-direction: row;
             flex-wrap: wrap;
             justify-content: flex-start;
             gap: 25px;
@@ -228,7 +222,6 @@
             user-select: none;
         }
 
-        /* Legend Styling */
         .legend {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.75);
@@ -239,7 +232,6 @@
             line-height: 1.5;
         }
 
-        /* Self Report Section */
         .self-report-section {
             margin-top: 30px;
             padding-top: 20px;
@@ -274,7 +266,6 @@
             outline: none;
         }
 
-        /* Continue Button */
         .continue-button {
             display: block;
             width: 220px;
@@ -300,9 +291,6 @@
             background: linear-gradient(45deg, #00ff7f, #adff2f);
         }
 
-        /* Responsive Adjustments */
-
-        /* Tablets and smaller desktops */
         @media (max-width: 767px) {
             body {
                 padding: 30px 15px;
@@ -311,14 +299,14 @@
                 gap: 20px;
             }
             .tab-navigation {
-                flex-direction: column; /* Stack tabs vertically */
+                flex-direction: column;
                 gap: 10px;
                 margin-bottom: 15px;
             }
             .tab-button {
                 font-size: 1rem;
                 padding: 12px 20px;
-                max-width: 100%; /* Take full width when stacked */
+                max-width: 100%;
             }
             .questionnaire-card {
                 padding: 25px;
@@ -333,7 +321,7 @@
                 font-size: 1rem;
             }
             .radio-options {
-                flex-direction: column; /* Stack radio options */
+                flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
                 padding-left: 0;
@@ -362,7 +350,6 @@
             }
         }
 
-        /* Very Small Phones */
         @media (max-width: 480px) {
             .questionnaire-card {
                 padding: 20px;
@@ -391,8 +378,7 @@
             <h2 class="card-title">Patient Health Questionnaire</h2>
             <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems?</p>
 
-            <form id="phq-form">
-                <div class="question-group">
+            <form id="phq-form"> <div class="question-group">
                     <p class="question-text">1. Little interest or pleasure in doing things.</p>
                     <div class="radio-options">
                         <label class="radio-option">
@@ -627,22 +613,21 @@
                 </div>
 
                 <div class="self-report-section">
-                    <label for="self-report-phq">Self Report: Indicate if you any have medical conditions (e.g., asthma, obesity)</label>
+                    <label for="self-report-phq">Self Report: Indicate if you have any medical conditions (e.g., asthma, obesity)</label>
                     <textarea id="self-report-phq" name="self_report_phq" placeholder="Type here..."></textarea>
                 </div>
 
-                <p class="legend">0 = Not at all 1 = Several days 2 = More than half the days 3 = Nearly every day</p>
+                <p class="legend">0 = Not at all &nbsp; 1 = Several days &nbsp; 2 = More than half the days &nbsp; 3 = Nearly every day</p>
 
-                <button type="submit" class="continue-button">Continue</button>
+                <button type="submit" class="continue-button">Continue to GAD-7</button>
             </form>
         </div>
 
         <div id="gad7-card" class="questionnaire-card">
             <h2 class="card-title">Generalized Anxiety Disorder 7</h2>
-            <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems? Please circle your answers.</p>
+            <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems? Please select your answers.</p>
 
-            <form id="gad7-form">
-                <div class="question-group">
+            <form id="gad7-form"> <div class="question-group">
                     <p class="question-text">1. Feeling nervous, anxious, or on edge.</p>
                     <div class="radio-options">
                         <label class="radio-option">
@@ -754,58 +739,7 @@
                             <span class="radio-circle"></span>
                             <span class="radio-label">0</span>
                         </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q5" value="1">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">1</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q5" value="2">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">2</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q5" value="3">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">3</span>
-                        </label>
-                    </div>
-                </div>
 
-                <div class="question-group">
-                    <p class="question-text">6. Becoming easily annoyed or irritable.</p>
-                    <div class="radio-options">
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q6" value="0" required>
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">0</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q6" value="1">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">1</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q6" value="2">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">2</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q6" value="3">
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">3</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="question-group">
-                    <p class="question-text">7. Feeling afraid as if something awful might happen.</p>
-                    <div class="radio-options">
-                        <label class="radio-option">
-                            <input type="radio" name="gad7_q7" value="0" required>
-                            <span class="radio-circle"></span>
-                            <span class="radio-label">0</span>
-                        </label>
                         <label class="radio-option">
                             <input type="radio" name="gad7_q7" value="1">
                             <span class="radio-circle"></span>
@@ -823,145 +757,86 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="self-report-section">
-                    <label for="self-report-gad7">Self Report: Indicate how much these problems have made it difficult for you to do your work, take care of things at home, or get along with other people?</label>
+                    <label for="self-report-gad7">Self Report: Indicate if your anxiety makes it difficult to do things such as go to work/school, take care of things at home, or get along with people.</label>
                     <textarea id="self-report-gad7" name="self_report_gad7" placeholder="Type here..."></textarea>
                 </div>
 
-                <p class="legend">0 = Not at all 1 = Several days 2 = More than half the days 3 = Nearly every day</p>
+                <p class="legend">0 = Not at all &nbsp; 1 = Several days &nbsp; 2 = More than half the days &nbsp; 3 = Nearly every day</p>
 
-                <button type="submit" class="continue-button">Continue</button>
+                <button type="submit" class="continue-button">Submit and Go to Homepage</button>
             </form>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Custom Alert Function (Kept from previous versions) ---
-            function alert(message) {
-                const existingModal = document.getElementById('custom-alert-modal');
-                if (existingModal) existingModal.remove();
-
-                const modal = document.createElement('div');
-                modal.id = 'custom-alert-modal';
-                modal.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(0, 0, 0, 0.8);
-                    border: 1px solid #00ff7f;
-                    border-radius: 10px;
-                    padding: 20px;
-                    box-shadow: 0 0 20px rgba(0, 255, 127, 0.5);
-                    z-index: 1000;
-                    text-align: center;
-                    color: white;
-                    font-size: 1rem;
-                    max-width: 300px;
-                    width: 90%;
-                `;
-
-                const messageText = document.createElement('p');
-                messageText.textContent = message;
-                messageText.style.marginBottom = '15px';
-
-                const closeButton = document.createElement('button');
-                closeButton.textContent = 'OK';
-                closeButton.style.cssText = `
-                    background: linear-gradient(45deg, #adff2f, #00ff7f);
-                    color: #000;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 8px 15px;
-                    cursor: pointer;
-                    font-weight: bold;
-                    transition: all 0.2s ease;
-                `;
-                closeButton.onmouseover = () => closeButton.style.transform = 'scale(1.05)';
-                closeButton.onmouseout = () => closeButton.style.transform = 'scale(1)';
-                closeButton.onclick = () => modal.remove();
-
-                modal.appendChild(messageText);
-                modal.appendChild(closeButton);
-                document.body.appendChild(modal);
-            }
-
-            // --- Tab Functionality ---
             const tabButtons = document.querySelectorAll('.tab-button');
             const questionnaireCards = document.querySelectorAll('.questionnaire-card');
-
+            const phqForm = document.getElementById('phq-form');
+            const gad7Form = document.getElementById('gad7-form');
             function showTab(tabId) {
-                // Deactivate all buttons and hide all cards
-                tabButtons.forEach(button => button.classList.remove('active'));
-                questionnaireCards.forEach(card => card.classList.remove('active'));
+                questionnaireCards.forEach(card => {
+                    card.classList.remove('active');
+                });
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
 
-                // Activate the clicked button
-                const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-                if (activeButton) {
-                    activeButton.classList.add('active');
-                }
-
-                // Show the corresponding card
-                const activeCard = document.getElementById(tabId);
-                if (activeCard) {
-                    activeCard.classList.add('active');
-                }
+                document.getElementById(tabId).classList.add('active');
+                document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
             }
-
-            // Add event listeners to tab buttons
             tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.dataset.tab;
+                button.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
                     showTab(tabId);
                 });
             });
+            function validateForm(form) {
+                const radioGroups = form.querySelectorAll('.question-group');
+                let allQuestionsAnswered = true;
 
-            // Set initial active tab (PHQ by default)
-            showTab('phq-card');
-
-            // --- Form Submission Logic (Kept from previous versions) ---
-            async function sendFormDataToServer(formId, formData) {
-                const data = {};
-                for (const [key, value] of formData.entries()) {
-                    data[key] = value;
-                }
-
-                try {
-                    const endpoint = formId === 'phq' ? 'http://localhost:3000/submit-phq' : 'http://localhost:3000/submit-gad7';
-
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ formId: formId, data: data })
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        alert(result.message || 'Form submitted successfully!');
+                radioGroups.forEach(group => {
+                    const radiosInGroup = group.querySelectorAll('input[type="radio"]');
+                    const groupName = radiosInGroup[0].name;
+                    const isChecked = form.querySelector(`input[name="${groupName}"]:checked`);
+                    
+                    if (!isChecked) {
+                        allQuestionsAnswered = false;
+                        group.style.border = '1px solid red';
+                        setTimeout(() => group.style.border = '', 3000);
                     } else {
-                        const errorData = await response.json();
-                        alert('Error submitting form: ' + (errorData.message || 'Unknown error'));
+                        group.style.border = '';
                     }
-                } catch (error) {
-                    console.error('Network or server error:', error);
-                    alert('Could not connect to the server. Please try again later.');
+                });
+
+                if (!allQuestionsAnswered) {
+                    alert('Please answer all questions before proceeding!');
                 }
+                return allQuestionsAnswered;
             }
 
-            document.getElementById('phq-form').addEventListener('submit', function(event) {
+            phqForm.addEventListener('submit', function(event) {
                 event.preventDefault();
-                const formData = new FormData(event.target);
-                sendFormDataToServer('phq', formData);
-            });
 
-            document.getElementById('gad7-form').addEventListener('submit', function(event) {
+                if (validateForm(phqForm)) {
+                    const formData = new FormData(phqForm);
+                    const data = Object.fromEntries(formData.entries());
+                    console.log('PHQ Data Submitted:', data);
+                    showTab('gad7-card');
+                    document.getElementById('gad7-card').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            gad7Form.addEventListener('submit', function(event) {
                 event.preventDefault();
-                const formData = new FormData(event.target);
-                sendFormDataToServer('gad7', formData);
+
+                if (validateForm(gad7Form)) {
+                    const formData = new FormData(gad7Form);
+                    const data = Object.fromEntries(formData.entries());
+                    console.log('GAD-7 Data Submitted:', data);
+                    window.location.href = 'hiraya_homepage.html';
+                }
             });
         });
     </script>
