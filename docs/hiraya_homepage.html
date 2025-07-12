@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+    <!-- Iconify script for SVG icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <style>
+        /* Global Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
-      body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #000;
-    color: #ffffff;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000; /* Dark background for a sleek look */
+            color: #ffffff; /* White text for contrast */
+            min-height: 100vh; /* Full viewport height */
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
         
+        /* Background Pulse Animation */
         body::before {
             content: '';
             position: fixed;
@@ -28,12 +32,12 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-            animation: backgroundPulse 10s ease-in-out infinite;
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%), /* Greenish glow */
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%), /* Bluish glow */
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%); /* Yellow-green glow */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: -1; /* Behind content */
+            animation: backgroundPulse 10s ease-in-out infinite; /* Smooth pulsing animation */
         }
         
         @keyframes backgroundPulse {
@@ -41,24 +45,54 @@
             50% { opacity: 0.7; }
         }
         
+        /* Header Navigation */
         .header-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            position: sticky;
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(15px); /* Frosted glass effect */
+            position: sticky; /* Sticky header */
             top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(0, 255, 127, 0.2);
+            z-index: 100; /* Ensure it's above other content */
+            border-bottom: 1px solid rgba(0, 255, 127, 0.2); /* Subtle bottom border */
         }
         
+        /* Left side of the header (notification icon and logo) */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between icon and logo */
+        }
+
+        /* Notification icon styling */
+        .notification-icon-link {
+            color: #00ff7f; /* Match logo color */
+            font-size: 1.8rem; /* Larger size for visibility */
+            padding: 5px; /* Add some padding around the icon */
+            border-radius: 50%; /* Make it rounded */
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex; /* Use flex to center the icon */
+            align-items: center;
+            justify-content: center;
+            text-decoration: none; /* Remove underline from link */
+            box-shadow: 0 0 0px rgba(0, 255, 127, 0); /* Initial subtle shadow */
+        }
+
+        .notification-icon-link:hover {
+            color: #adff2f; /* Change color on hover */
+            transform: scale(1.1); /* Slightly enlarge on hover */
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.6); /* Add glow on hover */
+        }
+
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #00ff7f;
-            text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+            color: #00ff7f; /* Vibrant green */
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.5); /* Glow effect */
+            /* Removed margin-left: 20px; as it's now handled by header-left gap */
         }
         
         .nav-links {
@@ -68,24 +102,24 @@
         }
         
         .nav-link {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; /* Smooth transitions */
             padding: 8px 16px;
             border-radius: 8px;
         }
         
         .nav-link:hover {
-            color: #00ff7f;
-            background: rgba(0, 255, 127, 0.1);
+            color: #00ff7f; /* Highlight on hover */
+            background: rgba(0, 255, 127, 0.1); /* Subtle background on hover */
         }
         
         .nav-cta {
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
-            color: #000;
+            background: linear-gradient(45deg, #00ff7f, #adff2f); /* Green-yellow gradient */
+            color: #000; /* Black text for contrast */
             padding: 12px 24px;
-            border-radius: 25px;
+            border-radius: 25px; /* Pill shape */
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -94,23 +128,24 @@
         }
         
         .nav-cta:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 255, 127, 0.4);
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            box-shadow: 0 5px 15px rgba(0, 255, 127, 0.4); /* Shadow effect */
         }
         
+        /* Hero Section */
         .hero-section {
             display: flex;
             align-items: center;
-            min-height: 80vh;
+            min-height: 80vh; /* Take up most of the viewport height */
             padding: 60px 40px;
             gap: 60px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto; /* Center content */
         }
         
         .hero-content {
             flex: 1;
-            z-index: 2;
+            z-index: 2; /* Ensure content is above background effects */
         }
         
         .hero-subtitle {
@@ -127,11 +162,11 @@
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 30px;
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            background: linear-gradient(45deg, #00ff7f, #adff2f); /* Gradient text */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite;
+            animation: titleGlow 3s ease-in-out infinite; /* Pulsing glow animation */
         }
         
         @keyframes titleGlow {
@@ -175,8 +210,8 @@
         }
         
         .profile-display {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.08); /* Semi-transparent white */
+            backdrop-filter: blur(25px); /* Stronger blur for visual */
             border-radius: 25px;
             padding: 40px;
             border: 1px solid rgba(0, 255, 127, 0.3);
@@ -198,7 +233,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 127, 0.15), transparent);
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 127, 0.15), transparent); /* Conic gradient for border animation */
             animation: rotate 12s linear infinite;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -263,6 +298,7 @@
             text-shadow: 0 0 25px rgba(0, 255, 127, 0.8);
         }
     
+        /* Content Section */
         .content-section {
             padding: 80px 40px;
             max-width: 1200px;
@@ -292,11 +328,11 @@
             border-radius: 20px;
             padding: 30px;
             border: 1px solid rgba(0, 255, 127, 0.25);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transform-style: preserve-3d;
+            transform-style: preserve-3d; /* Enable 3D transforms */
         }
         
         .card::before {
@@ -306,7 +342,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.2), transparent); /* Shine effect */
             transition: left 0.6s ease;
         }
         
@@ -315,7 +351,7 @@
         }
         
         .card:hover {
-            transform: translateY(-15px) rotateX(8deg) rotateY(8deg);
+            transform: translateY(-15px) rotateX(8deg) rotateY(8deg); /* Lift and rotate on hover */
             border-color: rgba(0, 255, 127, 0.9);
             box-shadow: 0 25px 50px rgba(0, 255, 127, 0.35);
         }
@@ -346,6 +382,7 @@
             filter: brightness(1.3);
         }
         
+        /* Specific Card Styles */
         .sleep-card {
             background: linear-gradient(135deg, rgba(0, 255, 127, 0.12), rgba(0, 150, 100, 0.06));
         }
@@ -553,6 +590,7 @@
             100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.9); }
         }
         
+        /* Notification styles */
         .notification {
             position: fixed;
             top: 20px;
@@ -562,16 +600,17 @@
             padding: 18px 25px;
             border-radius: 15px;
             font-weight: 700;
-            transform: translateX(350px);
+            transform: translateX(350px); /* Off-screen by default */
             transition: transform 0.4s ease;
             z-index: 1000;
             box-shadow: 0 8px 25px rgba(0, 255, 127, 0.4);
         }
         
         .notification.show {
-            transform: translateX(0);
+            transform: translateX(0); /* Slide in */
         }
 
+        /* Thumbnail Card Styles */
         .thumbnail-card {
             background: rgba(255, 255, 255, 0.06);
             border-radius: 20px;
@@ -639,9 +678,10 @@
         .thumbnail-link {
             text-decoration: none;
             color: inherit;
-            display: contents; 
+            display: contents; /* Allows the anchor to wrap the card without breaking layout */
         }
 
+        /* Footer Styles */
         .footer {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
@@ -671,6 +711,7 @@
             color: #00ff7f;
         }
         
+        /* Responsive Design */
         @media (max-width: 768px) {
             .header-nav {
                 padding: 15px 20px;
@@ -754,171 +795,191 @@
                 flex-direction: column;
                 gap: 10px;
             }
-}
+        }
     </style>
 </head>
 <body>
-  <div class="header-nav">
-    <div class="logo">Hiraya</div>
-    <div class="nav-links">
-      <a href="aboutus.html" class="nav-link">About</a>
-      <a href="privacy-terms.html" class="nav-link">Privacy & Terms</a>
-      <a href="contactus.html" class="nav-link">Contact</a>
-    </div>
-  </div>
-
-  <div class="hero-section">
-    <div class="hero-content">
-      <div class="hero-subtitle">Wellness Profile</div>
-      <h1 class="hero-title">TRANSFORM YOUR WELLNESS</h1>
-      <p class="hero-description">
-        Track your daily wellness journey with personalized insights, goals, and achievements. 
-        Monitor your daily tasks, mood, nutrition, and goals all in one comprehensive dashboard.
-      </p>
-      <button class="hero-cta" onclick="showNotification('Dashboard Updated! 📊')">View Dashboard</button>
-    </div>
-    <div class="hero-visual">
-      <a href="Profile page.html" class="profile-display">
-        <div class="profile-image">👤</div>
-        <div class="profile-info">
-          <h3 id="nickname">User</h3>
+    <!-- Header Navigation Section -->
+    <div class="header-nav">
+        <!-- Container for notification icon and logo to keep them together -->
+        <div class="header-left">
+            <!-- Notification Icon Link -->
+            <a href="Notifications.html" class="notification-icon-link">
+                <!-- Iconify icon for notifications (bell icon from 'ph' set - more minimalistic) -->
+                <iconify-icon icon="ph:bell-simple-fill"></iconify-icon>
+            </a>
+            <div class="logo">Hiraya</div>
         </div>
-      </a>
+        <div class="nav-links">
+            <a href="aboutus.html" class="nav-link">About</a>
+            <a href="privacy-terms.html" class="nav-link">Privacy & Terms</a>
+            <a href="contactus.html" class="nav-link">Contact</a>
+        </div>
     </div>
-  </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-subtitle">Wellness Profile</div>
+            <h1 class="hero-title">TRANSFORM YOUR WELLNESS</h1>
+            <p class="hero-description">
+                Track your daily wellness journey with personalized insights, goals, and achievements. 
+                Monitor your daily tasks, mood, nutrition, and goals all in one comprehensive dashboard.
+            </p>
+            <button class="hero-cta" onclick="showNotification('Dashboard Updated! 📊')">View Dashboard</button>
+        </div>
+        <div class="hero-visual">
+            <a href="Profile page.html" class="profile-display">
+                <div class="profile-image">👤</div>
+                <div class="profile-info">
+                    <h3 id="nickname">User</h3>
+                </div>
+            </a>
+        </div>
+    </div>
         
-        <div class="content-section">
-    <h2 class="section-title">Your Wellness Stats</h2>
-    <div class="cards-grid">
-        <div class="card mood-card" onclick="window.location.href='Weekly Progress Checkup.html'" style="position: relative;">
-            <div style="position: absolute; top: 15px; right: 15px; background: linear-gradient(45deg, #ff6b35, #ff9500); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); z-index: 2;">New</div>
-            
-            <div class="card-header">
-                <div class="card-icon mood-icon">📊</div>
-                <div class="card-info">
-                    <h3>Weekly Progress Check-up</h3>
-                    <div class="card-subtext">Your mental health journey</div>
-                </div>
-            </div>
-            <div style="margin: 25px 0; padding: 20px; background: rgba(0, 255, 127, 0.05); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.2);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
-                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Mood Tracking</span>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
-                        <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Excellent</span>
-                    </div>
-                </div>
+    <!-- Content Section - Wellness Stats -->
+    <div class="content-section">
+        <h2 class="section-title">Your Wellness Stats</h2>
+        <div class="cards-grid">
+            <!-- Weekly Progress Check-up Card -->
+            <div class="card mood-card" onclick="window.location.href='Weekly Progress Checkup.html'" style="position: relative;">
+                <div style="position: absolute; top: 15px; right: 15px; background: linear-gradient(45deg, #ff6b35, #ff9500); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); z-index: 2;">New</div>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
-                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Daily Tasks</span>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
-                        <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Great Progress</span>
+                <div class="card-header">
+                    <div class="card-icon mood-icon">📊</div>
+                    <div class="card-info">
+                        <h3>Weekly Progress Check-up</h3>
+                        <div class="card-subtext">Your mental health journey</div>
                     </div>
                 </div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
-                    <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Overall Experience</span>
-                    <div style="display: flex; gap: 8px;">
-                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
-                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
-                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
-                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
-                        <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                <div style="margin: 25px 0; padding: 20px; background: rgba(0, 255, 127, 0.05); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Mood Tracking</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                            <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Excellent</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Daily Tasks</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                            <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Great Progress</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Overall Experience</span>
+                        <div style="display: flex; gap: 8px;">
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 25px; padding: 20px; background: rgba(255, 255, 255, 0.04); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.15);">
+                    <div style="font-size: 1.1rem; color: #00ff7f; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                        💬 Latest Feedback
+                    </div>
+                    <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); font-style: italic; line-height: 1.5;">
+                        "Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference."
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center;">
+                    <div style="background: linear-gradient(45deg, #00ff7f, #adff2f); color: #000; padding: 12px 24px; border-radius: 25px; font-weight: 700; display: inline-block; transition: all 0.3s ease; cursor: pointer; font-size: 1rem;" onmouseover="this.style.transform='translateY(-2px) scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 127, 0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                        Click to see full progress..
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 25px; padding: 20px; background: rgba(255, 255, 255, 0.04); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.15);">
-                <div style="font-size: 1.1rem; color: #00ff7f; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
-                    💬 Latest Feedback
+
+            <!-- Nutrition Card -->
+            <div class="card meals-card">
+                <div class="card-header">
+                    <div class="card-icon meals-icon">🍽️</div> <!-- Added meal icon -->
+                    <div class="card-info">
+                        <h3>Nutrition</h3>
+                        <div class="card-value" id="meals-value">2/3</div>
+                        <div class="card-subtext">meals completed</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 67%"></div>
+                        </div>
+                    </div>
                 </div>
-                <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); font-style: italic; line-height: 1.5;">
-                    "Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference."
+                <div class="meal-checklist" id="meal-checklist">
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox checked"></div>
+                        <div class="meal-label">Breakfast</div>
+                        <div class="meal-emoji">🍳</div> <!-- Added breakfast emoji -->
+                    </div>
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox checked"></div>
+                        <div class="meal-label">Lunch</div>
+                        <div class="meal-emoji">🥪</div> <!-- Added lunch emoji -->
+                    </div>
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox"></div>
+                        <div class="meal-label">Dinner</div>
+                        <div class="meal-emoji">🍽️</div>
+                    </div>
+                    <div class="meal-progress">Keep up the healthy eating!</div>
                 </div>
             </div>
+        </div>
 
-            <div style="margin-top: 25px; text-align: center;">
-                <div style="background: linear-gradient(45deg, #00ff7f, #adff2f); color: #000; padding: 12px 24px; border-radius: 25px; font-weight: 700; display: inline-block; transition: all 0.3s ease; cursor: pointer; font-size: 1rem;" onmouseover="this.style.transform='translateY(-2px) scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 127, 0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                    Click to see full progress..
+        <!-- Explore More Section -->
+        <h2 class="section-title">Explore More</h2>
+        <div class="cards-grid">
+            <!-- Achievements Thumbnail Card -->
+            <a href="Achievements.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1538589085637-33f227415e36?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGFjaGlldmVtZW50fGVufDB8fDB8fHww" alt="Achievements Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Achievements</h3>
+                    <p class="thumbnail-description">View your unlocked milestones and progress.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieljschwarz" target="_blank" style="color: inherit; text-decoration: underline;">Daniel J. Schwarz</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
                 </div>
-            </div>
+            </a>
+
+            <!-- Motivational Videos Thumbnail Card -->
+            <a href="Motivational Videosss.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1421091242698-34f6ad7fc088?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1vdGl2YXRpb25uYWx8ZW58MHx8MHx8fA%3D%3D" alt="Motivational Videos Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Motivational Videos</h3>
+                    <p class="thumbnail-description">Get inspired with uplifting content.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@joerivandewalle" target="_blank" style="color: inherit; text-decoration: underline;">Joeri van de Valle</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+                </div>
+            </a>
+
+            <!-- Goals Thumbnail Card -->
+            <a href="Setting Goals-forhomepage.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1598091874986-7da3b270fead?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Goals Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Goals</h3>
+                    <p class="thumbnail-description">Set and track your personal wellness goals.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieladesire" target="_blank" style="color: inherit; text-decoration: underline;">Daniela Desiré</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+                </div>
+            </a>
         </div>
 
-      <div class="card meals-card">
-        <div class="card-header">
-          <div class="card-icon meals-icon"></div>
-          <div class="card-info">
-            <h3>Nutrition</h3>
-            <div class="card-value" id="meals-value">2/3</div>
-            <div class="card-subtext">meals completed</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 67%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="meal-checklist" id="meal-checklist">
-          <div class="meal-item" onclick="toggleMeal(this)">
-            <div class="meal-checkbox checked"></div>
-            <div class="meal-label">Breakfast</div>
-            <div class="meal-emoji"></div>
-          </div>
-          <div class="meal-item" onclick="toggleMeal(this)">
-            <div class="meal-checkbox checked"></div>
-            <div class="meal-label">Lunch</div>
-            <div class="meal-emoji"></div>
-          </div>
-          <div class="meal-item" onclick="toggleMeal(this)">
-            <div class="meal-checkbox"></div>
-            <div class="meal-label">Dinner</div>
-            <div class="meal-emoji">🍽️</div>
-          </div>
-          <div class="meal-progress">Keep up the healthy eating!</div>
-        </div>
-      </div>
     </div>
 
-    <h2 class="section-title">Explore More</h2>
-    <div class="cards-grid">
-      <a href= "Achievements.html" class="thumbnail-link">
-        <div class="thumbnail-card">
-          <img src="https://images.unsplash.com/photo-1538589085637-33f227415e36?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGFjaGlldmVtZW50fGVufDB8fDB8fHww" alt="Achievements Thumbnail" class="thumbnail-image">
-          <h3 class="thumbnail-title">Achievements</h3>
-          <p class="thumbnail-description">View your unlocked milestones and progress.</p>
-          <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieljschwarz" target="_blank" style="color: inherit; text-decoration: underline;">Daniel J. Schwarz</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Wellness Dashboard. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Contact Us</a>
         </div>
-      </a>
-
-          <a href="Motivational Videosss.html" class="thumbnail-link">
-        <div class="thumbnail-card">
-          <img src="https://images.unsplash.com/photo-1421091242698-34f6ad7fc088?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1vdGl2YXRpb25hbHxlbnwwfHwwfHx8MA%3D%3D" alt="Motivational Videos Thumbnail" class="thumbnail-image">
-          <h3 class="thumbnail-title">Motivational Videos</h3>
-          <p class="thumbnail-description">Get inspired with uplifting content.</p>
-          <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@joerivandewalle" target="_blank" style="color: inherit; text-decoration: underline;">Joeri van de Valle</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
-        </div>
-      </a>
-
-      <a href="Setting Goals-forhomepage.html" class="thumbnail-link">
-        <div class="thumbnail-card">
-          <img src="https://images.unsplash.com/photo-1598091874986-7da3b270fead?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Goals Thumbnail" class="thumbnail-image">
-          <h3 class="thumbnail-title">Goals</h3>
-          <p class="thumbnail-description">Set and track your personal wellness goals.</p>
-          <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieladesire" target="_blank" style="color: inherit; text-decoration: underline;">Daniela Desiré</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
-        </div>
-      </a>
     </div>
 
-  </div>
-
-  <div class="footer">
-    <p>&copy; 2025 Wellness Dashboard. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#" class="footer-link">Privacy Policy</a>
-      <a href="#" class="footer-link">Terms of Service</a>
-      <a href="#" class="footer-link">Contact Us</a>
-    </div>
-  </div>
-
+    <!-- JavaScript for interactivity -->
     <script>
+        // Function to show a custom notification
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.textContent = message;
@@ -926,39 +987,43 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: linear-gradient(45deg, #4ecdc4, #44a08d);
+                background: linear-gradient(45deg, #4ecdc4, #44a08d); /* Gradient background */
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 10px;
                 font-weight: 500;
                 z-index: 1000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
+                transform: translateX(100%); /* Start off-screen */
+                transition: transform 0.3s ease; /* Smooth slide-in/out */
                 box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             `;
             
             document.body.appendChild(notification);
             
+            // Slide in the notification
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 100);
             
+            // Slide out and remove after 3 seconds
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
                     if (document.body.contains(notification)) {
                         document.body.removeChild(notification);
                     }
-                }, 300);
+                }, 300); // Allow time for slide-out transition
             }, 3000);
         }
 
+        // Event listener for DOM content loaded
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.card');
             const thumbnailCards = document.querySelectorAll('.thumbnail-card');
             const nicknameDisplay = document.getElementById('nickname');
-            const welcomeBanner = document.getElementById('custom-welcome');
-        
+            const welcomeBanner = document.getElementById('custom-welcome'); // This element doesn't exist in the provided HTML, so it won't have an effect.
+            
+            // Add hover effects for main cards
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-15px) rotateX(8deg) rotateY(8deg)';
@@ -969,6 +1034,7 @@
                 });
             });
 
+            // Add hover effects for thumbnail cards
             thumbnailCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-15px) rotateX(8deg) rotateY(8deg)';
@@ -978,10 +1044,11 @@
                     this.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
                 });
             });
-          
+            
+            // Intersection Observer for fade-in animation on scroll
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.1, /* Trigger when 10% of the element is visible */
+                rootMargin: '0px 0px -50px 0px' /* Adjust observation area */
             };
             
             const observer = new IntersectionObserver(function(entries) {
@@ -992,25 +1059,30 @@
                     }
                 });
             }, observerOptions);
-          
+            
+            // Apply initial styles and observe elements for animation
             [...cards, ...thumbnailCards].forEach(element => { 
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(30px)';
                 element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(element);
             });
+
+            // Set nickname display (currently hardcoded to 'User')
             let storedNickname = 'User'; 
             
             if (storedNickname) {
                 if (nicknameDisplay) {
                     nicknameDisplay.textContent = storedNickname;
                 }
+                // The welcomeBanner element is not in the provided HTML, so this part will not execute.
                 if (welcomeBanner) {
                     welcomeBanner.textContent = `Welcome ${storedNickname}, we missed you! We hope you are doing well :)`;
                 }
             }
         });
 
+        // Function to update tasks (not directly used in current HTML structure but available)
         function updateTasks() {
             const tasksText = document.getElementById('tasks-text');
             const taskMessages = ['Keep up the great work!', 'You\'re crushing your goals!', 'Stay focused!', 'Almost there!'];
@@ -1019,10 +1091,7 @@
             showNotification('Tasks updated! ✅');
         }
 
-        function toggleMealsDetails() {
-            showNotification('Meal tracking opened! 🍎');
-        }
-
+        // Function to toggle meal completion status
         function toggleMeal(mealItem) {
             const checkbox = mealItem.querySelector('.meal-checkbox');
             const isChecked = checkbox.classList.contains('checked');
@@ -1037,6 +1106,7 @@
                 showNotification('Meal completed! ✅');
             }
             
+            // Update meal progress display
             const checkedBoxes = document.querySelectorAll('.meal-checkbox.checked').length;
             const totalBoxes = document.querySelectorAll('.meal-checkbox').length;
             const percentage = (checkedBoxes / totalBoxes) * 100;
