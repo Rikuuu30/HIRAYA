@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Check-up</title>
-    <style>
+  <style>
         * {
             margin: 0;
             padding: 0;
@@ -511,6 +511,7 @@
             background: rgba(255, 107, 107, 0.15);
             border-color: #ff6b6b;
         }
+
         .resource-library-section .section-title {
             background: linear-gradient(45deg, #7b68ee, #00bfff);
             -webkit-background-clip: text;
@@ -537,6 +538,8 @@
             gap: 10px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
         .resource-card:hover {
             transform: translateY(-5px);
@@ -563,9 +566,166 @@
             text-decoration: none;
             font-weight: 500;
             margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         .resource-card a:hover {
             text-decoration: underline;
+        }
+
+        .resource-card.expanded {
+            grid-column: 1 / -1;
+            background: rgba(123, 104, 238, 0.08);
+            border-color: rgba(123, 104, 238, 0.5);
+            box-shadow: 0 20px 40px rgba(123, 104, 238, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .resource-card.expanded .close-btn {
+            display: flex;
+        }
+
+        .close-btn:hover {
+            background: #ff4757;
+            transform: scale(1.1);
+            opacity: 1;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            opacity: 0;
+            margin-top: 15px;
+        }
+
+        .expanded-content.show {
+            max-height: 2000px;
+            opacity: 1;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section h3 {
+            color: #7b68ee;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(123, 104, 238, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .content-section p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-section li {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .content-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00bfff;
+            font-weight: bold;
+        }
+
+        .exercise-card {
+            background: rgba(123, 104, 238, 0.08);
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00bfff;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            background: rgba(123, 104, 238, 0.12);
+            border-color: rgba(123, 104, 238, 0.4);
+            transform: translateX(5px);
+        }
+
+        .exercise-title {
+            font-weight: 600;
+            color: #7b68ee;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .exercise-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #7b68ee, #00bfff);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(123, 104, 238, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7b68ee, #00bfff);
+            width: 0%;
+            transition: width 2s ease;
+        }
+
+        .learn-more-reading {
+            color: #00ff7f !important;
+            pointer-events: none;
         }
 
         .journaling-section .section-title {
@@ -807,6 +967,10 @@
             .resource-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .resource-library-section .section-title {
+                font-size: 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -832,6 +996,10 @@
             .submit-btn {
                 padding: 15px 20px;
                 font-size: 1rem;
+            }
+            
+            .resource-library-section .section-title {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -907,23 +1075,208 @@
                 <h2 class="section-title">Resource Library</h2>
             </div>
             <div class="resource-grid">
-                <div class="resource-card">
+                <div class="resource-card" data-resource="mindfulness">
+                    <button class="close-btn" onclick="closeCard(this)">&times;</button>
                     <div class="card-icon">&#129504;</div>
                     <div class="card-title">Mindfulness Exercises</div>
                     <div class="card-description">Simple guided meditations and breathing techniques to calm your mind.</div>
-                    <a href="#">Learn More &rarr;</a>
+                    <a href="#" onclick="expandCard(this, event)">Learn More &rarr;</a>
+                    
+                    <div class="expanded-content">
+                        <div class="content-section">
+                            <div class="tag">Beginner Friendly</div>
+                            <div class="tag">5-20 minutes</div>
+                            <div class="tag">No Equipment</div>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>What is Mindfulness?</h3>
+                            <p>Mindfulness is the practice of being fully present and engaged in the moment, aware of where you are and what you're doing, without being overly reactive or overwhelmed by what's happening around you. It's about observing your thoughts and feelings without judgment.</p>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Benefits</h3>
+                            <ul>
+                                <li>Reduces stress and anxiety levels</li>
+                                <li>Improves focus and concentration</li>
+                                <li>Enhances emotional regulation</li>
+                                <li>Promotes better sleep quality</li>
+                                <li>Increases self-awareness and mindful living</li>
+                                <li>Lowers blood pressure and improves heart health</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Guided Exercises</h3>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">4-7-8 Breathing Technique</div>
+                                <div class="exercise-description">
+                                    A powerful breathing exercise that helps activate your parasympathetic nervous system. Inhale through your nose for 4 counts, hold your breath for 7 counts, then exhale completely through your mouth for 8 counts. Repeat 3-4 times for immediate relaxation.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Body Scan Meditation</div>
+                                <div class="exercise-description">
+                                    Start at the top of your head and slowly move your attention down through your body. Notice any sensations, tension, or areas of relaxation. This practice helps develop body awareness and releases physical stress stored in your muscles.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">5-4-3-2-1 Grounding Technique</div>
+                                <div class="exercise-description">
+                                    An effective technique for anxiety and panic. Notice 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. This helps anchor you firmly in the present moment.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Loving-Kindness Meditation</div>
+                                <div class="exercise-description">
+                                    Begin by sending loving thoughts to yourself, then gradually extend them to loved ones, neutral people, difficult people, and finally all beings. This practice cultivates compassion and reduces negative emotions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="resource-card">
+
+                <div class="resource-card" data-resource="stress">
+                    <button class="close-btn" onclick="closeCard(this)">&times;</button>
                     <div class="card-icon">&#128170;</div>
                     <div class="card-title">Stress Relief Techniques</div>
                     <div class="card-description">Quick tips and practices to manage daily stress effectively.</div>
-                    <a href="#">Learn More &rarr;</a>
+                    <a href="#" onclick="expandCard(this, event)">Learn More &rarr;</a>
+                    
+                    <div class="expanded-content">
+                        <div class="content-section">
+                            <div class="tag">Quick Relief</div>
+                            <div class="tag">1-15 minutes</div>
+                            <div class="tag">Workplace Friendly</div>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Understanding Stress</h3>
+                            <p>Stress is your body's natural response to challenges and demands. While acute stress can be beneficial and motivating, chronic stress can negatively impact your physical health, mental clarity, and emotional well-being. Learning effective stress management is crucial for maintaining balance.</p>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Immediate Stress Relief</h3>
+                            <ul>
+                                <li>Take 10 slow, deep breaths</li>
+                                <li>Progressive muscle relaxation technique</li>
+                                <li>Listen to calming music or nature sounds</li>
+                                <li>Practice positive self-talk and affirmations</li>
+                                <li>Step outside for fresh air and natural light</li>
+                                <li>Drink a glass of cold water mindfully</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Stress Management Techniques</h3>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Time Management & Prioritization</div>
+                                <div class="exercise-description">
+                                    Use the Eisenhower Matrix to categorize tasks by urgency and importance. Focus on important and urgent tasks first, schedule important but not urgent activities, delegate when possible, and eliminate unnecessary commitments.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Physical Movement</div>
+                                <div class="exercise-description">
+                                    Even 5-10 minutes of movement can significantly reduce stress hormones like cortisol. Try desk stretches, a brisk walk, simple yoga poses, or dancing to your favorite song to release physical tension.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Boundary Setting</div>
+                                <div class="exercise-description">
+                                    Learn to say no to non-essential commitments that drain your energy. Set clear boundaries between work and personal time, communicate your limits clearly, and protect your mental space from overwhelm.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Cognitive Reframing</div>
+                                <div class="exercise-description">
+                                    Challenge negative thought patterns by asking: "Is this thought helpful?" "What evidence supports this?" "What would I tell a friend in this situation?" Replace catastrophic thinking with more balanced perspectives.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="resource-card">
+
+                <div class="resource-card" data-resource="sleep">
+                    <button class="close-btn" onclick="closeCard(this)">&times;</button>
                     <div class="card-icon">&#128164;</div>
                     <div class="card-title">Better Sleep Hygiene</div>
                     <div class="card-description">Strategies and habits for improving the quality of your sleep.</div>
-                    <a href="#">Learn More &rarr;</a>
+                    <a href="#" onclick="expandCard(this, event)">Learn More &rarr;</a>
+                    
+                    <div class="expanded-content">
+                        <div class="content-section">
+                            <div class="tag">Long-term Benefits</div>
+                            <div class="tag">Habit Building</div>
+                            <div class="tag">Evidence-Based</div>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Why Sleep Matters</h3>
+                            <p>Quality sleep is fundamental to physical health, mental clarity, emotional regulation, and overall well-being. Poor sleep habits can lead to decreased immune function, weight gain, impaired cognitive performance, mood disorders, and increased risk of chronic diseases like diabetes and heart disease.</p>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Core Sleep Hygiene Principles</h3>
+                            <ul>
+                                <li>Maintain a consistent sleep schedule, even on weekends</li>
+                                <li>Create a relaxing bedtime routine and stick to it</li>
+                                <li>Keep your bedroom cool (60-67°F), dark, and quiet</li>
+                                <li>Limit screen time for 1-2 hours before bed</li>
+                                <li>Avoid caffeine after 2 PM and large meals close to bedtime</li>
+                                <li>Get natural sunlight exposure during the day</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Sleep Improvement Strategies</h3>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Sleep Environment Optimization</div>
+                                <div class="exercise-description">
+                                    Invest in blackout curtains or eye masks, comfortable bedding, and maintain optimal temperature. Consider white noise machines, earplugs, or a fan for consistent sound. Remove electronic devices and clocks from view to reduce anxiety.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Pre-Sleep Routine</div>
+                                <div class="exercise-description">
+                                    Start winding down 1-2 hours before bed with calming activities like reading, gentle stretching, meditation, journaling, or taking a warm bath. Dim lights throughout your home to signal to your body that it's time to sleep.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Sleep Tracking & Assessment</div>
+                                <div class="exercise-description">
+                                    Keep a sleep diary noting bedtime, wake time, sleep quality, and factors affecting sleep. Use apps or wearables to track patterns. Identify correlations between daily activities, stress levels, and sleep quality.
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-title">Dealing with Sleep Disruptions</div>
+                                <div class="exercise-description">
+                                    If you can't fall asleep within 20 minutes, get up and do a quiet, non-stimulating activity until sleepy. Practice the "20-minute rule" consistently. Use relaxation techniques like progressive muscle relaxation if your mind is racing.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h3>Sleep Progress Tracker</h3>
+                            <p>Track your sleep improvement journey:</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="sleep-progress"></div>
+                            </div>
+                            <p style="margin-top: 10px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">Complete daily sleep hygiene practices to improve your score</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1290,6 +1643,92 @@
             renderGoals();
             renderJournalEntries();
             displayRandomQuote();
+        });
+
+        function expandCard(element, event) {
+            event.preventDefault();
+            
+            const card = element.closest('.resource-card');
+            const expandedContent = card.querySelector('.expanded-content');
+            const allCards = document.querySelectorAll('.resource-card');
+            allCards.forEach(c => {
+                if (c !== card) {
+                    c.classList.remove('expanded');
+                    c.querySelector('.expanded-content').classList.remove('show');
+                    const otherBtn = c.querySelector('a');
+                    otherBtn.textContent = 'Learn More →';
+                    otherBtn.classList.remove('learn-more-reading');
+                }
+            });
+            
+            card.classList.add('expanded');
+            expandedContent.classList.add('show');
+            
+            element.textContent = 'Reading... ✓';
+            element.classList.add('learn-more-reading');
+            
+            setTimeout(() => {
+                card.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 300);
+            
+            if (card.dataset.resource === 'sleep') {
+                setTimeout(() => {
+                    const progressBar = card.querySelector('#sleep-progress');
+                    if (progressBar) {
+                        progressBar.style.width = '85%';
+                    }
+                }, 1000);
+            }
+        }
+        
+        function closeCard(button) {
+            const card = button.closest('.resource-card');
+            const expandedContent = card.querySelector('.expanded-content');
+            const learnMoreBtn = card.querySelector('a');
+            
+            card.classList.remove('expanded');
+            expandedContent.classList.remove('show');
+            learnMoreBtn.textContent = 'Learn More →';
+            learnMoreBtn.classList.remove('learn-more-reading');
+            const progressBar = card.querySelector('#sleep-progress');
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const expandedCard = document.querySelector('.resource-card.expanded');
+            if (expandedCard && !expandedCard.contains(event.target)) {
+                closeCard(expandedCard.querySelector('.close-btn'));
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const expandedCard = document.querySelector('.resource-card.expanded');
+                if (expandedCard) {
+                    closeCard(expandedCard.querySelector('.close-btn'));
+                }
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.resource-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease';
         });
     </script>
 </body>
