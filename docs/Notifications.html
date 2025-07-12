@@ -3,61 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Notifications</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Homepage</title>
+    <!-- Iconify script for SVG icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <style>
+        /* Global Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        :root {
-            --bg-color-dark: #000000;
-            --card-bg-light: rgba(255, 255, 255, 0.03);
-            --border-color-green: rgba(0, 255, 127, 0.2);
-            --accent-green-light: #00ff7f;
-            --accent-green-dark: #adff2f;
-            --accent-blue: #00bfff;
-            --warning-red: #ff3333;
-            --new-badge-color: #ffcc00;
-            --unread-dot-color: #ff007f;
-
-            --text-color-light: #ffffff;
-            --text-color-secondary: rgba(255, 255, 255, 0.9);
-            --text-color-faded: rgba(255, 255, 255, 0.6);
-
-            --border-radius-sm: 8px;
-            --border-radius-md: 15px;
-            --border-radius-lg: 20px;
-
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 30px;
-            --spacing-xxl: 40px;
-
-            --font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        
         body {
-            font-family: var(--font-family-primary);
-            background: var(--bg-color-dark);
-            color: var(--text-color-light);
-            min-height: 100vh;
-            padding: var(--spacing-md);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000; /* Dark background for a sleek look */
+            color: #ffffff; /* White text for contrast */
+            min-height: 100vh; /* Full viewport height */
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-
+        
+        /* Background Pulse Animation */
         body::before {
             content: '';
             position: fixed;
@@ -65,716 +31,1089 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
-            background-size: 200% 200%;
-            pointer-events: none;
-            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%), /* Greenish glow */
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%), /* Bluish glow */
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%); /* Yellow-green glow */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: -1; /* Behind content */
+            animation: backgroundPulse 10s ease-in-out infinite; /* Smooth pulsing animation */
         }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+        
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: var(--spacing-xxl);
-            position: relative;
-            width: 100%;
-            padding: var(--spacing-md) 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 255, 127, 0.1);
-            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+        
+        /* Header Navigation */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(15px); /* Frosted glass effect */
+            position: sticky; /* Sticky header */
+            top: 0;
+            z-index: 100; /* Ensure it's above other content */
+            border-bottom: 1px solid rgba(0, 255, 127, 0.2); /* Subtle bottom border */
+        }
+        
+        /* Left side of the header (notification icon and logo) */
+        .header-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-            min-height: 70px;
+            gap: 15px; /* Space between icon and logo */
         }
 
-        .back-icon {
-            position: absolute;
-            left: var(--spacing-xl);
-            font-size: 24px;
-            color: var(--text-color-light);
+        /* Notification icon styling */
+        .notification-icon-link {
+            color: #00ff7f; /* Match logo color */
+            font-size: 1.8rem; /* Larger size for visibility */
+            padding: 5px; /* Add some padding around the icon */
+            border-radius: 50%; /* Make it rounded */
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: transform 0.2s ease, color 0.2s ease;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: fadeInSlideRight 0.8s ease-out forwards 0.5s;
-        }
-
-        .back-icon:hover {
-            transform: translateX(-23px) scale(1.05);
-            color: var(--accent-green-light);
-        }
-
-        .back-icon:active {
-            transform: translateX(-20px) scale(0.95);
-        }
-
-        .header-title {
-            display: flex;
+            display: flex; /* Use flex to center the icon */
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            flex-grow: 1;
+            text-decoration: none; /* Remove underline from link */
+            box-shadow: 0 0 0px rgba(0, 255, 127, 0); /* Initial subtle shadow */
         }
 
-        .main-title {
-            font-size: 2.5rem;
+        .notification-icon-link:hover {
+            color: #adff2f; /* Change color on hover */
+            transform: scale(1.1); /* Slightly enlarge on hover */
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.6); /* Add glow on hover */
+        }
+
+        .logo {
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, var(--accent-green-light), var(--accent-green-dark), var(--accent-blue));
+            color: #00ff7f; /* Vibrant green */
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.5); /* Glow effect */
+            /* Removed margin-left: 20px; as it's now handled by header-left gap */
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease; /* Smooth transitions */
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        
+        .nav-link:hover {
+            color: #00ff7f; /* Highlight on hover */
+            background: rgba(0, 255, 127, 0.1); /* Subtle background on hover */
+        }
+        
+        .nav-cta {
+            background: linear-gradient(45deg, #00ff7f, #adff2f); /* Green-yellow gradient */
+            color: #000; /* Black text for contrast */
+            padding: 12px 24px;
+            border-radius: 25px; /* Pill shape */
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-cta:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            box-shadow: 0 5px 15px rgba(0, 255, 127, 0.4); /* Shadow effect */
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            min-height: 80vh; /* Take up most of the viewport height */
+            padding: 60px 40px;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto; /* Center content */
+        }
+        
+        .hero-content {
+            flex: 1;
+            z-index: 2; /* Ensure content is above background effects */
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f); /* Gradient text */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5), 0 0 50px rgba(0, 191, 255, 0.3);
-            margin: 0;
+            animation: titleGlow 3s ease-in-out infinite; /* Pulsing glow animation */
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(0, 255, 127, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 255, 127, 0.8)); }
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+        
+        .hero-cta {
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
             cursor: pointer;
-            transition: transform 0.2s ease, text-shadow 0.2s ease;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeInSlideDown 0.8s ease-out forwards 0.2s;
+            font-size: 1.1rem;
+            margin-right: 20px;
         }
-
-        .main-title:hover {
-            transform: scale(1.02);
-            text-shadow: 0 0 40px rgba(0, 255, 127, 0.6), 0 0 70px rgba(0, 191, 255, 0.4);
+        
+        .hero-cta:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 255, 127, 0.4);
         }
-
-        .main-title.pulse {
-            animation: titlePulse 0.5s ease-in-out;
-        }
-
-        @keyframes titlePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .notification-tabs {
+        
+        .hero-visual {
+            flex: 1;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: var(--spacing-lg);
-            padding: var(--spacing-sm);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius-md);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color-green);
+            align-items: center;
+            position: relative;
         }
-
-        .tab-button {
-            padding: var(--spacing-sm) var(--spacing-md);
-            border: none;
-            background: transparent;
-            color: var(--text-color-secondary);
-            font-size: 1em;
-            font-weight: 500;
-            border-radius: var(--border-radius-sm);
+        
+        .profile-display {
+            background: rgba(255, 255, 255, 0.08); /* Semi-transparent white */
+            backdrop-filter: blur(25px); /* Stronger blur for visual */
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 25px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 127, 0.15), transparent); /* Conic gradient for border animation */
+            animation: rotate 12s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .profile-display:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .profile-display:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0, 255, 127, 0.25);
+            border-color: rgba(0, 255, 127, 0.8);
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #00ff7f;
+            box-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+            object-fit: cover;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #000;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-image:hover {
+            transform: rotate(360deg) scale(1.15);
+            box-shadow: 0 0 50px rgba(0, 255, 127, 1);
+        }
+        
+        .profile-info {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ff7f;
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
+            margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-
-        .tab-button:hover {
-            color: var(--text-color-light);
-            background: rgba(0, 255, 127, 0.1);
+        
+        .profile-info h3:hover {
+            transform: scale(1.08);
+            text-shadow: 0 0 25px rgba(0, 255, 127, 0.8);
         }
-
-        .tab-button.active {
-            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
-            color: var(--bg-color-dark);
-            box-shadow: 0 4px 15px rgba(0, 255, 127, 0.3);
+    
+        /* Content Section */
+        .content-section {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
             font-weight: 700;
-            transform: translateY(-2px);
+            margin-bottom: 60px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        .notification-card {
-            background: var(--card-bg-light);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            border: 1px solid var(--border-color-green);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            margin-bottom: var(--spacing-md);
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 127, 0.25);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
             position: relative;
             overflow: hidden;
-            will-change: transform, box-shadow;
-            display: none;
+            cursor: pointer;
+            transform-style: preserve-3d; /* Enable 3D transforms */
         }
-
-        .notification-card.active {
-            display: block;
-        }
-
-        .notification-card:hover {
-            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.2), 0 0 60px rgba(0, 191, 255, 0.1);
-            border-color: rgba(0, 255, 127, 0.6);
-        }
-
-        .notification-card::before {
+        
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-            pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.2), transparent); /* Shine effect */
+            transition: left 0.6s ease;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-15px) rotateX(8deg) rotateY(8deg); /* Lift and rotate on hover */
+            border-color: rgba(0, 255, 127, 0.9);
+            box-shadow: 0 25px 50px rgba(0, 255, 127, 0.35);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #fff;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .card-icon:hover {
+            transform: rotate(20deg) scale(1.15);
+            filter: brightness(1.3);
+        }
+        
+        /* Specific Card Styles */
+        .sleep-card {
+            background: linear-gradient(135deg, rgba(0, 255, 127, 0.12), rgba(0, 150, 100, 0.06));
+        }
+        
+        .sleep-icon {
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+        }
+        
+        .activity-card {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.12), rgba(138, 43, 226, 0.06));
+        }
+        
+        .activity-icon {
+            background: linear-gradient(45deg, #ff1493, #8a2be2);
+        }
+        
+        .mood-card { 
+            background: linear-gradient(135deg, rgba(186, 85, 211, 0.12), rgba(138, 43, 226, 0.06));
+        }
+        
+        .mood-icon { 
+            background: linear-gradient(45deg, #ba55d3, #8a2be2);
+        }
+        
+        .meals-card {
+            background: linear-gradient(135deg, rgba(30, 144, 255, 0.12), rgba(0, 100, 200, 0.06));
+        }
+        
+        .meals-icon {
+            background: linear-gradient(45deg, #1e90ff, #0064c8);
+        }
+        
+        .card-info {
+            flex: 1;
+        }
+        
+        .card-info h3 {
+            font-size: 1.3rem;
+            color: #00ff7f;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .card-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #00ff7f;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .card-value:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.9);
+        }
+        
+        .card-subtext {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 255, 127, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff7f, #adff2f);
+            border-radius: 3px;
+            transition: width 1.2s ease;
+        }
+        
+        .mood-text { 
+            font-size: 1.3rem;
+            color: #fff;
+            margin-top: 15px;
+            font-style: italic;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .mood-text:hover { 
+            color: #ff69b4;
+            transform: scale(1.05);
+        }
+        
+        .meal-checklist {
+            margin-top: 20px;
+        }
+        
+        .meal-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .meal-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
+            transition: left 0.4s ease;
+        }
+        
+        .meal-item:hover::before {
+            left: 100%;
+        }
+        
+        .meal-item:hover {
+            background: rgba(0, 255, 127, 0.08);
+            transform: translateX(8px);
+        }
+        
+        .meal-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(0, 255, 127, 0.6);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .meal-checkbox.checked {
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border-color: #00ff7f;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+            animation: checkPulse 0.4s ease;
+        }
+        
+        .meal-checkbox.checked::after {
+            content: '✓';
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        @keyframes checkPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .meal-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .meal-item:hover .meal-label {
+            color: #ffffff;
+        }
+        
+        .meal-item.completed .meal-label {
+            color: #00ff7f;
+        }
+        
+        .meal-emoji {
+            font-size: 1.4rem;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .meal-item:hover .meal-emoji {
+            transform: scale(1.3) rotate(15deg);
+        }
+        
+        .meal-progress {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        @keyframes badgeGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.9); }
+        }
+        
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 255, 127, 0.95);
+            color: #000;
+            padding: 18px 25px;
+            border-radius: 15px;
+            font-weight: 700;
+            transform: translateX(350px); /* Off-screen by default */
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0, 255, 127, 0.4);
+        }
+        
+        .notification.show {
+            transform: translateX(0); /* Slide in */
         }
 
-        .notification-card:hover::before {
+        /* Thumbnail Card Styles */
+        .thumbnail-card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 127, 0.25);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .thumbnail-card:hover {
+            transform: translateY(-15px) rotateX(8deg) rotateY(8deg);
+            border-color: rgba(0, 255, 127, 0.9);
+            box-shadow: 0 25px 50px rgba(0, 255, 127, 0.35);
+        }
+
+        .thumbnail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .thumbnail-card:hover::before {
             left: 100%;
         }
 
-        .notification-card.read {
-            border-color: rgba(100, 100, 100, 0.2);
-            background: rgba(255, 255, 255, 0.015);
-            opacity: 0.8;
-            transition: all 0.5s ease;
-        }
-
-        .notification-card.read .read-indicator {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .read-indicator {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            color: var(--accent-green-light);
-            font-size: 1.2em;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-
-        .card-heading {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-md);
-            color: var(--accent-green-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(0, 255, 127, 0.2);
-            padding-bottom: var(--spacing-sm);
-            text-shadow: 0 0 10px rgba(0, 255, 127, 0.1);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .card-heading i {
-            color: var(--accent-green-light);
-            font-size: 1.2em;
-        }
-
-        .card-content p {
-            margin: var(--spacing-sm) 0;
-            line-height: 1.6;
-            color: var(--text-color-secondary);
-        }
-
-        .card-content strong {
-            color: var(--text-color-light);
-            font-weight: 600;
-        }
-
-        .actionable-text {
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-            color: var(--accent-blue);
-            transition: all 0.3s ease-in-out;
-            text-shadow: 0 0 5px rgba(0, 191, 255, 0.2);
-        }
-
-        .actionable-text:hover {
-            color: var(--accent-green-light);
-            text-decoration: none;
-            transform: translateY(-1px);
-            text-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
-        }
-
-        .actionable-text::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-green-light), var(--accent-blue));
-            transition: width 0.3s ease-in-out;
-        }
-
-        .actionable-text:hover::after {
+        .thumbnail-image {
             width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid rgba(0, 255, 127, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .timestamp {
-            font-size: 0.85em;
-            color: var(--text-color-faded);
-            text-align: right;
-            margin-top: var(--spacing-sm);
-            display: block;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+        .thumbnail-card:hover .thumbnail-image {
+            transform: scale(1.05);
+            border-color: #00ff7f;
         }
 
-        .notification-card:hover .timestamp {
-            opacity: 1;
+        .thumbnail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ff7f;
+            margin-bottom: 10px;
         }
 
-        .card-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-md);
-            justify-content: flex-end;
-        }
-
-        .action-button {
-            padding: var(--spacing-xs) var(--spacing-md);
-            border: 1px solid var(--accent-blue);
-            background: rgba(0, 191, 255, 0.1);
-            color: var(--accent-blue);
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .action-button:hover {
-            background: var(--accent-blue);
-            color: var(--bg-color-dark);
-            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .action-button.primary {
-            border-color: var(--accent-green-light);
-            background: rgba(0, 255, 127, 0.15);
-            color: var(--accent-green-light);
-        }
-
-        .action-button.primary:hover {
-            background: var(--accent-green-light);
-            color: var(--bg-color-dark);
-            box-shadow: 0 4px 15px rgba(0, 255, 127, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .quote {
-            font-style: italic;
-            margin-bottom: var(--spacing-sm);
+        .thumbnail-description {
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .author {
-            font-weight: 500;
-            color: var(--accent-green-dark);
-            display: block;
-            margin-top: 5px;
-            text-shadow: 0 0 8px rgba(173, 255, 47, 0.2);
+        .thumbnail-link {
+            text-decoration: none;
+            color: inherit;
+            display: contents; /* Allows the anchor to wrap the card without breaking layout */
         }
 
-        .well-being-alert {
-            border: 1px solid var(--warning-red);
-            background: rgba(255, 51, 51, 0.05);
-            animation: pulseWarning 2s infinite ease-in-out;
-            box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
-        }
-
-        .well-being-alert .card-heading i {
-            color: var(--warning-red);
-        }
-
-        @keyframes pulseWarning {
-            0%, 100% {
-                transform: scale(1) translateY(0);
-                box-shadow: 0 4px 20px rgba(255, 51, 51, 0.2);
-            }
-            50% {
-                transform: scale(1.008) translateY(-3px);
-                box-shadow: 0 8px 30px rgba(255, 51, 51, 0.4);
-                border-color: rgba(255, 51, 51, 0.9);
-            }
-        }
-
-        .notification-card.new::after {
-            content: 'NEW!';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--new-badge-color);
-            color: var(--bg-color-dark);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--border-radius-sm);
-            font-size: 0.7em;
-            font-weight: 700;
-            text-transform: uppercase;
-            animation: bounceIn 0.5s ease-out;
-            transform-origin: top right;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            z-index: 2;
-        }
-
-        .notification-card.new .unread-dot {
-            opacity: 1;
-            transform: scale(1);
-            animation: unreadDotPulse 1.5s infinite ease-in-out;
-        }
-
-        .unread-dot {
-            position: absolute;
-            top: 5px;
-            right: 0px;
-            width: 8px;
-            height: 8px;
-            background-color: var(--unread-dot-color);
-            border-radius: 50%;
-            border: 2px solid var(--bg-color-dark);
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 3;
-        }
-
-        @keyframes unreadDotPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-            60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes fadeInSlideRight {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes fadeInSlideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .no-notifications {
+        /* Footer Styles */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 40px 40px;
+            border-top: 1px solid rgba(0, 255, 127, 0.2);
             text-align: center;
-            padding: var(--spacing-xxl);
-            color: var(--text-color-secondary);
-            font-size: 1.2em;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInSlideUp 0.8s ease-out forwards;
-            display: none;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 80px;
         }
 
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
         }
 
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #00ff7f;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body {
-                padding: var(--spacing-md);
+            .header-nav {
+                padding: 15px 20px;
             }
-            .header {
-                margin-bottom: var(--spacing-lg);
-                padding: var(--spacing-sm) 0;
+            
+            .nav-links {
+                gap: 15px;
             }
-            .back-icon {
-                left: var(--spacing-md);
-                animation: none;
-                opacity: 1;
-                transform: translateX(0);
+            
+            .hero-section {
+                flex-direction: column;
+                padding: 40px 20px;
+                gap: 40px;
+                text-align: center;
+                min-height: 60vh;
             }
-            .main-title {
-                font-size: 2rem;
-                animation: none;
-                opacity: 1;
-                transform: translateY(0);
+            
+            .hero-title {
+                font-size: 2.5rem;
             }
-            .notification-card {
-                padding: var(--spacing-lg);
-            }
-            .card-heading {
-                font-size: 1.3rem;
-            }
-            .notification-tabs {
-                flex-wrap: wrap;
-            }
-            .tab-button {
-                flex: 1 1 auto;
-                min-width: 100px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: var(--spacing-sm);
-            }
-            .main-title {
-                font-size: 1.8rem;
-            }
-            .notification-card {
-                padding: var(--spacing-md);
-            }
-            .card-heading {
+            
+            .hero-description {
                 font-size: 1.1rem;
             }
-            .card-content p {
-                font-size: 0.9em;
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
             }
-            .nav-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
+            
+            .content-section {
+                padding: 40px 20px;
             }
-            .action-button {
-                font-size: 0.8em;
-                padding: var(--spacing-xs) var(--spacing-sm);
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 40px;
             }
-            .card-actions {
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .badges-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .badge-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .badge-item {
+                width: 55px;
+                height: 55px;
+                font-size: 28px;
+            }
+            
+            .card-header {
+                gap: 15px;
+            }
+            
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .thumbnail-image {
+                height: 150px; 
+            }
+
+            .footer {
+                padding: 30px 20px;
+            }
+
+            .footer-links {
                 flex-direction: column;
-                align-items: stretch;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <span class="back-icon" aria-label="Go back">&#x2190;</span>
-            <div class="header-title">
-                <h1 class="main-title">NOTIFICATION</h1>
-            </div>
-        </header>
-
-        <div class="notification-tabs">
-            <button class="tab-button active" data-category="all">All</button>
-            <button class="tab-button" data-category="tasks">Tasks</button>
-            <button class="tab-button" data-category="social">Social</button>
-            <button class="tab-button" data-category="quotes">Quotes</button>
-            <button class="tab-button" data-category="alerts">Alerts</button>
+    <!-- Header Navigation Section -->
+    <div class="header-nav">
+        <!-- Container for notification icon and logo to keep them together -->
+        <div class="header-left">
+            <!-- Notification Icon Link -->
+            <a href="Notifications.html" class="notification-icon-link">
+                <!-- Iconify icon for notifications (bell icon from 'ph' set - more minimalistic) -->
+                <iconify-icon icon="ph:bell-simple-fill"></iconify-icon>
+            </a>
+            <div class="logo">Hiraya</div>
         </div>
-
-        <main class="notifications-list">
-            <div class="no-notifications" id="noNotificationsMessage">
-                <p>Looks like all your notifications are cleared for this category!</p>
-                <p>Enjoy your peaceful inbox. &#x1F60A;</p>
-            </div>
-
-            <section class="notification-card" data-category="tasks" id="card-daily-reminder">
-                <h2 class="card-heading"><i class="fas fa-clipboard-check"></i> DAILY REMINDER!</h2>
-                <div class="card-content">
-                    <p><strong>Task</strong> – You are not done with your physical task!</p>
-                    <p><strong>Task</strong> – You are not yet done with your social task!</p>
-                </div>
-                <div class="card-actions">
-                    <button class="action-button primary" onclick="markTaskComplete(this)">Mark Physical Done</button>
-                    <button class="action-button primary" onclick="markTaskComplete(this)">Mark Social Done</button>
-                </div>
-                <span class="timestamp">2 hours ago</span>
-                <div class="read-indicator">&#x2713;</div>
-            </section>
-
-            <section class="notification-card new" data-category="social" id="card-socials">
-                <h2 class="card-heading"><i class="fas fa-users"></i> Socials</h2>
-                <div class="card-content">
-                    <p><strong>Group</strong> – Your group leader updated the group chats theme.</p>
-                    <p><strong>Friend</strong> – Your friend wants to check on how are you doing today?</p>
-                    <p>Friend – Your friend <span class="actionable-text">Franz Matthew Quevedo</span> updated his profile.</p>
-                </div>
-                <div class="card-actions">
-                    <button class="action-button" onclick="interactSocial(this, 'message')">Message Back</button>
-                    <button class="action-button" onclick="interactSocial(this, 'view-profile')">View Profile</button>
-                </div>
-                <span class="timestamp">15 minutes ago</span>
-                <div class="unread-dot"></div>
-                <div class="read-indicator">&#x2713;</div>
-            </section>
-
-            <section class="notification-card" data-category="quotes" id="card-quotes">
-                <h2 class="card-heading"><i class="fas fa-lightbulb"></i> Motivational Quotes</h2>
-                <div class="card-content">
-                    <p class="quote">“Being deeply loved by someone gives you strength”.<br><span class="author">Lao Tzu</span></p>
-                    <p class="quote">“I pride myself on being a family man”.<br><span class="author">Alexander Volkanovski</span></p>
-                    <p class="quote">“The future depends on what we do in the present.”<br><span class="author">Mahatma Gandhi</span></p>
-                </div>
-                <span class="timestamp">Yesterday</span>
-                <div class="read-indicator">&#x2713;</div>
-            </section>
-
-            <section class="notification-card well-being-alert" data-category="alerts" id="card-alert">
-                <h2 class="card-heading"><i class="fas fa-exclamation-triangle"></i> Well Being Alert!</h2>
-                <div class="card-content">
-                    <p><strong>Warning</strong> – We noticed that your mood for the whole week is Sad, Are you ok?</p>
-                    <p><strong>Warning</strong> – We noticed that you haven’t checked your task for a week, Are you ok?</p>
-                </div>
-                <div class="card-actions">
-                    <button class="action-button primary" onclick="acknowledgeAlert(this)">Acknowledge</button>
-                    <button class="action-button" onclick="contactSupport(this)">Contact Support</button>
-                </div>
-                <span class="timestamp">3 days ago</span>
-                <div class="read-indicator">&#x2713;</div>
-            </section>
-        </main>
+        <div class="nav-links">
+            <a href="aboutus.html" class="nav-link">About</a>
+            <a href="privacy-terms.html" class="nav-link">Privacy & Terms</a>
+            <a href="contactus.html" class="nav-link">Contact</a>
+        </div>
     </div>
 
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-subtitle">Wellness Profile</div>
+            <h1 class="hero-title">TRANSFORM YOUR WELLNESS</h1>
+            <p class="hero-description">
+                Track your daily wellness journey with personalized insights, goals, and achievements. 
+                Monitor your daily tasks, mood, nutrition, and goals all in one comprehensive dashboard.
+            </p>
+            <button class="hero-cta" onclick="showNotification('Dashboard Updated! 📊')">View Dashboard</button>
+        </div>
+        <div class="hero-visual">
+            <a href="Profile page.html" class="profile-display">
+                <div class="profile-image">👤</div>
+                <div class="profile-info">
+                    <h3 id="nickname">User</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+        
+    <!-- Content Section - Wellness Stats -->
+    <div class="content-section">
+        <h2 class="section-title">Your Wellness Stats</h2>
+        <div class="cards-grid">
+            <!-- Weekly Progress Check-up Card -->
+            <div class="card mood-card" onclick="window.location.href='Weekly Progress Checkup.html'" style="position: relative;">
+                <div style="position: absolute; top: 15px; right: 15px; background: linear-gradient(45deg, #ff6b35, #ff9500); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); z-index: 2;">New</div>
+                
+                <div class="card-header">
+                    <div class="card-icon mood-icon">📊</div>
+                    <div class="card-info">
+                        <h3>Weekly Progress Check-up</h3>
+                        <div class="card-subtext">Your mental health journey</div>
+                    </div>
+                </div>
+                <div style="margin: 25px 0; padding: 20px; background: rgba(0, 255, 127, 0.05); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Mood Tracking</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                            <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Excellent</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Daily Tasks</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(45deg, #00ff7f, #adff2f); box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); animation: pulse 2s infinite;"></div>
+                            <span style="font-size: 0.9rem; color: #00ff7f; font-weight: 600;">Great Progress</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                        <span style="font-size: 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Overall Experience</span>
+                        <div style="display: flex; gap: 8px;">
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                            <span style="color: #00ff7f; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);">★</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 25px; padding: 20px; background: rgba(255, 255, 255, 0.04); border-radius: 15px; border: 1px solid rgba(0, 255, 127, 0.15);">
+                    <div style="font-size: 1.1rem; color: #00ff7f; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                        💬 Latest Feedback
+                    </div>
+                    <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); font-style: italic; line-height: 1.5;">
+                        "Keep up the excellent work on your mental health journey. Your consistent effort is making a real difference."
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center;">
+                    <div style="background: linear-gradient(45deg, #00ff7f, #adff2f); color: #000; padding: 12px 24px; border-radius: 25px; font-weight: 700; display: inline-block; transition: all 0.3s ease; cursor: pointer; font-size: 1rem;" onmouseover="this.style.transform='translateY(-2px) scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 127, 0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                        Click to see full progress..
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrition Card -->
+            <div class="card meals-card">
+                <div class="card-header">
+                    <div class="card-icon meals-icon">🍽️</div> <!-- Added meal icon -->
+                    <div class="card-info">
+                        <h3>Nutrition</h3>
+                        <div class="card-value" id="meals-value">2/3</div>
+                        <div class="card-subtext">meals completed</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 67%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-checklist" id="meal-checklist">
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox checked"></div>
+                        <div class="meal-label">Breakfast</div>
+                        <div class="meal-emoji">🍳</div> <!-- Added breakfast emoji -->
+                    </div>
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox checked"></div>
+                        <div class="meal-label">Lunch</div>
+                        <div class="meal-emoji">🥪</div> <!-- Added lunch emoji -->
+                    </div>
+                    <div class="meal-item" onclick="toggleMeal(this)">
+                        <div class="meal-checkbox"></div>
+                        <div class="meal-label">Dinner</div>
+                        <div class="meal-emoji">🍽️</div>
+                    </div>
+                    <div class="meal-progress">Keep up the healthy eating!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore More Section -->
+        <h2 class="section-title">Explore More</h2>
+        <div class="cards-grid">
+            <!-- Achievements Thumbnail Card -->
+            <a href="Achievements.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1538589085637-33f227415e36?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGFjaGlldmVtZW50fGVufDB8fDB8fHww" alt="Achievements Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Achievements</h3>
+                    <p class="thumbnail-description">View your unlocked milestones and progress.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieljschwarz" target="_blank" style="color: inherit; text-decoration: underline;">Daniel J. Schwarz</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+                </div>
+            </a>
+
+            <!-- Motivational Videos Thumbnail Card -->
+            <a href="Motivational Videosss.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1421091242698-34f6ad7fc088?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1vdGl2YXRpb25uYWx8ZW58MHx8MHx8fA%3D%3D" alt="Motivational Videos Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Motivational Videos</h3>
+                    <p class="thumbnail-description">Get inspired with uplifting content.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@joerivandewalle" target="_blank" style="color: inherit; text-decoration: underline;">Joeri van de Valle</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+                </div>
+            </a>
+
+            <!-- Goals Thumbnail Card -->
+            <a href="Setting Goals-forhomepage.html" class="thumbnail-link">
+                <div class="thumbnail-card">
+                    <img src="https://images.unsplash.com/photo-1598091874986-7da3b270fead?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Goals Thumbnail" class="thumbnail-image">
+                    <h3 class="thumbnail-title">Goals</h3>
+                    <p class="thumbnail-description">Set and track your personal wellness goals.</p>
+                    <figcaption style="font-size: 0.8em; color: rgba(255, 255, 255, 0.5); margin-top: 10px;">Photo by <a href="https://unsplash.com/@danieladesire" target="_blank" style="color: inherit; text-decoration: underline;">Daniela Desiré</a> on <a href="https://unsplash.com/" target="_blank" style="color: inherit; text-decoration: underline;">Unsplash</a></figcaption>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Wellness Dashboard. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- JavaScript for interactivity -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.notification-card');
-            const navIcons = document.querySelectorAll('.nav-icon');
-            const mainTitle = document.querySelector('.main-title');
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const noNotificationsMessage = document.getElementById('noNotificationsMessage');
-            const backIcon = document.querySelector('.back-icon');
-
-            cards.forEach(card => {
-                card.addEventListener('click', function(event) {
-                    if (event.target.closest('.action-button')) {
-                        return;
-                    }
-                    this.classList.toggle('read');
-                    if (this.classList.contains('read')) {
-                        this.classList.remove('new');
-                        const unreadDot = this.querySelector('.unread-dot');
-                        if (unreadDot) {
-                            unreadDot.style.opacity = '0';
-                            unreadDot.style.transform = 'scale(0)';
-                        }
-                    }
-                });
-            });
-
-            if (backIcon) {
-                backIcon.addEventListener('click', function() {
-                    alert('Going back!');
-                });
-            }
-
-            mainTitle.addEventListener('click', function() {
-                this.classList.add('pulse');
-                this.addEventListener('animationend', () => {
-                    this.classList.remove('pulse');
-                }, { once: true });
-            });
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const selectedCategory = this.dataset.category;
-                    let visibleCardsCount = 0;
-
-                    cards.forEach(card => {
-                        const cardCategory = card.dataset.category;
-                        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-                            card.classList.add('active');
-                            visibleCardsCount++;
-                        } else {
-                            card.classList.remove('active');
-                        }
-                    });
-
-                    if (visibleCardsCount === 0) {
-                        noNotificationsMessage.style.display = 'block';
-                    } else {
-                        noNotificationsMessage.style.display = 'none';
-                    }
-                });
-            });
-
-            tabButtons[0].click();
-
-            window.markTaskComplete = function(button) {
-                const card = button.closest('.notification-card');
-                if (card) {
-                    const taskTextElement = button.previousElementSibling;
-                    const taskText = taskTextElement && taskTextElement.tagName === 'P' ? taskTextElement : button.parentElement.previousElementSibling.querySelector('p');
-
-                    if (taskText) {
-                        taskText.style.textDecoration = 'line-through';
-                        taskText.style.opacity = '0.7';
-                    }
-                    button.remove();
-                    const remainingTasks = card.querySelectorAll('.action-button.primary').length;
-                    if (remainingTasks === 0) {
-                        card.classList.add('read');
-                        card.classList.remove('new');
-                        const unreadDot = card.querySelector('.unread-dot');
-                        if (unreadDot) {
-                            unreadDot.style.opacity = '0';
-                            unreadDot.style.transform = 'scale(0)';
-                        }
-                        alert('Task completed!');
-                    }
-                }
-            };
-
-            window.interactSocial = function(button, action) {
-                const card = button.closest('.notification-card');
-                if (card) {
-                    alert(`Performing social action: ${action} for this notification!`);
-                    card.classList.add('read');
-                    card.classList.remove('new');
-                    const unreadDot = card.querySelector('.unread-dot');
-                    if (unreadDot) {
-                        unreadDot.style.opacity = '0';
-                        unreadDot.style.transform = 'scale(0)';
-                    }
-                }
-            };
-
-            window.acknowledgeAlert = function(button) {
-                const card = button.closest('.notification-card');
-                if (card) {
-                    alert('Alert acknowledged! We hope you are doing well.');
-                    card.classList.remove('well-being-alert');
-                    card.classList.add('read');
-                    card.classList.remove('new');
-                    const unreadDot = card.querySelector('.unread-dot');
-                    if (unreadDot) {
-                        unreadDot.style.opacity = '0';
-                        unreadDot.style.transform = 'scale(0)';
-                    }
-                    button.parentElement.innerHTML = '<p style="color: var(--accent-green-light); font-size:0.9em;">Alert acknowledged.</p>';
-                }
-            };
-
-            window.contactSupport = function(button) {
-                window.location.href = 'contactus.html';
-            };
-
+        // Function to show a custom notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #4ecdc4, #44a08d); /* Gradient background */
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                font-weight: 500;
+                z-index: 1000;
+                transform: translateX(100%); /* Start off-screen */
+                transition: transform 0.3s ease; /* Smooth slide-in/out */
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Slide in the notification
             setTimeout(() => {
-                const socialCard = document.getElementById('card-socials');
-                if (socialCard && socialCard.classList.contains('new')) {
-                    socialCard.classList.remove('new');
-                    const unreadDot = socialCard.querySelector('.unread-dot');
-                    if (unreadDot) {
-                        unreadDot.style.opacity = '0';
-                        unreadDot.style.transform = 'scale(0)';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Slide out and remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
                     }
+                }, 300); // Allow time for slide-out transition
+            }, 3000);
+        }
+
+        // Event listener for DOM content loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            const thumbnailCards = document.querySelectorAll('.thumbnail-card');
+            const nicknameDisplay = document.getElementById('nickname');
+            const welcomeBanner = document.getElementById('custom-welcome'); // This element doesn't exist in the provided HTML, so it won't have an effect.
+            
+            // Add hover effects for main cards
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px) rotateX(8deg) rotateY(8deg)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+                });
+            });
+
+            // Add hover effects for thumbnail cards
+            thumbnailCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px) rotateX(8deg) rotateY(8deg)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+                });
+            });
+            
+            // Intersection Observer for fade-in animation on scroll
+            const observerOptions = {
+                threshold: 0.1, /* Trigger when 10% of the element is visible */
+                rootMargin: '0px 0px -50px 0px' /* Adjust observation area */
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Apply initial styles and observe elements for animation
+            [...cards, ...thumbnailCards].forEach(element => { 
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+
+            // Set nickname display (currently hardcoded to 'User')
+            let storedNickname = 'User'; 
+            
+            if (storedNickname) {
+                if (nicknameDisplay) {
+                    nicknameDisplay.textContent = storedNickname;
                 }
-            }, 8);
+                // The welcomeBanner element is not in the provided HTML, so this part will not execute.
+                if (welcomeBanner) {
+                    welcomeBanner.textContent = `Welcome ${storedNickname}, we missed you! We hope you are doing well :)`;
+                }
+            }
         });
+
+        // Function to update tasks (not directly used in current HTML structure but available)
+        function updateTasks() {
+            const tasksText = document.getElementById('tasks-text');
+            const taskMessages = ['Keep up the great work!', 'You\'re crushing your goals!', 'Stay focused!', 'Almost there!'];
+            const randomTaskMessage = taskMessages[Math.floor(Math.random() * taskMessages.length)];
+            tasksText.textContent = randomTaskMessage;
+            showNotification('Tasks updated! ✅');
+        }
+
+        // Function to toggle meal completion status
+        function toggleMeal(mealItem) {
+            const checkbox = mealItem.querySelector('.meal-checkbox');
+            const isChecked = checkbox.classList.contains('checked');
+            
+            if (isChecked) {
+                checkbox.classList.remove('checked');
+                mealItem.classList.remove('completed');
+                showNotification('Meal unchecked! 🍽️');
+            } else {
+                checkbox.classList.add('checked');
+                mealItem.classList.add('completed');
+                showNotification('Meal completed! ✅');
+            }
+            
+            // Update meal progress display
+            const checkedBoxes = document.querySelectorAll('.meal-checkbox.checked').length;
+            const totalBoxes = document.querySelectorAll('.meal-checkbox').length;
+            const percentage = (checkedBoxes / totalBoxes) * 100;
+            
+            document.getElementById('meals-value').textContent = `${checkedBoxes}/${totalBoxes}`;
+            document.querySelector('.progress-fill').style.width = `${percentage}%`;
+        }
     </script>
 </body>
 </html>
