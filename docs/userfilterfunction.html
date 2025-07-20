@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Questionnaires</title>
+    <title>Health Questionnaires - Hiraya</title>
     <style>
         * {
             margin: 0;
@@ -32,9 +32,9 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.06) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
@@ -60,7 +60,7 @@
         .tab-button {
             padding: 15px 30px;
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(0, 255, 127, 0.1);
+            border: 1px solid rgba(0, 255, 127, 0.15);
             border-radius: 15px;
             color: rgba(255, 255, 255, 0.6);
             font-size: 1.1rem;
@@ -71,58 +71,66 @@
             text-align: center;
             flex-grow: 1;
             max-width: 350px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .tab-button:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
             border-color: rgba(0, 255, 127, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .tab-button.active {
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            background: linear-gradient(45deg, #00d66c, #8ae032);
             color: #000000;
-            border-color: #00ff7f;
+            border-color: #00d66c;
             box-shadow: 0 5px 20px rgba(0, 255, 127, 0.4);
             transform: translateY(0);
         }
 
         .questionnaire-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
             border: 1px solid rgba(0, 255, 127, 0.2);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .questionnaire-card.active {
             display: block;
             opacity: 1;
+            transform: translateY(0);
         }
 
         .card-title {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 2.2rem;
+            font-weight: 700;
             text-align: center;
             margin-bottom: 25px;
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            background: linear-gradient(45deg, #00d66c, #8ae032);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+            letter-spacing: -0.5px;
         }
 
         .card-instruction {
-            font-size: 1rem;
+            font-size: 1.05rem;
             text-align: center;
             margin-bottom: 35px;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.85);
             line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .question-group {
@@ -138,7 +146,7 @@
         }
 
         .question-text {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: #ffffff;
             font-weight: 500;
             line-height: 1.5;
@@ -151,7 +159,7 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: flex-start;
-            gap: 25px;
+            gap: 30px;
             padding-left: 15px;
             align-items: center;
         }
@@ -165,7 +173,7 @@
         }
 
         .radio-option:hover {
-            opacity: 0.8;
+            opacity: 0.9;
             transform: translateX(3px);
         }
 
@@ -177,8 +185,8 @@
         }
 
         .radio-circle {
-            width: 25px;
-            height: 25px;
+            width: 26px;
+            height: 26px;
             border: 2px solid rgba(0, 255, 127, 0.5);
             border-radius: 50%;
             display: flex;
@@ -191,8 +199,8 @@
 
         .radio-circle::after {
             content: '';
-            width: 13px;
-            height: 13px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: #000;
             opacity: 0;
@@ -200,14 +208,9 @@
         }
 
         .radio-option input[type="radio"]:checked + .radio-circle {
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
-            border-color: #adff2f;
+            background: linear-gradient(45deg, #00d66c, #8ae032);
+            border-color: #8ae032;
             box-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-circle::after {
-            background: #000;
-            opacity: 1;
         }
 
         .radio-option input[type="radio"]:focus + .radio-circle {
@@ -216,15 +219,15 @@
         }
 
         .radio-label {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.95);
             margin-left: 10px;
             user-select: none;
         }
 
         .legend {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
             margin-top: 30px;
             text-align: center;
             padding-top: 20px;
@@ -240,22 +243,23 @@
 
         .self-report-section label {
             display: block;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #ffffff;
             margin-bottom: 12px;
             line-height: 1.5;
+            font-weight: 500;
         }
 
         .self-report-section textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 12px;
+            min-height: 120px;
+            padding: 15px;
             border-radius: 10px;
             border: 1px solid rgba(0, 255, 127, 0.3);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
             resize: vertical;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -267,15 +271,15 @@
         }
 
         .continue-button {
-            display: block;
-            width: 220px;
-            padding: 16px 28px;
+            display: none;
+            width: 250px;
+            padding: 18px 30px;
             margin: 40px auto 0;
-            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            background: linear-gradient(45deg, #8ae032, #00d66c);
             color: #000000;
             border: none;
             border-radius: 12px;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -283,12 +287,247 @@
             text-align: center;
             text-decoration: none;
             letter-spacing: 0.5px;
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+
+        .continue-button.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .continue-button:hover {
             transform: translateY(-4px);
             box-shadow: 0 14px 28px rgba(0, 255, 127, 0.7);
-            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            background: linear-gradient(45deg, #00d66c, #8ae032);
+        }
+
+        #phq-form .continue-button, #gad7-form .continue-button {
+            text-align: center;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .score-display {
+            background: rgba(0, 255, 127, 0.1);
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            border-radius: 10px;
+            padding: 18px 25px;
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #adff2f;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.2);
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+
+        .score-display.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .score-display span {
+            color: #ffffff;
+            font-size: 1.25rem;
+            margin-left: 8px;
+            font-weight: 700;
+        }
+
+        .score-description {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 8px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .recommendation-section {
+            background: rgba(0, 191, 255, 0.08);
+            border: 1px solid rgba(0, 191, 255, 0.25);
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 0.98rem;
+            color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInScale 0.7s ease-out forwards;
+            animation-delay: 0.1s;
+        }
+
+        .recommendation-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .recommendation-section h3 {
+            color: #00bfff;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .recommendation-section p.intro-text {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.6;
+        }
+
+        .recommendation-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .recommendation-section ul li {
+            margin-bottom: 10px;
+            padding-left: 28px;
+            position: relative;
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+
+        .recommendation-section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d66c;
+            font-weight: bold;
+            font-size: 1.2em;
+            top: 0;
+        }
+
+        .urgent-alert {
+            background: rgba(255, 69, 0, 0.15);
+            border: 1px solid rgba(255, 69, 0, 0.4);
+            color: #ff8c6b;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 35px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.6;
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+            animation: pulse 1.5s infinite alternate, fadeInScale 0.6s ease-out forwards;
+            display: none;
+        }
+
+        .urgent-alert.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .urgent-alert p {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .urgent-alert p:last-child {
+            margin-bottom: 0;
+        }
+
+        .urgent-alert strong {
+            font-weight: 700;
+            color: #ffdddd;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .urgent-alert em {
+            font-style: italic;
+            color: #ffe6e6;
+        }
+
+        .hotline-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hotline-section p {
+            font-size: 1rem;
+            color: #ffeded;
+            margin-bottom: 12px;
+            font-weight: normal;
+        }
+
+        .hotline-list {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .hotline-list li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hotline-list li strong {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .hotline-list li a {
+            color: #98fb98;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .hotline-list li a:hover {
+            color: #00ff7f;
+            text-decoration: underline;
+        }
+
+        .hotline-list li::before {
+            content: '\260E';
+            font-size: 1em;
+            color: #98fb98;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+            }
+            50% {
+                transform: scale(1.01);
+                box-shadow: 0 0 35px rgba(255, 69, 0, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+            }
         }
 
         @media (max-width: 767px) {
@@ -312,13 +551,13 @@
                 padding: 25px;
             }
             .card-title {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
             .card-instruction {
-                font-size: 0.95rem;
+                font-size: 1rem;
             }
             .question-text {
-                font-size: 1rem;
+                font-size: 1.05rem;
             }
             .radio-options {
                 flex-direction: column;
@@ -327,26 +566,61 @@
                 padding-left: 0;
             }
             .radio-circle {
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
             }
             .radio-circle::after {
-                width: 11px;
-                height: 11px;
+                width: 12px;
+                height: 12px;
             }
             .radio-label {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
             .legend {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }
             .continue-button {
-                width: 180px;
-                padding: 14px 20px;
-                font-size: 1.05rem;
+                width: 200px;
+                padding: 15px 25px;
+                font-size: 1.1rem;
             }
             .self-report-section label {
+                font-size: 1rem;
+            }
+            .score-display {
+                font-size: 1.05rem;
+                padding: 15px 20px;
+            }
+            .score-display span {
+                font-size: 1.15rem;
+            }
+            .score-description {
                 font-size: 0.95rem;
+            }
+            .recommendation-section {
+                padding: 15px 20px;
+                font-size: 0.9rem;
+            }
+            .recommendation-section h3 {
+                font-size: 1.15rem;
+            }
+            .recommendation-section p.intro-text {
+                font-size: 1rem;
+            }
+            .recommendation-section ul li {
+                font-size: 0.9rem;
+            }
+            .urgent-alert {
+                padding: 20px;
+            }
+            .urgent-alert p {
+                font-size: 1rem;
+            }
+            .hotline-section p {
+                font-size: 0.95rem;
+            }
+            .hotline-list li {
+                font-size: 1rem;
             }
         }
 
@@ -355,7 +629,7 @@
                 padding: 20px;
             }
             .card-title {
-                font-size: 1.6rem;
+                font-size: 1.7rem;
             }
             .question-group {
                 margin-bottom: 20px;
@@ -363,6 +637,15 @@
             }
             .radio-options {
                 gap: 10px;
+            }
+            .urgent-alert {
+                padding: 15px;
+            }
+            .urgent-alert p {
+                font-size: 0.95rem;
+            }
+            .hotline-list li {
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -378,7 +661,8 @@
             <h2 class="card-title">Patient Health Questionnaire</h2>
             <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems?</p>
 
-            <form id="phq-form"> <div class="question-group">
+            <form id="phq-form"> 
+                <div class="question-group">
                     <p class="question-text">1. Little interest or pleasure in doing things.</p>
                     <div class="radio-options">
                         <label class="radio-option">
@@ -619,7 +903,24 @@
 
                 <p class="legend">0 = Not at all &nbsp; 1 = Several days &nbsp; 2 = More than half the days &nbsp; 3 = Nearly every day</p>
 
-                <button type="submit" class="continue-button">Continue to GAD-7</button>
+                <div id="phq-score-display" class="score-display">
+                    Your PHQ-9 Score: <span id="phq-score-value"></span>
+                    <div id="phq-score-description" class="score-description"></div>
+                </div>
+
+                <div id="phq-recommendations" class="recommendation-section">
+                    <h3>Your Personalized Hiraya Pathway</h3>
+                    <p class="intro-text">
+                        Every journey to well-being is unique, and we are here to support you.
+                        Based on your responses, here are some thoughtful suggestions from Hiraya to help you nurture your mental health.
+                    </p>
+                    <ul id="phq-recommendation-list">
+                    </ul>
+                </div>
+                
+                <div id="phq-urgent-alert" class="urgent-alert"></div>
+
+                <button type="submit" class="continue-button active" id="phq-submit-button">Get PHQ-9 Results</button>
             </form>
         </div>
 
@@ -627,7 +928,8 @@
             <h2 class="card-title">Generalized Anxiety Disorder 7</h2>
             <p class="card-instruction">Over the last 2 weeks, how often have you been bothered by any of the following problems? Please select your answers.</p>
 
-            <form id="gad7-form"> <div class="question-group">
+            <form id="gad7-form"> 
+                <div class="question-group">
                     <p class="question-text">1. Feeling nervous, anxious, or on edge.</p>
                     <div class="radio-options">
                         <label class="radio-option">
@@ -739,7 +1041,58 @@
                             <span class="radio-circle"></span>
                             <span class="radio-label">0</span>
                         </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q5" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q5" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q5" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <p class="question-text">6. Becoming easily annoyed or irritable.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="1">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">1</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="2">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">2</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q6" value="3">
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">3</span>
+                        </label>
+                    </div>
+                </div>
 
+                <div class="question-group">
+                    <p class="question-text">7. Feeling afraid as if something awful might happen.</p>
+                    <div class="radio-options">
+                        <label class="radio-option">
+                            <input type="radio" name="gad7_q7" value="0" required>
+                            <span class="radio-circle"></span>
+                            <span class="radio-label">0</span>
+                        </label>
                         <label class="radio-option">
                             <input type="radio" name="gad7_q7" value="1">
                             <span class="radio-circle"></span>
@@ -765,7 +1118,24 @@
 
                 <p class="legend">0 = Not at all &nbsp; 1 = Several days &nbsp; 2 = More than half the days &nbsp; 3 = Nearly every day</p>
 
-                <button type="submit" class="continue-button">Submit and Go to Homepage</button>
+                <div id="gad7-score-display" class="score-display">
+                    Your GAD-7 Score: <span id="gad7-score-value"></span>
+                    <div id="gad7-score-description" class="score-description"></div>
+                </div>
+
+                <div id="gad7-recommendations" class="recommendation-section">
+                    <h3>Your Personalized Hiraya Pathway</h3>
+                    <p class="intro-text">
+                        Every journey to well-being is unique, and we are here to support you.
+                        Based on your responses, here are some thoughtful suggestions from Hiraya to help you nurture your mental health.
+                    </p>
+                    <ul id="gad7-recommendation-list">
+                    </ul>
+                </div>
+
+                <div id="gad7-urgent-alert" class="urgent-alert"></div>
+
+                <button type="submit" class="continue-button active" id="gad7-submit-button">Get GAD-7 Results</button>
             </form>
         </div>
     </div>
@@ -776,6 +1146,34 @@
             const questionnaireCards = document.querySelectorAll('.questionnaire-card');
             const phqForm = document.getElementById('phq-form');
             const gad7Form = document.getElementById('gad7-form');
+
+            const phqScoreDisplay = document.getElementById('phq-score-display');
+            const phqScoreValue = document.getElementById('phq-score-value');
+            const phqScoreDescription = document.getElementById('phq-score-description');
+            const phqRecommendationsSection = document.getElementById('phq-recommendations');
+            const phqRecommendationList = document.getElementById('phq-recommendation-list');
+            const phqUrgentAlert = document.getElementById('phq-urgent-alert');
+            const selfReportPhq = document.getElementById('self-report-phq');
+            const phqSubmitButton = document.getElementById('phq-submit-button');
+
+            const gad7ScoreDisplay = document.getElementById('gad7-score-display');
+            const gad7ScoreValue = document.getElementById('gad7-score-value');
+            const gad7ScoreDescription = document.getElementById('gad7-score-description');
+            const gad7RecommendationsSection = document.getElementById('gad7-recommendations');
+            const gad7RecommendationList = document.getElementById('gad7-recommendation-list');
+            const gad7UrgentAlert = document.getElementById('gad7-urgent-alert');
+            const selfReportGad7 = document.getElementById('self-report-gad7');
+            const gad7SubmitButton = document.getElementById('gad7-submit-button');
+
+            function setupSubmitButton(buttonElement, text) {
+                buttonElement.textContent = text;
+                buttonElement.classList.add('active');
+            }
+
+            setupSubmitButton(phqSubmitButton, "Get PHQ-9 Results");
+            setupSubmitButton(gad7SubmitButton, "Get GAD-7 Results");
+
+
             function showTab(tabId) {
                 questionnaireCards.forEach(card => {
                     card.classList.remove('active');
@@ -786,13 +1184,30 @@
 
                 document.getElementById(tabId).classList.add('active');
                 document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+                
+                phqScoreDisplay.classList.remove('active');
+                phqRecommendationsSection.classList.remove('active');
+                phqUrgentAlert.innerHTML = ''; 
+                phqUrgentAlert.classList.remove('active');
+                setupSubmitButton(phqSubmitButton, "Get PHQ-9 Results");
+
+                gad7ScoreDisplay.classList.remove('active');
+                gad7RecommendationsSection.classList.remove('active');
+                gad7UrgentAlert.innerHTML = ''; 
+                gad7UrgentAlert.classList.remove('active');
+                setupSubmitButton(gad7SubmitButton, "Get GAD-7 Results");
             }
+
+            showTab('phq-card');
+
+
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const tabId = this.dataset.tab;
                     showTab(tabId);
                 });
             });
+
             function validateForm(form) {
                 const radioGroups = form.querySelectorAll('.question-group');
                 let allQuestionsAnswered = true;
@@ -817,25 +1232,217 @@
                 return allQuestionsAnswered;
             }
 
+            function calculatePHQScore() {
+                let score = 0;
+                for (let i = 1; i <= 9; i++) {
+                    const selectedOption = phqForm.querySelector(`input[name="phq_q${i}"]:checked`);
+                    if (selectedOption) {
+                        score += parseInt(selectedOption.value);
+                    }
+                }
+                return score;
+            }
+
+            function getPHQCategory(score) {
+                if (score >= 0 && score <= 4) return "Minimal depression";
+                if (score >= 5 && score <= 9) return "Mild depression";
+                if (score >= 10 && score <= 14) return "Moderate depression";
+                if (score >= 15 && score <= 19) return "Moderately severe depression";
+                if (score >= 20 && score <= 27) return "Severe depression";
+                return "Invalid score";
+            }
+
+            function getPHQRecommendations(score, selfReportText, q9Value) {
+                const recommendations = [];
+                const lowerSelfReportText = selfReportText.toLowerCase();
+
+                if (q9Value >= 2) {
+                    phqUrgentAlert.innerHTML = `
+                        <p>
+                            <strong style="font-size:1.15rem;">Your well-being is of utmost importance to us.</strong>
+                            <br>Your responses suggest you may be experiencing thoughts of self-harm. Please be assured that support is readily available. You are not alone, and seeking assistance is a courageous first step.
+                        </p>
+                        <div class="hotline-section">
+                            <p>You may connect with the National Center for Mental Health Crisis Hotline:</p>
+                            <ul class="hotline-list">
+                                <li><strong>Landline (Luzon Wide):</strong> <a href="tel:1553">1553</a></li>
+                                <li><strong>Globe/TM:</strong> <a href="tel:+639663514518">0966-351-4518</a></li>
+                                <li><strong>Globe/TM:</strong> <a href="tel:+639178998727">0917-899-8727</a></li>
+                                <li><strong>Smart/TNT/Sun:</strong> <a href="tel:+639086392672">0908-639-2672</a></li>
+                            </ul>
+                            <p style="font-size:0.9rem; color:#ffdddd; margin-top: 15px;">
+                                Hiraya is dedicated to your well-being. Please connect with these resources immediately if needed. We are here to support you in finding your path forward.
+                            </p>
+                        </div>
+                    `;
+                    phqUrgentAlert.classList.add('active');
+                    recommendations.push("Your immediate safety is paramount. Please connect with the crisis hotlines provided. Remember, professional help is available and can offer vital support.");
+                } else {
+                    phqUrgentAlert.classList.remove('active');
+                }
+                
+                if (score >= 15) {
+                    recommendations.push("Your responses indicate significant symptoms. It is highly recommended that you consult with a mental health professional for a comprehensive evaluation and personalized treatment plan.");
+                    recommendations.push("Focus on establishing a consistent daily routine, including regular sleep, balanced nutrition, and scheduled periods for self-care and relaxation.");
+                    recommendations.push("Engage in gentle physical activity, such as walking or light stretching, as it can positively impact mood and energy levels.");
+                    recommendations.push("Maintain connections with trusted friends or family members. Open communication with your support network can provide comfort and reduce feelings of isolation.");
+                } else if (score >= 10) {
+                    recommendations.push("Consider seeking guidance from a counselor or therapist. Professional support can provide valuable coping strategies and pathways to improved well-being.");
+                    recommendations.push("Integrate regular physical activity into your routine. Even short bursts of exercise can contribute to improved mood and reduced stress.");
+                    recommendations.push("Practice mindfulness techniques or journaling to better understand and process your emotions. Self-reflection can be a powerful tool for personal insight.");
+                    recommendations.push("Explore resources within Hiraya focused on managing stress and fostering emotional resilience. Engaging with these challenges can equip you with practical tools.");
+                } else if (score >= 5) {
+                    recommendations.push("Your symptoms suggest mild depression. Focusing on proactive self-care and wellness strategies can be beneficial in managing these feelings.");
+                    recommendations.push("Prioritize activities that bring you a sense of purpose or enjoyment. Engaging in hobbies and interests can significantly enhance your mood.");
+                    recommendations.push("Utilize Hiraya's mood tracking features to observe patterns in your well-being. Identifying triggers and positive influences can aid in developing coping mechanisms.");
+                    recommendations.push("Connect with the Hiraya community. Sharing experiences and finding mutual support can be a valuable part of your wellness journey.");
+                } else {
+                    recommendations.push("Your responses indicate minimal depressive symptoms, which is a positive sign for your mental well-being. Continue to prioritize proactive self-care.");
+                    recommendations.push("Engage with Hiraya's advanced challenges for personal growth and holistic wellness. These resources can help you build an even stronger foundation for mental health.");
+                    recommendations.push("Maintain your healthy habits, including adequate sleep, nutritious diet, and regular physical activity. Consistency in these areas supports sustained well-being.");
+                    recommendations.push("Consider sharing your positive experiences within the Hiraya community to inspire and support others on their wellness paths.");
+                }
+
+                if (lowerSelfReportText.includes("asthma") || lowerSelfReportText.includes("obesity") || lowerSelfReportText.includes("diabetes")) {
+                    recommendations.push("Recognizing the interplay between physical and mental health is crucial. Consider exploring Hiraya's challenges related to healthy lifestyle, nutrition, and physical activity to support your overall well-being.");
+                }
+                if (lowerSelfReportText.includes("sleep")) {
+                    recommendations.push("Addressing sleep concerns is vital for mental health. Explore Hiraya's resources on sleep hygiene and relaxation techniques to improve your sleep quality.");
+                }
+                if (lowerSelfReportText.includes("fatigue") || lowerSelfReportText.includes("tired")) {
+                    recommendations.push("Persistent fatigue can impact mood. Hiraya offers guidance on energy management and restorative practices. Consider consulting a healthcare professional if fatigue persists.");
+                }
+
+                return recommendations;
+            }
+
+            function calculateGAD7Score() {
+                let score = 0;
+                for (let i = 1; i <= 7; i++) {
+                    const selectedOption = gad7Form.querySelector(`input[name="gad7_q${i}"]:checked`);
+                    if (selectedOption) {
+                        score += parseInt(selectedOption.value);
+                    }
+                }
+                return score;
+            }
+
+            function getGAD7Category(score) {
+                if (score >= 0 && score <= 4) return "Minimal anxiety";
+                if (score >= 5 && score <= 9) return "Mild anxiety";
+                if (score >= 10 && score <= 14) return "Moderate anxiety";
+                if (score >= 15 && score <= 21) return "Severe anxiety";
+                return "Invalid score";
+            }
+
+            function getGAD7Recommendations(score, selfReportText) {
+                const recommendations = [];
+                const lowerSelfReportText = selfReportText.toLowerCase();
+
+                if (score >= 15) {
+                    recommendations.push("Your responses indicate severe anxiety. Professional consultation with a mental health specialist is strongly recommended for proper diagnosis and a tailored treatment plan.");
+                    recommendations.push("Implement immediate relaxation techniques such as deep breathing exercises, progressive muscle relaxation, or guided meditation to manage acute anxiety episodes.");
+                    recommendations.push("Identify and, where possible, mitigate specific triggers that exacerbate your anxiety. Establishing a predictable and supportive environment can be helpful.");
+                    recommendations.push("While professional help is paramount, consider exploring educational resources within Hiraya on understanding severe anxiety and effective coping mechanisms.");
+                } else if (score >= 10) {
+                    recommendations.push("Consider engaging with a therapist or counselor. Cognitive Behavioral Therapy (CBT) or other therapeutic approaches can provide effective strategies for managing anxiety.");
+                    recommendations.push("Incorporate regular mindfulness practices into your daily routine. Focusing on the present moment can help reduce the impact of anxious thoughts.");
+                    recommendations.push("Establish a consistent exercise regimen. Physical activity is a proven method for reducing anxiety symptoms and promoting overall well-being.");
+                    recommendations.push("Explore Hiraya's stress management challenges. These resources offer practical tools and techniques to build resilience against anxiety.");
+                } else if (score >= 5) {
+                    recommendations.push("Your responses suggest mild anxiety. Proactive steps in self-care and lifestyle adjustments can be highly effective in addressing these symptoms.");
+                    recommendations.push("Prioritize adequate sleep. Poor sleep can significantly worsen anxiety, so establishing a healthy sleep routine is essential.");
+                    recommendations.push("Engage in enjoyable activities and hobbies regularly. Distraction and positive engagement can help shift focus away from anxious thoughts.");
+                    recommendations.push("Utilize Hiraya's community features to connect with others who may share similar experiences. Mutual support can foster a sense of belonging and reduce feelings of isolation.");
+                } else {
+                    recommendations.push("Your anxiety levels are minimal, indicating strong mental resilience. Continue to cultivate healthy practices that support your well-being.");
+                    recommendations.push("Explore Hiraya's personal development challenges to further enhance your emotional intelligence and coping skills, preparing you for future stressors.");
+                    recommendations.push("Maintain a balanced lifestyle that includes regular exercise, nutritious eating, and sufficient rest. These foundational elements are crucial for sustained mental health.");
+                    recommendations.push("Share your positive journey and insights within the Hiraya community. Your experience can serve as an inspiration and guide for others.");
+                }
+
+                if (lowerSelfReportText.includes("work") || lowerSelfReportText.includes("school") || lowerSelfReportText.includes("study")) {
+                    recommendations.push("If anxiety impacts your work or academic life, consider utilizing Hiraya's challenges on time management, productivity strategies, and stress reduction in professional or academic settings.");
+                }
+                if (lowerSelfReportText.includes("social") || lowerSelfReportText.includes("people") || lowerSelfReportText.includes("lonely")) {
+                    recommendations.push("Addressing social anxiety or feelings of isolation can be supported by Hiraya's resources on communication skills, building healthy relationships, and connecting with supportive communities.");
+                }
+                if (lowerSelfReportText.includes("anger") || lowerSelfReportText.includes("irritable")) {
+                    recommendations.push("If irritability or anger are prominent, explore Hiraya's dedicated challenges on emotional regulation and constructive anger management techniques.");
+                }
+
+                return recommendations;
+            }
+
             phqForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 if (validateForm(phqForm)) {
-                    const formData = new FormData(phqForm);
-                    const data = Object.fromEntries(formData.entries());
-                    console.log('PHQ Data Submitted:', data);
-                    showTab('gad7-card');
-                    document.getElementById('gad7-card').scrollIntoView({ behavior: 'smooth' });
+                    const phqTotalScore = calculatePHQScore();
+                    const phqCategory = getPHQCategory(phqTotalScore);
+                    const phqQ9Value = parseInt(phqForm.querySelector('input[name="phq_q9"]:checked').value);
+                    const phqSelfReport = selfReportPhq.value;
+
+                    phqScoreValue.textContent = phqTotalScore;
+                    phqScoreDescription.textContent = `This indicates ${phqCategory}.`;
+                    phqScoreDisplay.classList.add('active');
+
+                    const phqRecommendations = getPHQRecommendations(phqTotalScore, phqSelfReport, phqQ9Value);
+                    phqRecommendationList.innerHTML = '';
+                    phqRecommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        phqRecommendationList.appendChild(li);
+                    });
+                    phqRecommendationsSection.classList.add('active');
+
+                    phqSubmitButton.textContent = "Continue to GAD-7";
+                    phqForm.removeEventListener('submit', arguments.callee);
+                    phqForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        showTab('gad7-card');
+                        document.getElementById('gad7-card').scrollIntoView({ behavior: 'smooth' });
+                    }, { once: true });
                 }
             });
+
             gad7Form.addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 if (validateForm(gad7Form)) {
+                    const gad7TotalScore = calculateGAD7Score();
+                    const gad7Category = getGAD7Category(gad7TotalScore);
+                    const gad7SelfReport = selfReportGad7.value;
+
+                    gad7ScoreValue.textContent = gad7TotalScore;
+                    gad7ScoreDescription.textContent = `This indicates ${gad7Category}.`;
+                    gad7ScoreDisplay.classList.add('active');
+
+                    const gad7Recommendations = getGAD7Recommendations(gad7TotalScore, gad7SelfReport);
+                    gad7RecommendationList.innerHTML = '';
+                    gad7Recommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        gad7RecommendationList.appendChild(li);
+                    });
+                    gad7RecommendationsSection.classList.add('active');
+
+                    gad7UrgentAlert.innerHTML = '';
+                    gad7UrgentAlert.classList.remove('active');
+
                     const formData = new FormData(gad7Form);
                     const data = Object.fromEntries(formData.entries());
+                    data.gad7Score = gad7TotalScore;
+                    data.gad7Category = gad7Category;
                     console.log('GAD-7 Data Submitted:', data);
-                    window.location.href = 'hiraya_homepage.html';
+
+                    gad7SubmitButton.textContent = "Go to Homepage";
+                    gad7Form.removeEventListener('submit', arguments.callee);
+                    gad7Form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        console.log("Redirecting to homepage (simulated)... In a real app, data would be sent to server.");
+                        window.location.href = 'hiraya_homepage.html';
+                    }, { once: true });
                 }
             });
         });
