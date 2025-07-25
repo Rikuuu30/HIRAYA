@@ -102,10 +102,15 @@ justify-content: center;
 min-height: 70px; /* Ensure sufficient height for the header bar */
 }
 
-/* Back Arrow Icon */
-.back-icon {
+/* Back Arrow Icon - Fixed styles to ensure clickability */
+.back-link {
 position: absolute;
 left: var(--spacing-xl);
+z-index: 10; /* Ensure it's above other elements */
+text-decoration: none; /* Remove default link styling */
+}
+
+.back-icon {
 font-size: 24px;
 color: var(--text-color-light);
 cursor: pointer;
@@ -113,15 +118,17 @@ transition: transform 0.2s ease, color 0.2s ease;
 opacity: 0;
 transform: translateX(-20px);
 animation: fadeInSlideRight 0.8s ease-out forwards 0.5s;
+display: inline-block; /* Ensure proper display */
+padding: 8px; /* Add padding for better click area */
 }
 
-.back-icon:hover {
-transform: translateX(-23px) scale(1.05);
+.back-link:hover .back-icon {
+transform: translateX(-3px) scale(1.05);
 color: var(--accent-green-light);
 }
 
-.back-icon:active {
-transform: translateX(-20px) scale(0.95);
+.back-link:active .back-icon {
+transform: translateX(0px) scale(0.95);
 }
 
 .header-title {
@@ -519,8 +526,10 @@ padding: var(--spacing-md);
 margin-bottom: var(--spacing-lg);
 padding: var(--spacing-sm) 0; /* Adjust header padding on small screens */
 }
-.back-icon {
+.back-link {
 left: var(--spacing-md); /* Adjust position for smaller screens */
+}
+.back-icon {
 animation: none;
 opacity: 1;
 transform: translateX(0);
@@ -581,7 +590,7 @@ align-items: stretch;
 <body>
 <div class="container">
 <header class="header">
-<a href="hiraya_homepage.html"><span class="back-icon" aria-label="Go back">&#x2190;</span></a>
+<a href="hiraya_homepage.html" class="back-link"><span class="back-icon" aria-label="Go back">&#x2190;</span></a>
 <div class="header-title">
 <h1 class="main-title">NOTIFICATION</h1>
 </div>
@@ -634,9 +643,9 @@ align-items: stretch;
 <section class="notification-card" data-category="quotes" id="card-quotes">
 <h2 class="card-heading"><i class="fas fa-lightbulb"></i> Motivational Quotes</h2>
 <div class="card-content">
-<p class="quote">“Being deeply loved by someone gives you strength”.<br><span class="author">Lao Tzu</span></p>
-<p class="quote">“I pride myself on being a family man”.<br><span class="author">Alexander Volkanovski</span></p>
-<p class="quote">“The future depends on what we do in the present.”<br><span class="author">Mahatma Gandhi</span></p>
+<p class="quote">"Being deeply loved by someone gives you strength".<br><span class="author">Lao Tzu</span></p>
+<p class="quote">"I pride myself on being a family man".<br><span class="author">Alexander Volkanovski</span></p>
+<p class="quote">"The future depends on what we do in the present."<br><span class="author">Mahatma Gandhi</span></p>
 </div>
 <span class="timestamp">Yesterday</span>
 <div class="read-indicator">&#x2713;</div>
@@ -646,7 +655,7 @@ align-items: stretch;
 <h2 class="card-heading"><i class="fas fa-exclamation-triangle"></i> Well Being Alert!</h2>
 <div class="card-content">
 <p><strong>Warning</strong> – We noticed that your mood for the whole week is Sad, Are you ok?</p>
-<p><strong>Warning</strong> – We noticed that you haven’t checked your task for a week, Are you ok?</p>
+<p><strong>Warning</strong> – We noticed that you haven't checked your task for a week, Are you ok?</p>
 </div>
 <div class="card-actions">
 <button class="action-button primary" onclick="acknowledgeAlert(this)">Acknowledge</button>
@@ -664,7 +673,6 @@ const cards = document.querySelectorAll('.notification-card');
 const mainTitle = document.querySelector('.main-title');
 const tabButtons = document.querySelectorAll('.tab-button');
 const noNotificationsMessage = document.getElementById('noNotificationsMessage');
-const backIcon = document.querySelector('.back-icon');
 
 // --- Card Read/Unread Toggle ---
 cards.forEach(card => {
@@ -684,14 +692,6 @@ unreadDot.style.transform = 'scale(0)';
 }
 });
 });
-
-// --- Back Icon Click (Example) ---
-if (backIcon) {
-backIcon.addEventListener('click', function() {
-alert('Going back!'); // Replace with actual navigation logic
-// Example: window.history.back();
-});
-}
 
 // --- Main Title Click Pulse ---
 mainTitle.addEventListener('click', function() {
