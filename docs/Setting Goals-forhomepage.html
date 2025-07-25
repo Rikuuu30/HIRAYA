@@ -6,6 +6,7 @@
     <title>Hiraya - Set Your Goals</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* General Styles and Animations */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -311,6 +312,7 @@
             text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
         }
 
+        /* --- New Styles for Program Display & UI/UX Improvements --- */
         .program-container, .history-container {
             width: 95%;
             max-width: 1200px;
@@ -363,6 +365,7 @@
             max-width: 500px;
         }
 
+        /* Color themes based on goals */
         .program-card[data-goal="Physical Fitness"] { border-color: rgba(0, 255, 127, 0.4); }
         .program-card[data-goal="Mental Clarity"] { border-color: rgba(0, 191, 255, 0.4); }
         .program-card[data-goal="Emotional Connection"] { border-color: rgba(255, 105, 180, 0.4); }
@@ -429,7 +432,7 @@
             justify-content: space-between;
             transition: all 0.3s ease, transform 0.2s ease;
             position: relative;
-            cursor: move;
+            cursor: move; /* Drag-and-drop cursor */
         }
         
         .task-list li:last-child {
@@ -457,7 +460,7 @@
         .task-list li span {
             flex-grow: 1;
             padding-right: 10px;
-            outline: none;
+            outline: none; /* remove outline on focus */
         }
 
         .task-list input[type="checkbox"] {
@@ -597,6 +600,7 @@
             animation: fadeIn 1s ease-out forwards;
         }
 
+        /* Custom Notification Toast */
         #notification-toast {
             position: fixed;
             bottom: 30px;
@@ -617,6 +621,7 @@
             opacity: 1;
         }
         
+        /* Confetti animation for completion */
         .confetti-animation {
             position: fixed;
             top: 0;
@@ -643,6 +648,7 @@
             animation: confetti-fall 2s ease-out forwards;
         }
 
+        /* Custom goal input field */
         .custom-goal-input {
             width: 100%;
             padding: 15px 20px;
@@ -661,6 +667,7 @@
             box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
         }
 
+        /* Stats Panel */
         #stats-container {
             width: 100%;
             text-align: left;
@@ -674,6 +681,7 @@
             margin-bottom: 10px;
         }
 
+        /* Archive View */
         .history-container {
             display: none;
         }
@@ -695,6 +703,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
+        /* Achievements Panel */
         #achievements-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -717,6 +726,7 @@
         }
 
 
+        /* Responsive Design */
         @media (min-width: 768px) {
             #program-content.two-goals {
                 grid-template-columns: 1fr 1fr;
@@ -956,6 +966,8 @@
         }
         setInterval(createParticle, 1000);
 
+        // --- Core Application Logic ---
+
         function showNotification(message) {
             const toast = document.getElementById('notification-toast');
             toast.textContent = message;
@@ -986,6 +998,7 @@
             const progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
             const completedCount = Object.values(progress).filter(Boolean).length;
             document.getElementById('tasks-completed-count').textContent = completedCount;
+            // Streak logic (simplified for now)
             document.getElementById('current-streak-count').textContent = getDailyStreak();
         }
 
@@ -1029,6 +1042,7 @@
             return date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth() && date.getFullYear() === yesterday.getFullYear();
         }
 
+        // Add custom goals
         document.getElementById('add-custom-goal-button').addEventListener('click', () => {
             const customGoalInput = document.getElementById('custom-goal-input');
             const customGoal = customGoalInput.value.trim();
@@ -1057,6 +1071,7 @@
             }
         });
 
+        // Event handler for existing and new goal buttons
         function handleGoalButtonClick(button, goal) {
             if (button.classList.contains('active')) {
                 button.classList.remove('active');
@@ -1121,7 +1136,7 @@
                 state.selectedGoals.forEach(goal => {
                     const programCard = document.createElement('div');
                     programCard.className = 'program-card fade-slide-in';
-                    programCard.dataset.goal = goal;
+                    programCard.dataset.goal = goal; // Added for color themes
                     
                     const tasks = programData[goal] ? programData[goal][state.selectedTimeline] : [];
                     const tasksCount = tasks.length;
@@ -1216,6 +1231,8 @@
                 text: item.querySelector('span').textContent,
                 checked: item.querySelector('input').checked
             }));
+            // In a real app, this would save the reordered list to storage.
+            // For this example, we just rearrange the UI.
         }
 
         function deleteTask(button, taskId) {
@@ -1237,6 +1254,7 @@
                 let archivedGoals = JSON.parse(localStorage.getItem('hiraya_archived')) || {};
                 const goalCard = document.querySelector(`.program-card[data-goal="${goalName}"]`);
 
+                // Create an archive entry
                 const archiveKey = `${goalName}-${Date.now()}`;
                 archivedGoals[archiveKey] = {
                     goal: goalName,
@@ -1247,6 +1265,7 @@
                     archivedDate: new Date().toISOString()
                 };
 
+                // Get tasks from the UI
                 const tasks = goalCard.querySelectorAll('.task-list li');
                 const completedTasks = goalCard.querySelectorAll('.task-list li.completed').length;
                 
@@ -1259,9 +1278,11 @@
                 
                 localStorage.setItem('hiraya_archived', JSON.stringify(archivedGoals));
 
+                // Remove the goal from the current program
                 goalCard.remove();
                 state.selectedGoals = state.selectedGoals.filter(g => g !== goalName);
 
+                // If no goals are left, show the end message
                 if (state.selectedGoals.length === 0) {
                     document.getElementById('program-content').innerHTML = '';
                     document.getElementById('end-of-program').style.display = 'block';
@@ -1330,6 +1351,7 @@
                 taskElement.classList.remove('completed');
             }
 
+            // Update progress bar
             const goalProgressKey = `${goal.replace(/\s/g, '-')}-${state.selectedTimeline.replace(/\s/g, '-')}`;
             const completedForGoal = Object.keys(progress).filter(key => key.startsWith(goalProgressKey) && progress[key]).length;
             const percentage = (completedForGoal / tasksCount) * 100;
@@ -1338,6 +1360,7 @@
 
             updateStatistics();
             
+            // Check if all tasks are complete
             if (completedForGoal === tasksCount) {
                 showNotification(`✨ Congratulations! You've completed your "${goal}" goal!`);
                 launchConfetti();
@@ -1374,6 +1397,7 @@
             continueButton.style.background = 'linear-gradient(45deg, #555, #777)';
 
             setTimeout(() => {
+                // This would redirect to a real homepage
             }, 1000);
         }
 
