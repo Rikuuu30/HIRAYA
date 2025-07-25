@@ -1,401 +1,1407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hiraya - Set Your Goals</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiraya - Set Your Goals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: #000000;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+        }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 60% 70%, rgba(0, 255, 127, 0.08) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: -1;
-      animation: backgroundFloat 20s ease-in-out infinite;
-    }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 127, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(173, 255, 47, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 60% 70%, rgba(0, 255, 127, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
 
-    @keyframes backgroundFloat {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(1deg); }
-    }
+        @keyframes backgroundFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
 
-    .logo {
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
-      animation: logoGlow 3s ease-in-out infinite alternate;
-    }
+        .logo {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ff7f, #adff2f, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+            z-index: 10;
+        }
 
-    @keyframes logoGlow {
-      0% { text-shadow: 0 0 30px rgba(0, 255, 127, 0.5); }
-      100% { text-shadow: 0 0 40px rgba(0, 255, 127, 0.8), 0 0 60px rgba(173, 255, 47, 0.3); }
-    }
+        @keyframes logoGlow {
+            0% { text-shadow: 0 0 30px rgba(0, 255, 127, 0.5); }
+            100% { text-shadow: 0 0 40px rgba(0, 255, 127, 0.8), 0 0 60px rgba(173, 255, 47, 0.3); }
+        }
 
-    .container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0, 255, 127, 0.2);
-      border-radius: 30px;
-      padding: 50px 40px;
-      width: 450px;
-      text-align: center;
-      box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        0 0 60px rgba(0, 255, 127, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      position: relative;
-      overflow: hidden;
-      animation: cardFloat 6s ease-in-out infinite;
-    }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            border-radius: 30px;
+            padding: 50px 40px;
+            width: 450px;
+            text-align: center;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 60px rgba(0, 255, 127, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 6s ease-in-out infinite;
+            margin: 100px 20px 20px 20px;
+            transition: all 0.4s ease;
+        }
 
-    @keyframes cardFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.05), transparent);
-      transition: left 0.8s ease;
-    }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.05), transparent);
+            transition: left 0.8s ease;
+        }
 
-    .container:hover::before {
-      left: 100%;
-    }
+        .container:hover::before {
+            left: 100%;
+        }
 
-    .container:hover {
-      border-color: rgba(0, 255, 127, 0.4);
-      box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 0 80px rgba(0, 255, 127, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      transform: translateY(-5px);
-    }
+        .container:hover {
+            border-color: rgba(0, 255, 127, 0.4);
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(0, 255, 127, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
 
-    h2 {
-      margin-bottom: 30px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #00ff7f, #adff2f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 20px rgba(0, 255, 127, 0.3);
-      position: relative;
-    }
+        h2 {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.3);
+            position: relative;
+        }
 
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 2px;
-      background: linear-gradient(45deg, #00ff7f, #adff2f);
-      border-radius: 2px;
-      box-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
-    }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+        }
 
-    .goal-button {
-      display: block;
-      width: 100%;
-      padding: 15px 20px;
-      margin: 15px 0;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 255, 127, 0.3);
-      border-radius: 20px;
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        .goal-button, .timeline-button, .add-goal-button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            border-radius: 20px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .goal-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
+        .goal-button::before, .timeline-button::before, .add-goal-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
 
-    .goal-button:hover::before {
-      left: 100%;
-    }
+        .goal-button:hover::before, .timeline-button:hover::before, .add-goal-button:hover::before {
+            left: 100%;
+        }
 
-    .goal-button:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(0, 255, 127, 0.5);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 255, 127, 0.2);
-    }
+        .goal-button:hover, .timeline-button:hover, .add-goal-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 255, 127, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 127, 0.2);
+        }
 
-    .goal-button.active {
-      background: linear-gradient(45deg, rgba(0, 255, 127, 0.2), rgba(173, 255, 47, 0.2));
-      border-color: #00ff7f;
-      box-shadow: 
-        0 0 20px rgba(0, 255, 127, 0.4),
-        inset 0 0 20px rgba(0, 255, 127, 0.1);
-      transform: scale(1.02);
-    }
+        .goal-button.active, .timeline-button.active {
+            background: linear-gradient(45deg, rgba(0, 255, 127, 0.2), rgba(173, 255, 47, 0.2));
+            border-color: #00ff7f;
+            box-shadow:
+                0 0 20px rgba(0, 255, 127, 0.4),
+                inset 0 0 20px rgba(0, 255, 127, 0.1);
+            transform: scale(1.02);
+        }
 
-    .goal-button.active::after {
-      content: '✓';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.2rem;
-      color: #00ff7f;
-      text-shadow: 0 0 10px rgba(0, 255, 127, 0.8);
-    }
+        .goal-button.active::after, .timeline-button.active::after {
+            content: '✓';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #00ff7f;
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.8);
+            transition: all 0.3s ease;
+        }
 
-    .continue-button {
-      margin-top: 30px;
-      padding: 15px 30px;
-      background: linear-gradient(45deg, #00ff7f, #adff2f);
-      border: none;
-      border-radius: 25px;
-      color: #000000;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
-    }
+        .continue-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border: none;
+            border-radius: 25px;
+            color: #000000;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+        }
+        
+        .continue-button.loading {
+            cursor: wait;
+        }
 
-    .continue-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
+        .continue-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
 
-    .continue-button:hover::before {
-      left: 100%;
-    }
+        .continue-button:hover::before {
+            left: 100%;
+        }
 
-    .continue-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 40px rgba(0, 255, 127, 0.4);
-      background: linear-gradient(45deg, #adff2f, #00ff7f);
-    }
+        .continue-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.4);
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+        }
 
-    .continue-button:active {
-      transform: translateY(0px);
-      box-shadow: 0 5px 20px rgba(0, 255, 127, 0.3);
-    }
+        .continue-button:active {
+            transform: translateY(0px);
+            box-shadow: 0 5px 20px rgba(0, 255, 127, 0.3);
+        }
 
-    .go-back {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      padding: 10px 20px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+        .go-back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .go-back:hover {
-      color: #00ff7f;
-      background: rgba(0, 255, 127, 0.1);
-      border-color: rgba(0, 255, 127, 0.3);
-      transform: translateX(-50%) translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 255, 127, 0.2);
-    }
+        .go-back:hover {
+            color: #00ff7f;
+            background: rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 127, 0.2);
+        }
 
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(0, 255, 127, 0.6);
-      border-radius: 50%;
-      animation: floatParticle 8s infinite linear;
-    }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 127, 0.6);
+            border-radius: 50%;
+            animation: floatParticle 8s infinite linear;
+        }
 
-    @keyframes floatParticle {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
-      }
-    }
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-    #nicknameDisplay {
-      background: linear-gradient(45deg, #00bfff, #adff2f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
-    }
+        #nicknameDisplay {
+            background: linear-gradient(45deg, #00bfff, #adff2f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
 
-    @media (max-width: 480px) {
-      .container {
-        width: 90%;
-        padding: 40px 30px;
-        margin: 20px;
-      }
-      
-      .logo {
-        top: 20px;
-        font-size: 2rem;
-      }
-      
-      h2 {
-        font-size: 1.5rem;
-      }
+        .program-container, .history-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 100px auto 20px auto;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        
+        .program-container::-webkit-scrollbar, .history-container::-webkit-scrollbar {
+            width: 10px;
+        }
+        .program-container::-webkit-scrollbar-track, .history-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .program-container::-webkit-scrollbar-thumb, .history-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ff7f, #adff2f);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
 
-      .goal-button {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+        #program-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        #program-content.one-goal {
+            grid-template-columns: 1fr;
+            place-items: center;
+        }
+        
+        #program-content.two-goals {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .program-card[data-goal="Physical Fitness"] { border-color: rgba(0, 255, 127, 0.4); }
+        .program-card[data-goal="Mental Clarity"] { border-color: rgba(0, 191, 255, 0.4); }
+        .program-card[data-goal="Emotional Connection"] { border-color: rgba(255, 105, 180, 0.4); }
+        .program-card[data-goal="Social Connection"] { border-color: rgba(255, 215, 0, 0.4); }
+
+        #program-content.two-goals .program-card {
+            max-width: none;
+        }
+
+        .program-card:hover {
+            border-color: rgba(0, 255, 127, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .program-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .program-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(45deg, #adff2f, #00ff7f);
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #00ff7f, #adff2f);
+            transition: width 0.5s ease-in-out;
+            border-radius: 5px;
+        }
+
+        .task-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .task-list li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease, transform 0.2s ease;
+            position: relative;
+            cursor: move;
+        }
+        
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .task-list li:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .task-list li.completed {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.5s ease;
+        }
+
+        .task-list li.completed span {
+            text-decoration: line-through;
+            transition: all 0.5s ease;
+            opacity: 0.7;
+        }
+
+        .task-list li span {
+            flex-grow: 1;
+            padding-right: 10px;
+            outline: none;
+        }
+
+        .task-list input[type="checkbox"] {
+            margin-right: 15px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+            border: 2px solid #00ff7f;
+            border-radius: 4px;
+            appearance: none;
+            position: relative;
+            transition: all 0.2s ease-in-out;
+            flex-shrink: 0;
+        }
+
+        .task-list input[type="checkbox"]:checked {
+            background-color: #00ff7f;
+            border-color: #00ff7f;
+            transform: scale(1.1);
+        }
+
+        .task-list input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            color: #000;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .delete-task-button, .archive-goal-button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .delete-task-button:hover {
+            color: #ff4d4d;
+        }
+
+        .archive-goal-button {
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+        .archive-goal-button:hover {
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+        }
+
+        .stats-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .stats-panel h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .journal-entry {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        .journal-entry:focus {
+            outline: none;
+            border-color: #00ff7f;
+        }
+
+        .loading-animation {
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid #00ff7f;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-slide-in {
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .end-of-program {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        #notification-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 127, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 127, 0.5);
+            padding: 15px 25px;
+            border-radius: 25px;
+            color: #adff2f;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 100;
+        }
+        #notification-toast.show {
+            opacity: 1;
+        }
+        
+        .confetti-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: confetti-fall 2s ease-out forwards;
+        }
+
+        .custom-goal-input {
+            width: 100%;
+            padding: 15px 20px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            border-radius: 20px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .custom-goal-input:focus {
+            outline: none;
+            border-color: #00ff7f;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+        }
+
+        #stats-container {
+            width: 100%;
+            text-align: left;
+            margin-top: 20px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #stats-container .stat-item {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .history-container {
+            display: none;
+        }
+        .history-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .archived-goal-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .archived-goal-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #achievements-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .achievement {
+            padding: 10px;
+            background: rgba(0, 255, 127, 0.1);
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 255, 127, 0.3);
+            display: flex;
+            align-items: center;
+        }
+        .achievement span {
+            margin-left: 10px;
+        }
+
+
+        @media (min-width: 768px) {
+            #program-content.two-goals {
+                grid-template-columns: 1fr 1fr;
+            }
+            .program-card {
+                max-width: none;
+            }
+            #program-content.one-goal .program-card {
+                max-width: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container, .program-container, .history-container {
+                width: 95%;
+                padding: 40px 20px;
+            }
+            .logo {
+                top: 20px;
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .goal-button, .timeline-button, .continue-button, .add-goal-button {
+                font-size: 0.9rem;
+            }
+            .go-back {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 40px 30px;
+                margin: 100px 20px 20px 20px;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .goal-button, .timeline-button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="logo">Hiraya</div>
-  
-  <div class="container">
-    <h2>Hello <span id="nicknameDisplay">there</span>! Let's set your goals</h2>
+    <div class="logo">Hiraya</div>
 
-    <button class="goal-button" onclick="toggleActive(this)">Physical Fitness</button>
-    <button class="goal-button" onclick="toggleActive(this)">Mental Clarity</button>
-    <button class="goal-button" onclick="toggleActive(this)">Emotional Satisfaction</button>
-    <button class="goal-button" onclick="toggleActive(this)">Social Connection</button>
+    <div id="notification-toast"></div>
 
-    <button class="continue-button" onclick="MeetOurTeam.html">Continue</button>
-  </div>
+    <div class="confetti-animation" id="confetti-container"></div>
 
-  <div class="go-back" onclick='nickname.hiraya.html'>← Go Back</div>
+    <a class="go-back" href="javascript:void(0)" onclick="goBackToNickname()">← Go Back</a>
+    <a class="go-back" id="view-history-button" style="display:none; left: auto; right: 30px;" href="javascript:void(0)" onclick="toggleHistoryView()">View History</a>
+    <a class="go-back" id="hide-history-button" style="display:none; left: auto; right: 30px;" href="javascript:void(0)" onclick="toggleHistoryView()">Hide History</a>
 
-  <script>
-    function toggleActive(button) {
-      button.classList.toggle('active');
-    }
-    if (nickname !== 'there') {
-      document.getElementById('nicknameDisplay').textContent = nickname;
-    }
+    <div class="container" id="selection-container">
+        <div id="intro-step">
+            <h2>Hello <span id="nicknameDisplay">there</span>! Let's set your goals</h2>
+            <p style="margin-bottom: 20px;">Choose one or two goals to focus on.</p>
+            <div id="goal-buttons-container">
+                <button class="goal-button" data-goal="Physical Fitness">Physical Fitness</button>
+                <button class="goal-button" data-goal="Mental Clarity">Mental Clarity</button>
+                <button class="goal-button" data-goal="Emotional Connection">Emotional Connection</button>
+                <button class="goal-button" data-goal="Social Connection">Social Connection</button>
+            </div>
+            <input type="text" id="custom-goal-input" class="custom-goal-input" placeholder="Or create your own goal...">
+            <button class="add-goal-button" id="add-custom-goal-button">Add Custom Goal</button>
+            <button class="continue-button" id="next-step-button" onclick="showTimeline()">Continue</button>
+        </div>
 
-    function goToNextPage() {
-      const button = document.querySelector('.continue-button');
-      const originalText = button.textContent;
-      button.textContent = 'Loading...';
-      button.style.background = 'linear-gradient(45deg, #555, #777)';
-      
-      setTimeout(() => {
-        window.location.href = 'hiraya_homepage.html';
-      }, 1000);
-    }
-    function createParticle() {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDelay = Math.random() * 8 + 's';
-      particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
-      document.body.appendChild(particle);
-      
-      setTimeout(() => {
-        particle.remove();
-      }, 8000);
-    }
+        <div id="timeline-step" style="display: none;">
+            <h2>How long do you want to work on this?</h2>
+            <p style="margin-bottom: 20px;">Choose a timeline for your goals.</p>
+            <button class="timeline-button" data-timeline="A week">A week</button>
+            <button class="timeline-button" data-timeline="A month">A month</button>
+            <button class="timeline-button" data-timeline="A year">A year</button>
+            <button class="continue-button" id="generate-button" onclick="generateProgram()">Generate My Program</button>
+        </div>
+    </div>
 
-    setInterval(createParticle, 1000);
+    <div class="program-container" id="program-container">
+        <div id="program-header" style="text-align: center;">
+            <h2 id="program-title">Your Hiraya Program</h2>
+            <p id="program-subtitle" style="margin-top: -10px; margin-bottom: 30px;">Let's get started, <span id="program-nickname-display">there</span>.</p>
+        </div>
+        <div id="stats-container">
+            <h4>Your Progress</h4>
+            <div class="stat-item">Tasks Completed: <span id="tasks-completed-count">0</span></div>
+            <div class="stat-item">Current Streak: <span id="current-streak-count">0</span> days</div>
+        </div>
+        <div id="program-content">
+        </div>
+        <div class="end-of-program" id="end-of-program" style="display: none;">
+            <p>You're on the right track! Keep going and track your progress.</p>
+            <button class="continue-button" style="margin-top: 20px;" onclick="goToHomePage()">Save & Go to Homepage</button>
+        </div>
+    </div>
 
-    const goalButtons = document.querySelectorAll('.goal-button');
-    goalButtons.forEach(button => {
-      button.addEventListener('mouseenter', function() {
-        if (!this.classList.contains('active')) {
-          this.style.transform = 'translateY(-3px) scale(1.02)';
+    <div class="history-container" id="history-container">
+        <h2>Archived Goals</h2>
+        <div id="archived-goals-list"></div>
+    </div>
+
+    <script>
+        const state = {
+            selectedGoals: [],
+            selectedTimeline: null,
+            nickname: 'there'
+        };
+
+        const programData = {
+            "Physical Fitness": {
+                "A week": [
+                    "Day 1: 30-min brisk walk. Focus on posture.",
+                    "Day 2: 20-min bodyweight strength training (squats, push-ups).",
+                    "Day 3: Rest and active recovery (light stretching).",
+                    "Day 4: 45-min cardio session (jogging or cycling).",
+                    "Day 5: 20-min core workout (planks, crunches).",
+                    "Day 6: Try a new physical activity (yoga or dance).",
+                    "Day 7: Full rest day. Reflect on the week's progress."
+                ],
+                "A month": [
+                    "Week 1: Build a foundation. 3x a week, 30-min brisk walk. Hydrate more.",
+                    "Week 2: Introduce strength training. 2x a week, 20-min full-body workout. Increase protein intake.",
+                    "Week 3: Increase intensity. 2x a week, 45-min cardio. Add 10 minutes to your workouts.",
+                    "Week 4: Explore and sustain. Find a group fitness class. Set new mini-goals for the next month."
+                ],
+                "A year": [
+                    "Phase 1 (Months 1-3): Foundational Habits. Create a consistent schedule, explore different activities, and track your metrics (steps, workout days).",
+                    "Phase 2 (Months 4-6): Progressive Overload. Increase the duration or intensity of your workouts. Learn new exercises.",
+                    "Phase 3 (Months 7-9): Skill Development. Pick a specific skill (e.g., run a 5k, learn a handstand) and work towards it.",
+                    "Phase 4 (Months 10-12): Integration and Lifestyle. Focus on making fitness a natural part of your life, not just a task. Mentor a friend or family member."
+                ]
+            },
+            "Mental Clarity": {
+                "A week": [
+                    "Day 1: 5-min mindful breathing in the morning.",
+                    "Day 2: Journal for 10 minutes before bed, writing down thoughts.",
+                    "Day 3: Digital detox for 1 hour. No phone, no computer.",
+                    "Day 4: Try a new puzzle or brain game for 15 minutes.",
+                    "Day 5: Practice single-tasking. Focus on one task completely.",
+                    "Day 6: Read a non-fiction article or a chapter of a book.",
+                    "Day 7: Review your journal and identify recurring thought patterns."
+                ],
+                "A month": [
+                    "Week 1: Establish a daily 5-minute meditation practice. Notice your thoughts without judgment.",
+                    "Week 2: Introduce a 'brain dump' journal session once a week to clear your mind.",
+                    "Week 3: Practice 'focused attention' on one task for 25 minutes (Pomodoro technique).",
+                    "Week 4: Set aside 15 minutes daily for quiet reflection. No devices, no distractions."
+                ],
+                "A year": [
+                    "Phase 1 (Months 1-3): Foundational Practices. Build a daily mindfulness habit, and learn about cognitive biases.",
+                    "Phase 2 (Months 4-6): Deepen Your Focus. Study a new subject for 30 minutes a day. Minimize distractions.",
+                    "Phase 3 (Months 7-9): Emotional and Thought Regulation. Practice gratitude journaling and challenge negative self-talk.",
+                    "Phase 4 (Months 10-12): Integration and Mastery. Teach someone what you've learned. See how these practices have changed your perspective."
+                ]
+            },
+            "Emotional Connection": {
+                "A week": [
+                    "Day 1: Write down three things you are grateful for today.",
+                    "Day 2: Take 15 minutes to sit with and identify a feeling you are experiencing.",
+                    "Day 3: Write a kind note to yourself.",
+                    "Day 4: Express a genuine compliment to someone you know.",
+                    "Day 5: Practice active listening for one conversation today.",
+                    "Day 6: Do one small act of kindness for a stranger.",
+                    "Day 7: Spend time in nature and observe the feelings it evokes."
+                ],
+                "A month": [
+                    "Week 1: Start a gratitude journal. Write down three things daily.",
+                    "Week 2: Set aside 10 minutes a day for a 'feeling check-in.' Ask yourself, 'How am I feeling right now?'",
+                    "Week 3: Reach out to a loved one you haven't spoken to in a while.",
+                    "Week 4: Identify and set a healthy boundary in one area of your life."
+                ],
+                "A year": [
+                    "Phase 1 (Months 1-3): Self-Awareness. Learn to name your emotions, and practice self-compassion.",
+                    "Phase 2 (Months 4-6): Empathy and Communication. Practice active listening and learn to express your needs clearly.",
+                    "Phase 3 (Months 7-9): Building Deep Relationships. Cultivate intentional time with friends and family. Explore vulnerability.",
+                    "Phase 4 (Months 10-12): Integration and Mastery. Teach someone what you've learned. See how these practices have changed your perspective."
+                ]
+            },
+            "Social Connection": {
+                "A week": [
+                    "Day 1: Send a text to a friend you haven't talked to in a week.",
+                    "Day 2: Compliment a coworker or acquaintance on something they did.",
+                    "Day 3: Make eye contact and smile at three different people today.",
+                    "Day 4: Engage in a short, friendly conversation with a barista or cashier.",
+                    "Day 5: Invite a friend to do a simple activity (e.g., walk, coffee).",
+                    "Day 6: Call a family member just to say hello.",
+                    "Day 7: Reflect on your social interactions. What felt good?"
+                ],
+                "A month": [
+                    "Week 1: Reconnect with one old friend via text or a short call.",
+                    "Week 2: Join a local group or class that aligns with your interests.",
+                    "Week 3: Plan and host a small get-together (a coffee chat or game night).",
+                    "Week 4: Practice asking open-ended questions to learn more about people."
+                ],
+                "A year": [
+                    "Phase 1 (Months 1-3): Re-establishing Connections. Reach out to old friends and family members. Be more present in your existing relationships.",
+                    "Phase 2 (Months 4-6): Expanding Your Circle. Join a new club or volunteer. Meet one new person a month.",
+                    "Phase 3 (Months 7-9): Deepening Bonds. Cultivate intentional time with close friends. Practice vulnerability and trust.",
+                    "Phase 4 (Months 10-12): Community Building. Take on a leadership role in a group or organize a community event."
+                ]
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const nicknameFromURL = urlParams.get('nickname');
+        if (nicknameFromURL) {
+            state.nickname = nicknameFromURL;
+            localStorage.setItem('hiraya_nickname', nicknameFromURL);
+        } else if (localStorage.getItem('hiraya_nickname')) {
+            state.nickname = localStorage.getItem('hiraya_nickname');
         }
-      });
 
-      button.addEventListener('mouseleave', function() {
-        if (!this.classList.contains('active')) {
-          this.style.transform = 'translateY(0) scale(1)';
+        if (state.nickname) {
+            document.getElementById('nicknameDisplay').textContent = state.nickname;
+            document.getElementById('program-nickname-display').textContent = state.nickname;
         }
-      });
-    });
-    const container = document.querySelector('.container');
-    container.addEventListener('mouseenter', function() {
-      this.style.transform = 'translateY(-15px) scale(1.02)';
-    });
 
-    container.addEventListener('mouseleave', function() {
-      this.style.transform = 'translateY(0) scale(1)';
-    });
-  </script>
+        function goBackToNickname() {
+            window.location.href = 'nickname.hiraya.html';
+        }
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.body.appendChild(particle);
+            setTimeout(() => { particle.remove(); }, 8000);
+        }
+        setInterval(createParticle, 1000);
+
+        function showNotification(message) {
+            const toast = document.getElementById('notification-toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        function launchConfetti() {
+            const confettiContainer = document.getElementById('confetti-container');
+            const colors = ['#00ff7f', '#adff2f', '#00bfff', '#fff'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = Math.random() * 100 + 'vh';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                confettiContainer.appendChild(confetti);
+            }
+            setTimeout(() => confettiContainer.innerHTML = '', 3000);
+        }
+
+        function updateStatistics() {
+            const progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
+            const completedCount = Object.values(progress).filter(Boolean).length;
+            document.getElementById('tasks-completed-count').textContent = completedCount;
+            document.getElementById('current-streak-count').textContent = getDailyStreak();
+        }
+
+        function getDailyStreak() {
+            const progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
+            const dates = Object.keys(progress).filter(key => progress[key]).map(key => key.split('-')[3]);
+            if (dates.length === 0) return 0;
+            
+            const uniqueDates = [...new Set(dates)].sort();
+            let streak = 0;
+            let lastDate = new Date();
+            
+            for (let i = uniqueDates.length - 1; i >= 0; i--) {
+                const currentDate = new Date(uniqueDates[i]);
+                if (i === uniqueDates.length - 1) {
+                    if (isToday(currentDate) || isYesterday(currentDate)) {
+                        streak = 1;
+                    } else {
+                        break;
+                    }
+                } else {
+                    const nextDate = new Date(uniqueDates[i+1]);
+                    if (currentDate.getDate() === nextDate.getDate() - 1 && currentDate.getMonth() === nextDate.getMonth() && currentDate.getFullYear() === nextDate.getFullYear()) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            return streak;
+        }
+
+        function isToday(date) {
+            const today = new Date();
+            return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+        }
+
+        function isYesterday(date) {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth() && date.getFullYear() === yesterday.getFullYear();
+        }
+
+        document.getElementById('add-custom-goal-button').addEventListener('click', () => {
+            const customGoalInput = document.getElementById('custom-goal-input');
+            const customGoal = customGoalInput.value.trim();
+            if (customGoal) {
+                if (!programData[customGoal]) {
+                    programData[customGoal] = {
+                        "A week": [`1: Start by defining your goal clearly.`, `2: Research actionable steps.`, `3: Take your first small step.`],
+                        "A month": [`Week 1: Create a detailed plan and schedule.`, `Week 2: Consistently work on your plan.`, `Week 3: Evaluate your progress and adjust.`, `Week 4: Celebrate your achievements and plan for next steps.`],
+                        "A year": [`Phase 1: Deep research and initial planning.`, `Phase 2: Execution and consistent effort.`, `Phase 3: Regular reviews and course correction.`, `Phase 4: Achieve your goal and reflect.`]
+                    };
+                    
+                    const newButton = document.createElement('button');
+                    newButton.className = 'goal-button';
+                    newButton.dataset.goal = customGoal;
+                    newButton.textContent = customGoal;
+                    document.getElementById('goal-buttons-container').appendChild(newButton);
+                    
+                    newButton.addEventListener('click', () => handleGoalButtonClick(newButton, customGoal));
+                    customGoalInput.value = '';
+                    showNotification(`Added new goal: "${customGoal}"`);
+                } else {
+                    showNotification(`Goal "${customGoal}" already exists.`);
+                }
+            } else {
+                showNotification('Please enter a custom goal.');
+            }
+        });
+
+        function handleGoalButtonClick(button, goal) {
+            if (button.classList.contains('active')) {
+                button.classList.remove('active');
+                state.selectedGoals = state.selectedGoals.filter(g => g !== goal);
+            } else {
+                if (state.selectedGoals.length < 2) {
+                    button.classList.add('active');
+                    state.selectedGoals.push(goal);
+                } else {
+                    showNotification('You can only select a maximum of two goals.');
+                }
+            }
+        }
+        
+        document.querySelectorAll('.goal-button').forEach(button => {
+            button.addEventListener('click', () => handleGoalButtonClick(button, button.dataset.goal));
+        });
+
+        function showTimeline() {
+            if (state.selectedGoals.length >= 1 && state.selectedGoals.length <= 2) {
+                document.getElementById('intro-step').style.display = 'none';
+                document.getElementById('timeline-step').style.display = 'block';
+                document.querySelector('.container').style.height = 'auto';
+            } else {
+                showNotification('Please select at least one goal to continue.');
+            }
+        }
+
+        const timelineButtons = document.querySelectorAll('.timeline-button');
+        timelineButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const timeline = button.dataset.timeline;
+                timelineButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                state.selectedTimeline = timeline;
+            });
+        });
+
+        function generateProgram() {
+            if (!state.selectedTimeline) {
+                showNotification('Please select a timeline to generate your program.');
+                return;
+            }
+
+            const generateButton = document.getElementById('generate-button');
+            const originalText = generateButton.textContent;
+            generateButton.textContent = 'Generating your program...';
+            generateButton.classList.add('loading');
+            generateButton.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                const programContentDiv = document.getElementById('program-content');
+                programContentDiv.innerHTML = '';
+                
+                programContentDiv.classList.remove('one-goal', 'two-goals');
+                if (state.selectedGoals.length === 1) {
+                    programContentDiv.classList.add('one-goal');
+                } else {
+                    programContentDiv.classList.add('two-goals');
+                }
+
+                state.selectedGoals.forEach(goal => {
+                    const programCard = document.createElement('div');
+                    programCard.className = 'program-card fade-slide-in';
+                    programCard.dataset.goal = goal;
+                    
+                    const tasks = programData[goal] ? programData[goal][state.selectedTimeline] : [];
+                    const tasksCount = tasks.length;
+                    
+                    let progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
+                    const goalProgressKey = `${goal.replace(/\s/g, '-')}-${state.selectedTimeline.replace(/\s/g, '-')}`;
+                    let completedForGoal = Object.keys(progress).filter(key => key.startsWith(goalProgressKey) && progress[key]).length;
+
+                    programCard.innerHTML = `
+                        <h3>${goal}</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${(completedForGoal / tasksCount) * 100}%;"></div>
+                        </div>
+                        <ul class="task-list"></ul>
+                        <textarea class="journal-entry" placeholder="Write your thoughts for this goal..."></textarea>
+                        <button class="archive-goal-button" onclick="archiveGoal('${goal}')">Archive Goal</button>
+                    `;
+
+                    const taskList = programCard.querySelector('.task-list');
+
+                    tasks.forEach((task, index) => {
+                        const taskId = `${goalProgressKey}-${index}`;
+                        const isCompleted = progress[taskId] || false;
+                        
+                        const taskItem = document.createElement('li');
+                        taskItem.className = isCompleted ? 'completed' : '';
+                        taskItem.draggable = true;
+                        taskItem.dataset.id = taskId;
+                        taskItem.innerHTML = `
+                            <input type="checkbox" id="${taskId}" onchange="saveProgress('${taskId}', this.checked, '${goal}', ${tasksCount})">
+                            <span contenteditable="true">${task}</span>
+                            <button class="delete-task-button" onclick="deleteTask(this, '${taskId}')">×</button>
+                        `;
+                        taskItem.querySelector('input').checked = isCompleted;
+                        taskList.appendChild(taskItem);
+                    });
+                    
+                    programContentDiv.appendChild(programCard);
+                    setupDragAndDrop(taskList);
+                    loadJournalEntry(programCard);
+                });
+                
+                document.getElementById('selection-container').style.display = 'none';
+                document.getElementById('program-container').style.display = 'flex';
+                document.getElementById('end-of-program').style.display = 'block';
+                document.getElementById('view-history-button').style.display = 'block';
+
+                updateStatistics();
+
+                generateButton.textContent = originalText;
+                generateButton.classList.remove('loading');
+                generateButton.style.pointerEvents = 'auto';
+
+            }, 1500);
+        }
+
+        function setupDragAndDrop(list) {
+            let dragSrcEl;
+
+            list.addEventListener('dragstart', function(e) {
+                if (e.target.tagName === 'LI') {
+                    e.target.style.opacity = '0.5';
+                    dragSrcEl = e.target;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', e.target.innerHTML);
+                }
+            });
+
+            list.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            list.addEventListener('drop', function(e) {
+                e.stopPropagation();
+                if (dragSrcEl !== e.target && e.target.tagName === 'LI') {
+                    const parent = dragSrcEl.parentNode;
+                    const reference = e.target.nextSibling === dragSrcEl ? e.target : e.target.nextSibling;
+                    parent.insertBefore(dragSrcEl, reference);
+                    saveTaskOrder(parent);
+                }
+                return false;
+            });
+            list.addEventListener('dragend', function(e) {
+                e.target.style.opacity = '1';
+            });
+        }
+        
+        function saveTaskOrder(list) {
+            const items = Array.from(list.children).map(item => ({
+                id: item.dataset.id,
+                text: item.querySelector('span').textContent,
+                checked: item.querySelector('input').checked
+            }));
+        }
+
+        function deleteTask(button, taskId) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                const taskElement = button.closest('li');
+                taskElement.remove();
+                
+                let progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
+                delete progress[taskId];
+                localStorage.setItem('hiraya_progress', JSON.stringify(progress));
+                
+                showNotification("Task deleted.");
+                updateStatistics();
+            }
+        }
+
+        function archiveGoal(goalName) {
+            if (confirm(`Are you sure you want to archive the "${goalName}" goal?`)) {
+                let archivedGoals = JSON.parse(localStorage.getItem('hiraya_archived')) || {};
+                const goalCard = document.querySelector(`.program-card[data-goal="${goalName}"]`);
+
+                const archiveKey = `${goalName}-${Date.now()}`;
+                archivedGoals[archiveKey] = {
+                    goal: goalName,
+                    timeline: state.selectedTimeline,
+                    tasks: [],
+                    completed: 0,
+                    total: 0,
+                    archivedDate: new Date().toISOString()
+                };
+
+                const tasks = goalCard.querySelectorAll('.task-list li');
+                const completedTasks = goalCard.querySelectorAll('.task-list li.completed').length;
+                
+                archivedGoals[archiveKey].tasks = Array.from(tasks).map(li => ({
+                    text: li.querySelector('span').textContent,
+                    isCompleted: li.classList.contains('completed')
+                }));
+                archivedGoals[archiveKey].completed = completedTasks;
+                archivedGoals[archiveKey].total = tasks.length;
+                
+                localStorage.setItem('hiraya_archived', JSON.stringify(archivedGoals));
+
+                goalCard.remove();
+                state.selectedGoals = state.selectedGoals.filter(g => g !== goalName);
+
+                if (state.selectedGoals.length === 0) {
+                    document.getElementById('program-content').innerHTML = '';
+                    document.getElementById('end-of-program').style.display = 'block';
+                }
+
+                showNotification(`Goal "${goalName}" has been archived.`);
+            }
+        }
+
+        function toggleHistoryView() {
+            const programContainer = document.getElementById('program-container');
+            const historyContainer = document.getElementById('history-container');
+            const viewButton = document.getElementById('view-history-button');
+            const hideButton = document.getElementById('hide-history-button');
+
+            if (programContainer.style.display === 'flex') {
+                programContainer.style.display = 'none';
+                historyContainer.style.display = 'flex';
+                viewButton.style.display = 'none';
+                hideButton.style.display = 'block';
+                loadArchivedGoals();
+            } else {
+                programContainer.style.display = 'flex';
+                historyContainer.style.display = 'none';
+                viewButton.style.display = 'block';
+                hideButton.style.display = 'none';
+            }
+        }
+
+        function loadArchivedGoals() {
+            const archivedGoals = JSON.parse(localStorage.getItem('hiraya_archived')) || {};
+            const listContainer = document.getElementById('archived-goals-list');
+            listContainer.innerHTML = '';
+            
+            if (Object.keys(archivedGoals).length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; margin-top: 20px; opacity: 0.7;">No archived goals yet.</p>';
+                return;
+            }
+
+            for (const key in archivedGoals) {
+                const goal = archivedGoals[key];
+                const card = document.createElement('div');
+                card.className = 'archived-goal-card';
+                
+                let taskListHtml = goal.tasks.map(task => `<li class="${task.isCompleted ? 'completed' : ''}">${task.text}</li>`).join('');
+
+                card.innerHTML = `
+                    <h3>${goal.goal} (${goal.timeline})</h3>
+                    <p style="margin-bottom: 10px; opacity: 0.8;">Archived on: ${new Date(goal.archivedDate).toLocaleDateString()}</p>
+                    <p>Progress: ${goal.completed}/${goal.total}</p>
+                    <ul class="task-list" style="margin-top: 15px;">${taskListHtml}</ul>
+                `;
+                listContainer.appendChild(card);
+            }
+        }
+        
+        function saveProgress(taskId, isCompleted, goal, tasksCount) {
+            let progress = JSON.parse(localStorage.getItem('hiraya_progress')) || {};
+            progress[taskId] = isCompleted;
+            localStorage.setItem('hiraya_progress', JSON.stringify(progress));
+
+            const taskElement = document.querySelector(`li[data-id="${taskId}"]`);
+            if (isCompleted) {
+                taskElement.classList.add('completed');
+            } else {
+                taskElement.classList.remove('completed');
+            }
+
+            const goalProgressKey = `${goal.replace(/\s/g, '-')}-${state.selectedTimeline.replace(/\s/g, '-')}`;
+            const completedForGoal = Object.keys(progress).filter(key => key.startsWith(goalProgressKey) && progress[key]).length;
+            const percentage = (completedForGoal / tasksCount) * 100;
+            const progressBar = taskElement.closest('.program-card').querySelector('.progress-bar');
+            progressBar.style.width = `${percentage}%`;
+
+            updateStatistics();
+            
+            if (completedForGoal === tasksCount) {
+                showNotification(`✨ Congratulations! You've completed your "${goal}" goal!`);
+                launchConfetti();
+            } else if (isCompleted) {
+                const encouragement = [
+                    "Great work! Keep it up.",
+                    "You're making amazing progress!",
+                    "One step closer to your goal!",
+                    "Fantastic! Momentum is on your side."
+                ];
+                showNotification(encouragement[Math.floor(Math.random() * encouragement.length)]);
+            }
+        }
+
+        function loadJournalEntry(programCard) {
+            const goal = programCard.dataset.goal;
+            const timeline = state.selectedTimeline;
+            const journalKey = `journal-${goal.replace(/\s/g, '-')}-${timeline.replace(/\s/g, '-')}`;
+            const journalEntry = document.querySelector(`.journal-entry`);
+            
+            const savedJournal = localStorage.getItem(journalKey);
+            if(savedJournal) {
+                journalEntry.value = savedJournal;
+            }
+
+            journalEntry.addEventListener('input', (e) => {
+                localStorage.setItem(journalKey, e.target.value);
+            });
+        }
+        
+        function goToHomePage() {
+            const continueButton = document.querySelector('.continue-button[onclick="goToHomePage()"]');
+            continueButton.textContent = 'Loading...';
+            continueButton.style.background = 'linear-gradient(45deg, #555, #777)';
+
+            setTimeout(() => {
+            }, 1000);
+        }
+
+        const allButtons = document.querySelectorAll('.goal-button, .timeline-button');
+        allButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                }
+            });
+
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+
+        const mainContainer = document.getElementById('selection-container');
+        if (mainContainer) {
+            mainContainer.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+
+            mainContainer.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        }
+    </script>
 </body>
 </html>
